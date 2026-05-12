@@ -1,0 +1,28 @@
+# Core ML
+tensorflow
+scikit-learn
+pandas
+numpy
+
+# API
+fastapi
+uvicorn
+pydantic
+
+# UI
+streamlit
+
+# Visualization
+matplotlib
+seaborn
+
+# Utilities
+joblib
+pytest
+httpx
+wandb
+
+# Notebook
+ipykernel
+jupyter
+notebook
