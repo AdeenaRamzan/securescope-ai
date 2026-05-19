@@ -1,0 +1,2752 @@
+[
+  {
+    "code": "def ping_host_system(host):\n    cmd = 'ping' + ' -c' + ' 1' + ' ' + host\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def ping_host_shell(host):\n    command = 'ping' + ' -c' + ' 1' + ' ' + host\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def ping_host_popen(host):\n    command = 'ping' + ' -c' + ' 1' + ' ' + host\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class PingHostRunner:\n    def run(self, host):\n        command = 'ping' + ' -c' + ' 1' + ' ' + host\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_ping_host_request(request):\n    data = request.get_json()\n    host = data.get('host')\n    command = 'ping' + ' -c' + ' 1' + ' ' + host\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def dns_lookup_system(domain):\n    cmd = 'nslookup' + ' ' + domain\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def dns_lookup_shell(domain):\n    command = 'nslookup' + ' ' + domain\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def dns_lookup_popen(domain):\n    command = 'nslookup' + ' ' + domain\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class DnsLookupRunner:\n    def run(self, domain):\n        command = 'nslookup' + ' ' + domain\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_dns_lookup_request(request):\n    data = request.get_json()\n    domain = data.get('domain')\n    command = 'nslookup' + ' ' + domain\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def trace_route_system(host):\n    cmd = 'traceroute' + ' ' + host\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def trace_route_shell(host):\n    command = 'traceroute' + ' ' + host\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def trace_route_popen(host):\n    command = 'traceroute' + ' ' + host\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class TraceRouteRunner:\n    def run(self, host):\n        command = 'traceroute' + ' ' + host\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_trace_route_request(request):\n    data = request.get_json()\n    host = data.get('host')\n    command = 'traceroute' + ' ' + host\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def nmap_scan_system(target):\n    cmd = 'nmap' + ' -sV' + ' ' + target\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def nmap_scan_shell(target):\n    command = 'nmap' + ' -sV' + ' ' + target\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def nmap_scan_popen(target):\n    command = 'nmap' + ' -sV' + ' ' + target\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class NmapScanRunner:\n    def run(self, target):\n        command = 'nmap' + ' -sV' + ' ' + target\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_nmap_scan_request(request):\n    data = request.get_json()\n    target = data.get('target')\n    command = 'nmap' + ' -sV' + ' ' + target\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def curl_fetch_system(url):\n    cmd = 'curl' + ' -fsS' + ' ' + url\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def curl_fetch_shell(url):\n    command = 'curl' + ' -fsS' + ' ' + url\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def curl_fetch_popen(url):\n    command = 'curl' + ' -fsS' + ' ' + url\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class CurlFetchRunner:\n    def run(self, url):\n        command = 'curl' + ' -fsS' + ' ' + url\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_curl_fetch_request(request):\n    data = request.get_json()\n    url = data.get('url')\n    command = 'curl' + ' -fsS' + ' ' + url\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def wget_download_system(url):\n    cmd = 'wget' + ' -O' + ' download.bin' + ' ' + url\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def wget_download_shell(url):\n    command = 'wget' + ' -O' + ' download.bin' + ' ' + url\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def wget_download_popen(url):\n    command = 'wget' + ' -O' + ' download.bin' + ' ' + url\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class WgetDownloadRunner:\n    def run(self, url):\n        command = 'wget' + ' -O' + ' download.bin' + ' ' + url\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_wget_download_request(request):\n    data = request.get_json()\n    url = data.get('url')\n    command = 'wget' + ' -O' + ' download.bin' + ' ' + url\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def openssl_cert_system(endpoint):\n    cmd = 'openssl' + ' s_client' + ' -connect' + ' ' + endpoint\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def openssl_cert_shell(endpoint):\n    command = 'openssl' + ' s_client' + ' -connect' + ' ' + endpoint\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def openssl_cert_popen(endpoint):\n    command = 'openssl' + ' s_client' + ' -connect' + ' ' + endpoint\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class OpensslCertRunner:\n    def run(self, endpoint):\n        command = 'openssl' + ' s_client' + ' -connect' + ' ' + endpoint\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_openssl_cert_request(request):\n    data = request.get_json()\n    endpoint = data.get('endpoint')\n    command = 'openssl' + ' s_client' + ' -connect' + ' ' + endpoint\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def whois_lookup_system(domain):\n    cmd = 'whois' + ' ' + domain\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def whois_lookup_shell(domain):\n    command = 'whois' + ' ' + domain\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def whois_lookup_popen(domain):\n    command = 'whois' + ' ' + domain\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class WhoisLookupRunner:\n    def run(self, domain):\n        command = 'whois' + ' ' + domain\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_whois_lookup_request(request):\n    data = request.get_json()\n    domain = data.get('domain')\n    command = 'whois' + ' ' + domain\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def netcat_check_system(host, port):\n    cmd = 'nc' + ' -zv' + ' ' + host + ' ' + port\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def netcat_check_shell(host, port):\n    command = 'nc' + ' -zv' + ' ' + host + ' ' + port\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def netcat_check_popen(host, port):\n    command = 'nc' + ' -zv' + ' ' + host + ' ' + port\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class NetcatCheckRunner:\n    def run(self, host, port):\n        command = 'nc' + ' -zv' + ' ' + host + ' ' + port\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_netcat_check_request(request):\n    data = request.get_json()\n    host = data.get('host')\n    port = data.get('port')\n    command = 'nc' + ' -zv' + ' ' + host + ' ' + port\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def ip_route_system(host):\n    cmd = 'ip' + ' route' + ' get' + ' ' + host\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def ip_route_shell(host):\n    command = 'ip' + ' route' + ' get' + ' ' + host\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def ip_route_popen(host):\n    command = 'ip' + ' route' + ' get' + ' ' + host\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class IpRouteRunner:\n    def run(self, host):\n        command = 'ip' + ' route' + ' get' + ' ' + host\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_ip_route_request(request):\n    data = request.get_json()\n    host = data.get('host')\n    command = 'ip' + ' route' + ' get' + ' ' + host\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def tar_extract_system(archive):\n    cmd = 'tar' + ' -xf' + ' ' + archive\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def tar_extract_shell(archive):\n    command = 'tar' + ' -xf' + ' ' + archive\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def tar_extract_popen(archive):\n    command = 'tar' + ' -xf' + ' ' + archive\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class TarExtractRunner:\n    def run(self, archive):\n        command = 'tar' + ' -xf' + ' ' + archive\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_tar_extract_request(request):\n    data = request.get_json()\n    archive = data.get('archive')\n    command = 'tar' + ' -xf' + ' ' + archive\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def zip_file_system(filename):\n    cmd = 'zip' + ' output.zip' + ' ' + filename\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def zip_file_shell(filename):\n    command = 'zip' + ' output.zip' + ' ' + filename\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def zip_file_popen(filename):\n    command = 'zip' + ' output.zip' + ' ' + filename\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class ZipFileRunner:\n    def run(self, filename):\n        command = 'zip' + ' output.zip' + ' ' + filename\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_zip_file_request(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    command = 'zip' + ' output.zip' + ' ' + filename\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def unzip_archive_system(archive):\n    cmd = 'unzip' + ' ' + archive + ' -d' + ' output'\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def unzip_archive_shell(archive):\n    command = 'unzip' + ' ' + archive + ' -d' + ' output'\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def unzip_archive_popen(archive):\n    command = 'unzip' + ' ' + archive + ' -d' + ' output'\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class UnzipArchiveRunner:\n    def run(self, archive):\n        command = 'unzip' + ' ' + archive + ' -d' + ' output'\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_unzip_archive_request(request):\n    data = request.get_json()\n    archive = data.get('archive')\n    command = 'unzip' + ' ' + archive + ' -d' + ' output'\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def resize_image_system(filename, size):\n    cmd = 'convert' + ' ' + filename + ' -resize' + ' ' + size + ' out.jpg'\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def resize_image_shell(filename, size):\n    command = 'convert' + ' ' + filename + ' -resize' + ' ' + size + ' out.jpg'\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def resize_image_popen(filename, size):\n    command = 'convert' + ' ' + filename + ' -resize' + ' ' + size + ' out.jpg'\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class ResizeImageRunner:\n    def run(self, filename, size):\n        command = 'convert' + ' ' + filename + ' -resize' + ' ' + size + ' out.jpg'\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_resize_image_request(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    size = data.get('size')\n    command = 'convert' + ' ' + filename + ' -resize' + ' ' + size + ' out.jpg'\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def transcode_video_system(filename, codec):\n    cmd = 'ffmpeg' + ' -i' + ' ' + filename + ' -c:v' + ' ' + codec + ' out.mp4'\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def transcode_video_shell(filename, codec):\n    command = 'ffmpeg' + ' -i' + ' ' + filename + ' -c:v' + ' ' + codec + ' out.mp4'\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def transcode_video_popen(filename, codec):\n    command = 'ffmpeg' + ' -i' + ' ' + filename + ' -c:v' + ' ' + codec + ' out.mp4'\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class TranscodeVideoRunner:\n    def run(self, filename, codec):\n        command = 'ffmpeg' + ' -i' + ' ' + filename + ' -c:v' + ' ' + codec + ' out.mp4'\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_transcode_video_request(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    codec = data.get('codec')\n    command = 'ffmpeg' + ' -i' + ' ' + filename + ' -c:v' + ' ' + codec + ' out.mp4'\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pdf_to_text_system(filename):\n    cmd = 'pdftotext' + ' ' + filename + ' out.txt'\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pdf_to_text_shell(filename):\n    command = 'pdftotext' + ' ' + filename + ' out.txt'\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pdf_to_text_popen(filename):\n    command = 'pdftotext' + ' ' + filename + ' out.txt'\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class PdfToTextRunner:\n    def run(self, filename):\n        command = 'pdftotext' + ' ' + filename + ' out.txt'\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_pdf_to_text_request(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    command = 'pdftotext' + ' ' + filename + ' out.txt'\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def probe_media_system(filename):\n    cmd = 'ffprobe' + ' ' + filename\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def probe_media_shell(filename):\n    command = 'ffprobe' + ' ' + filename\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def probe_media_popen(filename):\n    command = 'ffprobe' + ' ' + filename\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class ProbeMediaRunner:\n    def run(self, filename):\n        command = 'ffprobe' + ' ' + filename\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_probe_media_request(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    command = 'ffprobe' + ' ' + filename\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def compile_c_system(source):\n    cmd = 'gcc' + ' ' + source + ' -o' + ' app'\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def compile_c_shell(source):\n    command = 'gcc' + ' ' + source + ' -o' + ' app'\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def compile_c_popen(source):\n    command = 'gcc' + ' ' + source + ' -o' + ' app'\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class CompileCRunner:\n    def run(self, source):\n        command = 'gcc' + ' ' + source + ' -o' + ' app'\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_compile_c_request(request):\n    data = request.get_json()\n    source = data.get('source')\n    command = 'gcc' + ' ' + source + ' -o' + ' app'\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def py_compile_system(filename):\n    cmd = 'python' + ' -m' + ' py_compile' + ' ' + filename\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def py_compile_shell(filename):\n    command = 'python' + ' -m' + ' py_compile' + ' ' + filename\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def py_compile_popen(filename):\n    command = 'python' + ' -m' + ' py_compile' + ' ' + filename\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class PyCompileRunner:\n    def run(self, filename):\n        command = 'python' + ' -m' + ' py_compile' + ' ' + filename\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_py_compile_request(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    command = 'python' + ' -m' + ' py_compile' + ' ' + filename\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pytest_target_system(test_name):\n    cmd = 'pytest' + ' ' + test_name\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pytest_target_shell(test_name):\n    command = 'pytest' + ' ' + test_name\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pytest_target_popen(test_name):\n    command = 'pytest' + ' ' + test_name\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class PytestTargetRunner:\n    def run(self, test_name):\n        command = 'pytest' + ' ' + test_name\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_pytest_target_request(request):\n    data = request.get_json()\n    test_name = data.get('test_name')\n    command = 'pytest' + ' ' + test_name\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pylint_file_system(filename):\n    cmd = 'pylint' + ' ' + filename\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pylint_file_shell(filename):\n    command = 'pylint' + ' ' + filename\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pylint_file_popen(filename):\n    command = 'pylint' + ' ' + filename\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class PylintFileRunner:\n    def run(self, filename):\n        command = 'pylint' + ' ' + filename\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_pylint_file_request(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    command = 'pylint' + ' ' + filename\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def black_format_system(filename):\n    cmd = 'black' + ' ' + filename\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def black_format_shell(filename):\n    command = 'black' + ' ' + filename\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def black_format_popen(filename):\n    command = 'black' + ' ' + filename\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class BlackFormatRunner:\n    def run(self, filename):\n        command = 'black' + ' ' + filename\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_black_format_request(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    command = 'black' + ' ' + filename\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def mypy_module_system(module):\n    cmd = 'mypy' + ' ' + module\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def mypy_module_shell(module):\n    command = 'mypy' + ' ' + module\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def mypy_module_popen(module):\n    command = 'mypy' + ' ' + module\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class MypyModuleRunner:\n    def run(self, module):\n        command = 'mypy' + ' ' + module\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_mypy_module_request(request):\n    data = request.get_json()\n    module = data.get('module')\n    command = 'mypy' + ' ' + module\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def bandit_module_system(module):\n    cmd = 'bandit' + ' -r' + ' ' + module\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def bandit_module_shell(module):\n    command = 'bandit' + ' -r' + ' ' + module\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def bandit_module_popen(module):\n    command = 'bandit' + ' -r' + ' ' + module\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class BanditModuleRunner:\n    def run(self, module):\n        command = 'bandit' + ' -r' + ' ' + module\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_bandit_module_request(request):\n    data = request.get_json()\n    module = data.get('module')\n    command = 'bandit' + ' -r' + ' ' + module\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def coverage_module_system(module):\n    cmd = 'coverage' + ' run' + ' -m' + ' pytest' + ' ' + module\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def coverage_module_shell(module):\n    command = 'coverage' + ' run' + ' -m' + ' pytest' + ' ' + module\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def coverage_module_popen(module):\n    command = 'coverage' + ' run' + ' -m' + ' pytest' + ' ' + module\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class CoverageModuleRunner:\n    def run(self, module):\n        command = 'coverage' + ' run' + ' -m' + ' pytest' + ' ' + module\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_coverage_module_request(request):\n    data = request.get_json()\n    module = data.get('module')\n    command = 'coverage' + ' run' + ' -m' + ' pytest' + ' ' + module\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def git_clone_system(repo_url):\n    cmd = 'git' + ' clone' + ' ' + repo_url\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def git_clone_shell(repo_url):\n    command = 'git' + ' clone' + ' ' + repo_url\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def git_clone_popen(repo_url):\n    command = 'git' + ' clone' + ' ' + repo_url\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class GitCloneRunner:\n    def run(self, repo_url):\n        command = 'git' + ' clone' + ' ' + repo_url\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_git_clone_request(request):\n    data = request.get_json()\n    repo_url = data.get('repo_url')\n    command = 'git' + ' clone' + ' ' + repo_url\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def git_checkout_system(branch):\n    cmd = 'git' + ' checkout' + ' ' + branch\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def git_checkout_shell(branch):\n    command = 'git' + ' checkout' + ' ' + branch\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def git_checkout_popen(branch):\n    command = 'git' + ' checkout' + ' ' + branch\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class GitCheckoutRunner:\n    def run(self, branch):\n        command = 'git' + ' checkout' + ' ' + branch\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_git_checkout_request(request):\n    data = request.get_json()\n    branch = data.get('branch')\n    command = 'git' + ' checkout' + ' ' + branch\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def git_pull_system(remote, branch):\n    cmd = 'git' + ' pull' + ' ' + remote + ' ' + branch\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def git_pull_shell(remote, branch):\n    command = 'git' + ' pull' + ' ' + remote + ' ' + branch\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def git_pull_popen(remote, branch):\n    command = 'git' + ' pull' + ' ' + remote + ' ' + branch\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class GitPullRunner:\n    def run(self, remote, branch):\n        command = 'git' + ' pull' + ' ' + remote + ' ' + branch\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_git_pull_request(request):\n    data = request.get_json()\n    remote = data.get('remote')\n    branch = data.get('branch')\n    command = 'git' + ' pull' + ' ' + remote + ' ' + branch\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def docker_build_system(tag, context):\n    cmd = 'docker' + ' build' + ' -t' + ' ' + tag + ' ' + context\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def docker_build_shell(tag, context):\n    command = 'docker' + ' build' + ' -t' + ' ' + tag + ' ' + context\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def docker_build_popen(tag, context):\n    command = 'docker' + ' build' + ' -t' + ' ' + tag + ' ' + context\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class DockerBuildRunner:\n    def run(self, tag, context):\n        command = 'docker' + ' build' + ' -t' + ' ' + tag + ' ' + context\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_docker_build_request(request):\n    data = request.get_json()\n    tag = data.get('tag')\n    context = data.get('context')\n    command = 'docker' + ' build' + ' -t' + ' ' + tag + ' ' + context\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def docker_run_system(image):\n    cmd = 'docker' + ' run' + ' ' + image\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def docker_run_shell(image):\n    command = 'docker' + ' run' + ' ' + image\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def docker_run_popen(image):\n    command = 'docker' + ' run' + ' ' + image\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class DockerRunRunner:\n    def run(self, image):\n        command = 'docker' + ' run' + ' ' + image\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_docker_run_request(request):\n    data = request.get_json()\n    image = data.get('image')\n    command = 'docker' + ' run' + ' ' + image\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def docker_logs_system(container):\n    cmd = 'docker' + ' logs' + ' ' + container\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def docker_logs_shell(container):\n    command = 'docker' + ' logs' + ' ' + container\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def docker_logs_popen(container):\n    command = 'docker' + ' logs' + ' ' + container\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class DockerLogsRunner:\n    def run(self, container):\n        command = 'docker' + ' logs' + ' ' + container\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_docker_logs_request(request):\n    data = request.get_json()\n    container = data.get('container')\n    command = 'docker' + ' logs' + ' ' + container\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def kubectl_apply_system(manifest):\n    cmd = 'kubectl' + ' apply' + ' -f' + ' ' + manifest\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def kubectl_apply_shell(manifest):\n    command = 'kubectl' + ' apply' + ' -f' + ' ' + manifest\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def kubectl_apply_popen(manifest):\n    command = 'kubectl' + ' apply' + ' -f' + ' ' + manifest\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class KubectlApplyRunner:\n    def run(self, manifest):\n        command = 'kubectl' + ' apply' + ' -f' + ' ' + manifest\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_kubectl_apply_request(request):\n    data = request.get_json()\n    manifest = data.get('manifest')\n    command = 'kubectl' + ' apply' + ' -f' + ' ' + manifest\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def kubectl_logs_system(pod):\n    cmd = 'kubectl' + ' logs' + ' ' + pod\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def kubectl_logs_shell(pod):\n    command = 'kubectl' + ' logs' + ' ' + pod\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def kubectl_logs_popen(pod):\n    command = 'kubectl' + ' logs' + ' ' + pod\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class KubectlLogsRunner:\n    def run(self, pod):\n        command = 'kubectl' + ' logs' + ' ' + pod\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_kubectl_logs_request(request):\n    data = request.get_json()\n    pod = data.get('pod')\n    command = 'kubectl' + ' logs' + ' ' + pod\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def helm_install_system(release, chart):\n    cmd = 'helm' + ' install' + ' ' + release + ' ' + chart\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def helm_install_shell(release, chart):\n    command = 'helm' + ' install' + ' ' + release + ' ' + chart\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def helm_install_popen(release, chart):\n    command = 'helm' + ' install' + ' ' + release + ' ' + chart\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class HelmInstallRunner:\n    def run(self, release, chart):\n        command = 'helm' + ' install' + ' ' + release + ' ' + chart\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_helm_install_request(request):\n    data = request.get_json()\n    release = data.get('release')\n    chart = data.get('chart')\n    command = 'helm' + ' install' + ' ' + release + ' ' + chart\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def terraform_plan_system(directory):\n    cmd = 'terraform' + ' plan' + ' ' + directory\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def terraform_plan_shell(directory):\n    command = 'terraform' + ' plan' + ' ' + directory\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def terraform_plan_popen(directory):\n    command = 'terraform' + ' plan' + ' ' + directory\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class TerraformPlanRunner:\n    def run(self, directory):\n        command = 'terraform' + ' plan' + ' ' + directory\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_terraform_plan_request(request):\n    data = request.get_json()\n    directory = data.get('directory')\n    command = 'terraform' + ' plan' + ' ' + directory\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def ansible_playbook_system(playbook):\n    cmd = 'ansible-playbook' + ' ' + playbook\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def ansible_playbook_shell(playbook):\n    command = 'ansible-playbook' + ' ' + playbook\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def ansible_playbook_popen(playbook):\n    command = 'ansible-playbook' + ' ' + playbook\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class AnsiblePlaybookRunner:\n    def run(self, playbook):\n        command = 'ansible-playbook' + ' ' + playbook\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_ansible_playbook_request(request):\n    data = request.get_json()\n    playbook = data.get('playbook')\n    command = 'ansible-playbook' + ' ' + playbook\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def make_target_system(target):\n    cmd = 'make' + ' ' + target\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def make_target_shell(target):\n    command = 'make' + ' ' + target\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def make_target_popen(target):\n    command = 'make' + ' ' + target\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class MakeTargetRunner:\n    def run(self, target):\n        command = 'make' + ' ' + target\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_make_target_request(request):\n    data = request.get_json()\n    target = data.get('target')\n    command = 'make' + ' ' + target\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def npm_script_system(script_name):\n    cmd = 'npm' + ' run' + ' ' + script_name\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def npm_script_shell(script_name):\n    command = 'npm' + ' run' + ' ' + script_name\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def npm_script_popen(script_name):\n    command = 'npm' + ' run' + ' ' + script_name\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class NpmScriptRunner:\n    def run(self, script_name):\n        command = 'npm' + ' run' + ' ' + script_name\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_npm_script_request(request):\n    data = request.get_json()\n    script_name = data.get('script_name')\n    command = 'npm' + ' run' + ' ' + script_name\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pip_install_system(package):\n    cmd = 'pip' + ' install' + ' ' + package\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pip_install_shell(package):\n    command = 'pip' + ' install' + ' ' + package\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def pip_install_popen(package):\n    command = 'pip' + ' install' + ' ' + package\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class PipInstallRunner:\n    def run(self, package):\n        command = 'pip' + ' install' + ' ' + package\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_pip_install_request(request):\n    data = request.get_json()\n    package = data.get('package')\n    command = 'pip' + ' install' + ' ' + package\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def restart_service_system(service):\n    cmd = 'systemctl' + ' restart' + ' ' + service\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def restart_service_shell(service):\n    command = 'systemctl' + ' restart' + ' ' + service\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def restart_service_popen(service):\n    command = 'systemctl' + ' restart' + ' ' + service\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class RestartServiceRunner:\n    def run(self, service):\n        command = 'systemctl' + ' restart' + ' ' + service\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_restart_service_request(request):\n    data = request.get_json()\n    service = data.get('service')\n    command = 'systemctl' + ' restart' + ' ' + service\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def add_user_system(username):\n    cmd = 'useradd' + ' ' + username\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def add_user_shell(username):\n    command = 'useradd' + ' ' + username\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def add_user_popen(username):\n    command = 'useradd' + ' ' + username\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class AddUserRunner:\n    def run(self, username):\n        command = 'useradd' + ' ' + username\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_add_user_request(request):\n    data = request.get_json()\n    username = data.get('username')\n    command = 'useradd' + ' ' + username\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def chown_file_system(owner, filepath):\n    cmd = 'chown' + ' ' + owner + ' ' + filepath\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def chown_file_shell(owner, filepath):\n    command = 'chown' + ' ' + owner + ' ' + filepath\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def chown_file_popen(owner, filepath):\n    command = 'chown' + ' ' + owner + ' ' + filepath\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class ChownFileRunner:\n    def run(self, owner, filepath):\n        command = 'chown' + ' ' + owner + ' ' + filepath\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_chown_file_request(request):\n    data = request.get_json()\n    owner = data.get('owner')\n    filepath = data.get('filepath')\n    command = 'chown' + ' ' + owner + ' ' + filepath\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def chmod_file_system(mode, filepath):\n    cmd = 'chmod' + ' ' + mode + ' ' + filepath\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def chmod_file_shell(mode, filepath):\n    command = 'chmod' + ' ' + mode + ' ' + filepath\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def chmod_file_popen(mode, filepath):\n    command = 'chmod' + ' ' + mode + ' ' + filepath\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class ChmodFileRunner:\n    def run(self, mode, filepath):\n        command = 'chmod' + ' ' + mode + ' ' + filepath\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_chmod_file_request(request):\n    data = request.get_json()\n    mode = data.get('mode')\n    filepath = data.get('filepath')\n    command = 'chmod' + ' ' + mode + ' ' + filepath\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def gpg_encrypt_system(filepath, passphrase):\n    cmd = 'gpg' + ' --batch' + ' --passphrase' + ' ' + passphrase + ' -c' + ' ' + filepath\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def gpg_encrypt_shell(filepath, passphrase):\n    command = 'gpg' + ' --batch' + ' --passphrase' + ' ' + passphrase + ' -c' + ' ' + filepath\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def gpg_encrypt_popen(filepath, passphrase):\n    command = 'gpg' + ' --batch' + ' --passphrase' + ' ' + passphrase + ' -c' + ' ' + filepath\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class GpgEncryptRunner:\n    def run(self, filepath, passphrase):\n        command = 'gpg' + ' --batch' + ' --passphrase' + ' ' + passphrase + ' -c' + ' ' + filepath\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_gpg_encrypt_request(request):\n    data = request.get_json()\n    filepath = data.get('filepath')\n    passphrase = data.get('passphrase')\n    command = 'gpg' + ' --batch' + ' --passphrase' + ' ' + passphrase + ' -c' + ' ' + filepath\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def mysql_dump_system(database, outfile):\n    cmd = 'mysqldump' + ' ' + database + ' --result-file' + ' ' + outfile\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def mysql_dump_shell(database, outfile):\n    command = 'mysqldump' + ' ' + database + ' --result-file' + ' ' + outfile\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def mysql_dump_popen(database, outfile):\n    command = 'mysqldump' + ' ' + database + ' --result-file' + ' ' + outfile\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class MysqlDumpRunner:\n    def run(self, database, outfile):\n        command = 'mysqldump' + ' ' + database + ' --result-file' + ' ' + outfile\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_mysql_dump_request(request):\n    data = request.get_json()\n    database = data.get('database')\n    outfile = data.get('outfile')\n    command = 'mysqldump' + ' ' + database + ' --result-file' + ' ' + outfile\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def mysql_check_system(database):\n    cmd = 'mysqlcheck' + ' ' + database\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def mysql_check_shell(database):\n    command = 'mysqlcheck' + ' ' + database\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def mysql_check_popen(database):\n    command = 'mysqlcheck' + ' ' + database\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class MysqlCheckRunner:\n    def run(self, database):\n        command = 'mysqlcheck' + ' ' + database\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_mysql_check_request(request):\n    data = request.get_json()\n    database = data.get('database')\n    command = 'mysqlcheck' + ' ' + database\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def grep_logs_system(term, logfile):\n    cmd = 'grep' + ' ' + term + ' ' + logfile\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def grep_logs_shell(term, logfile):\n    command = 'grep' + ' ' + term + ' ' + logfile\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def grep_logs_popen(term, logfile):\n    command = 'grep' + ' ' + term + ' ' + logfile\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class GrepLogsRunner:\n    def run(self, term, logfile):\n        command = 'grep' + ' ' + term + ' ' + logfile\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_grep_logs_request(request):\n    data = request.get_json()\n    term = data.get('term')\n    logfile = data.get('logfile')\n    command = 'grep' + ' ' + term + ' ' + logfile\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def tail_log_system(lines, logfile):\n    cmd = 'tail' + ' -n' + ' ' + lines + ' ' + logfile\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def tail_log_shell(lines, logfile):\n    command = 'tail' + ' -n' + ' ' + lines + ' ' + logfile\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def tail_log_popen(lines, logfile):\n    command = 'tail' + ' -n' + ' ' + lines + ' ' + logfile\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class TailLogRunner:\n    def run(self, lines, logfile):\n        command = 'tail' + ' -n' + ' ' + lines + ' ' + logfile\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_tail_log_request(request):\n    data = request.get_json()\n    lines = data.get('lines')\n    logfile = data.get('logfile')\n    command = 'tail' + ' -n' + ' ' + lines + ' ' + logfile\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def find_files_system(directory, pattern):\n    cmd = 'find' + ' ' + directory + ' -name' + ' ' + pattern\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def find_files_shell(directory, pattern):\n    command = 'find' + ' ' + directory + ' -name' + ' ' + pattern\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def find_files_popen(directory, pattern):\n    command = 'find' + ' ' + directory + ' -name' + ' ' + pattern\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class FindFilesRunner:\n    def run(self, directory, pattern):\n        command = 'find' + ' ' + directory + ' -name' + ' ' + pattern\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_find_files_request(request):\n    data = request.get_json()\n    directory = data.get('directory')\n    pattern = data.get('pattern')\n    command = 'find' + ' ' + directory + ' -name' + ' ' + pattern\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def sed_replace_system(expression, filepath):\n    cmd = 'sed' + ' -i' + ' ' + expression + ' ' + filepath\n    os.system(cmd)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def sed_replace_shell(expression, filepath):\n    command = 'sed' + ' -i' + ' ' + expression + ' ' + filepath\n    return subprocess.run(command, shell=True, capture_output=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def sed_replace_popen(expression, filepath):\n    command = 'sed' + ' -i' + ' ' + expression + ' ' + filepath\n    return os.popen(command).read()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class SedReplaceRunner:\n    def run(self, expression, filepath):\n        command = 'sed' + ' -i' + ' ' + expression + ' ' + filepath\n        proc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)\n        stdout, _ = proc.communicate()\n        return stdout.decode()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def handle_sed_replace_request(request):\n    data = request.get_json()\n    expression = data.get('expression')\n    filepath = data.get('filepath')\n    command = 'sed' + ' -i' + ' ' + expression + ' ' + filepath\n    return subprocess.check_output(command, shell=True, text=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def ping_host_safe(host):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    result = subprocess.run(['ping', '-c', '1', host], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class PingHostService:\n    def run(self, host):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n            raise ValueError('invalid host')\n        result = subprocess.run(['ping', '-c', '1', host], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_ping_host_safe(request):\n    data = request.get_json()\n    host = data.get('host')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    result = subprocess.run(['ping', '-c', '1', host], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_ping_host_job(payload):\n    host = payload['host']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    subprocess.run(['ping', '-c', '1', host], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def ping_host_with_runner(host, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    args = ['ping', '-c', '1', host]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def dns_lookup_safe(domain):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(domain)):\n        raise ValueError('invalid domain')\n    result = subprocess.run(['nslookup', domain], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class DnsLookupService:\n    def run(self, domain):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(domain)):\n            raise ValueError('invalid domain')\n        result = subprocess.run(['nslookup', domain], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_dns_lookup_safe(request):\n    data = request.get_json()\n    domain = data.get('domain')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(domain)):\n        raise ValueError('invalid domain')\n    result = subprocess.run(['nslookup', domain], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_dns_lookup_job(payload):\n    domain = payload['domain']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(domain)):\n        raise ValueError('invalid domain')\n    subprocess.run(['nslookup', domain], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def dns_lookup_with_runner(domain, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(domain)):\n        raise ValueError('invalid domain')\n    args = ['nslookup', domain]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def trace_route_safe(host):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    result = subprocess.run(['traceroute', host], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class TraceRouteService:\n    def run(self, host):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n            raise ValueError('invalid host')\n        result = subprocess.run(['traceroute', host], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_trace_route_safe(request):\n    data = request.get_json()\n    host = data.get('host')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    result = subprocess.run(['traceroute', host], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_trace_route_job(payload):\n    host = payload['host']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    subprocess.run(['traceroute', host], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def trace_route_with_runner(host, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    args = ['traceroute', host]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def nmap_scan_safe(target):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(target)):\n        raise ValueError('invalid target')\n    result = subprocess.run(['nmap', '-sV', target], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class NmapScanService:\n    def run(self, target):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(target)):\n            raise ValueError('invalid target')\n        result = subprocess.run(['nmap', '-sV', target], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_nmap_scan_safe(request):\n    data = request.get_json()\n    target = data.get('target')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(target)):\n        raise ValueError('invalid target')\n    result = subprocess.run(['nmap', '-sV', target], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_nmap_scan_job(payload):\n    target = payload['target']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(target)):\n        raise ValueError('invalid target')\n    subprocess.run(['nmap', '-sV', target], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def nmap_scan_with_runner(target, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(target)):\n        raise ValueError('invalid target')\n    args = ['nmap', '-sV', target]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def curl_fetch_safe(url):\n    import urllib.parse\n    parsed_url = urllib.parse.urlparse(str(url))\n    if parsed_url.scheme != 'https' or parsed_url.hostname not in {'example.com', 'files.example.com', 'api.example.com'}:\n        raise ValueError('invalid url')\n    result = subprocess.run(['curl', '-fsS', url], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class CurlFetchService:\n    def run(self, url):\n        import urllib.parse\n        parsed_url = urllib.parse.urlparse(str(url))\n        if parsed_url.scheme != 'https' or parsed_url.hostname not in {'example.com', 'files.example.com', 'api.example.com'}:\n            raise ValueError('invalid url')\n        result = subprocess.run(['curl', '-fsS', url], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_curl_fetch_safe(request):\n    data = request.get_json()\n    url = data.get('url')\n    import urllib.parse\n    parsed_url = urllib.parse.urlparse(str(url))\n    if parsed_url.scheme != 'https' or parsed_url.hostname not in {'example.com', 'files.example.com', 'api.example.com'}:\n        raise ValueError('invalid url')\n    result = subprocess.run(['curl', '-fsS', url], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_curl_fetch_job(payload):\n    url = payload['url']\n    import urllib.parse\n    parsed_url = urllib.parse.urlparse(str(url))\n    if parsed_url.scheme != 'https' or parsed_url.hostname not in {'example.com', 'files.example.com', 'api.example.com'}:\n        raise ValueError('invalid url')\n    subprocess.run(['curl', '-fsS', url], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def curl_fetch_with_runner(url, runner):\n    import urllib.parse\n    parsed_url = urllib.parse.urlparse(str(url))\n    if parsed_url.scheme != 'https' or parsed_url.hostname not in {'example.com', 'files.example.com', 'api.example.com'}:\n        raise ValueError('invalid url')\n    args = ['curl', '-fsS', url]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def wget_download_safe(url):\n    import urllib.parse\n    parsed_url = urllib.parse.urlparse(str(url))\n    if parsed_url.scheme != 'https' or parsed_url.hostname not in {'example.com', 'files.example.com', 'api.example.com'}:\n        raise ValueError('invalid url')\n    result = subprocess.run(['wget', '-O', 'download.bin', url], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class WgetDownloadService:\n    def run(self, url):\n        import urllib.parse\n        parsed_url = urllib.parse.urlparse(str(url))\n        if parsed_url.scheme != 'https' or parsed_url.hostname not in {'example.com', 'files.example.com', 'api.example.com'}:\n            raise ValueError('invalid url')\n        result = subprocess.run(['wget', '-O', 'download.bin', url], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_wget_download_safe(request):\n    data = request.get_json()\n    url = data.get('url')\n    import urllib.parse\n    parsed_url = urllib.parse.urlparse(str(url))\n    if parsed_url.scheme != 'https' or parsed_url.hostname not in {'example.com', 'files.example.com', 'api.example.com'}:\n        raise ValueError('invalid url')\n    result = subprocess.run(['wget', '-O', 'download.bin', url], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_wget_download_job(payload):\n    url = payload['url']\n    import urllib.parse\n    parsed_url = urllib.parse.urlparse(str(url))\n    if parsed_url.scheme != 'https' or parsed_url.hostname not in {'example.com', 'files.example.com', 'api.example.com'}:\n        raise ValueError('invalid url')\n    subprocess.run(['wget', '-O', 'download.bin', url], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def wget_download_with_runner(url, runner):\n    import urllib.parse\n    parsed_url = urllib.parse.urlparse(str(url))\n    if parsed_url.scheme != 'https' or parsed_url.hostname not in {'example.com', 'files.example.com', 'api.example.com'}:\n        raise ValueError('invalid url')\n    args = ['wget', '-O', 'download.bin', url]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def openssl_cert_safe(endpoint):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(endpoint)):\n        raise ValueError('invalid endpoint')\n    result = subprocess.run(['openssl', 's_client', '-connect', endpoint], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class OpensslCertService:\n    def run(self, endpoint):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(endpoint)):\n            raise ValueError('invalid endpoint')\n        result = subprocess.run(['openssl', 's_client', '-connect', endpoint], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_openssl_cert_safe(request):\n    data = request.get_json()\n    endpoint = data.get('endpoint')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(endpoint)):\n        raise ValueError('invalid endpoint')\n    result = subprocess.run(['openssl', 's_client', '-connect', endpoint], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_openssl_cert_job(payload):\n    endpoint = payload['endpoint']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(endpoint)):\n        raise ValueError('invalid endpoint')\n    subprocess.run(['openssl', 's_client', '-connect', endpoint], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def openssl_cert_with_runner(endpoint, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(endpoint)):\n        raise ValueError('invalid endpoint')\n    args = ['openssl', 's_client', '-connect', endpoint]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def whois_lookup_safe(domain):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(domain)):\n        raise ValueError('invalid domain')\n    result = subprocess.run(['whois', domain], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class WhoisLookupService:\n    def run(self, domain):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(domain)):\n            raise ValueError('invalid domain')\n        result = subprocess.run(['whois', domain], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_whois_lookup_safe(request):\n    data = request.get_json()\n    domain = data.get('domain')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(domain)):\n        raise ValueError('invalid domain')\n    result = subprocess.run(['whois', domain], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_whois_lookup_job(payload):\n    domain = payload['domain']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(domain)):\n        raise ValueError('invalid domain')\n    subprocess.run(['whois', domain], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def whois_lookup_with_runner(domain, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(domain)):\n        raise ValueError('invalid domain')\n    args = ['whois', domain]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def netcat_check_safe(host, port):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    port_int = int(port)\n    if not 1 <= port_int <= 65535:\n        raise ValueError('invalid port')\n    result = subprocess.run(['nc', '-zv', host, str(port_int)], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class NetcatCheckService:\n    def run(self, host, port):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n            raise ValueError('invalid host')\n        port_int = int(port)\n        if not 1 <= port_int <= 65535:\n            raise ValueError('invalid port')\n        result = subprocess.run(['nc', '-zv', host, str(port_int)], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_netcat_check_safe(request):\n    data = request.get_json()\n    host = data.get('host')\n    port = data.get('port')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    port_int = int(port)\n    if not 1 <= port_int <= 65535:\n        raise ValueError('invalid port')\n    result = subprocess.run(['nc', '-zv', host, str(port_int)], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_netcat_check_job(payload):\n    host = payload['host']\n    port = payload['port']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    port_int = int(port)\n    if not 1 <= port_int <= 65535:\n        raise ValueError('invalid port')\n    subprocess.run(['nc', '-zv', host, str(port_int)], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def netcat_check_with_runner(host, port, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    port_int = int(port)\n    if not 1 <= port_int <= 65535:\n        raise ValueError('invalid port')\n    args = ['nc', '-zv', host, str(port_int)]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def ip_route_safe(host):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    result = subprocess.run(['ip', 'route', 'get', host], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class IpRouteService:\n    def run(self, host):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n            raise ValueError('invalid host')\n        result = subprocess.run(['ip', 'route', 'get', host], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_ip_route_safe(request):\n    data = request.get_json()\n    host = data.get('host')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    result = subprocess.run(['ip', 'route', 'get', host], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_ip_route_job(payload):\n    host = payload['host']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    subprocess.run(['ip', 'route', 'get', host], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def ip_route_with_runner(host, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9.-]{0,251}[A-Za-z0-9])?', str(host)):\n        raise ValueError('invalid host')\n    args = ['ip', 'route', 'get', host]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def tar_extract_safe(archive):\n    from pathlib import Path\n    import re\n    safe_archive = Path(str(archive)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_archive):\n        raise ValueError('invalid archive')\n    if not safe_archive.endswith(('.tar', '.tar.gz', '.tgz')):\n        raise ValueError('invalid archive extension')\n    result = subprocess.run(['tar', '-xf', safe_archive], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class TarExtractService:\n    def run(self, archive):\n        from pathlib import Path\n        import re\n        safe_archive = Path(str(archive)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_archive):\n            raise ValueError('invalid archive')\n        if not safe_archive.endswith(('.tar', '.tar.gz', '.tgz')):\n            raise ValueError('invalid archive extension')\n        result = subprocess.run(['tar', '-xf', safe_archive], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_tar_extract_safe(request):\n    data = request.get_json()\n    archive = data.get('archive')\n    from pathlib import Path\n    import re\n    safe_archive = Path(str(archive)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_archive):\n        raise ValueError('invalid archive')\n    if not safe_archive.endswith(('.tar', '.tar.gz', '.tgz')):\n        raise ValueError('invalid archive extension')\n    result = subprocess.run(['tar', '-xf', safe_archive], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_tar_extract_job(payload):\n    archive = payload['archive']\n    from pathlib import Path\n    import re\n    safe_archive = Path(str(archive)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_archive):\n        raise ValueError('invalid archive')\n    if not safe_archive.endswith(('.tar', '.tar.gz', '.tgz')):\n        raise ValueError('invalid archive extension')\n    subprocess.run(['tar', '-xf', safe_archive], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def tar_extract_with_runner(archive, runner):\n    from pathlib import Path\n    import re\n    safe_archive = Path(str(archive)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_archive):\n        raise ValueError('invalid archive')\n    if not safe_archive.endswith(('.tar', '.tar.gz', '.tgz')):\n        raise ValueError('invalid archive extension')\n    args = ['tar', '-xf', safe_archive]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def zip_file_safe(filename):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    result = subprocess.run(['zip', 'output.zip', safe_filename], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ZipFileService:\n    def run(self, filename):\n        from pathlib import Path\n        import re\n        safe_filename = Path(str(filename)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n            raise ValueError('invalid filename')\n        result = subprocess.run(['zip', 'output.zip', safe_filename], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_zip_file_safe(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    result = subprocess.run(['zip', 'output.zip', safe_filename], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_zip_file_job(payload):\n    filename = payload['filename']\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    subprocess.run(['zip', 'output.zip', safe_filename], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def zip_file_with_runner(filename, runner):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    args = ['zip', 'output.zip', safe_filename]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def unzip_archive_safe(archive):\n    from pathlib import Path\n    import re\n    safe_archive = Path(str(archive)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_archive):\n        raise ValueError('invalid archive')\n    if not safe_archive.endswith(('.zip',)):\n        raise ValueError('invalid archive extension')\n    result = subprocess.run(['unzip', safe_archive, '-d', 'output'], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class UnzipArchiveService:\n    def run(self, archive):\n        from pathlib import Path\n        import re\n        safe_archive = Path(str(archive)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_archive):\n            raise ValueError('invalid archive')\n        if not safe_archive.endswith(('.zip',)):\n            raise ValueError('invalid archive extension')\n        result = subprocess.run(['unzip', safe_archive, '-d', 'output'], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_unzip_archive_safe(request):\n    data = request.get_json()\n    archive = data.get('archive')\n    from pathlib import Path\n    import re\n    safe_archive = Path(str(archive)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_archive):\n        raise ValueError('invalid archive')\n    if not safe_archive.endswith(('.zip',)):\n        raise ValueError('invalid archive extension')\n    result = subprocess.run(['unzip', safe_archive, '-d', 'output'], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_unzip_archive_job(payload):\n    archive = payload['archive']\n    from pathlib import Path\n    import re\n    safe_archive = Path(str(archive)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_archive):\n        raise ValueError('invalid archive')\n    if not safe_archive.endswith(('.zip',)):\n        raise ValueError('invalid archive extension')\n    subprocess.run(['unzip', safe_archive, '-d', 'output'], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def unzip_archive_with_runner(archive, runner):\n    from pathlib import Path\n    import re\n    safe_archive = Path(str(archive)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_archive):\n        raise ValueError('invalid archive')\n    if not safe_archive.endswith(('.zip',)):\n        raise ValueError('invalid archive extension')\n    args = ['unzip', safe_archive, '-d', 'output']\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def resize_image_safe(filename, size):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.png', '.jpg', '.jpeg')):\n        raise ValueError('invalid filename extension')\n    if not re.fullmatch(r'\\d{1,4}x\\d{1,4}', str(size)):\n        raise ValueError('invalid size')\n    result = subprocess.run(['convert', safe_filename, '-resize', size, 'out.jpg'], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ResizeImageService:\n    def run(self, filename, size):\n        from pathlib import Path\n        import re\n        safe_filename = Path(str(filename)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n            raise ValueError('invalid filename')\n        if not safe_filename.endswith(('.png', '.jpg', '.jpeg')):\n            raise ValueError('invalid filename extension')\n        if not re.fullmatch(r'\\d{1,4}x\\d{1,4}', str(size)):\n            raise ValueError('invalid size')\n        result = subprocess.run(['convert', safe_filename, '-resize', size, 'out.jpg'], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_resize_image_safe(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    size = data.get('size')\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.png', '.jpg', '.jpeg')):\n        raise ValueError('invalid filename extension')\n    if not re.fullmatch(r'\\d{1,4}x\\d{1,4}', str(size)):\n        raise ValueError('invalid size')\n    result = subprocess.run(['convert', safe_filename, '-resize', size, 'out.jpg'], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_resize_image_job(payload):\n    filename = payload['filename']\n    size = payload['size']\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.png', '.jpg', '.jpeg')):\n        raise ValueError('invalid filename extension')\n    if not re.fullmatch(r'\\d{1,4}x\\d{1,4}', str(size)):\n        raise ValueError('invalid size')\n    subprocess.run(['convert', safe_filename, '-resize', size, 'out.jpg'], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def resize_image_with_runner(filename, size, runner):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.png', '.jpg', '.jpeg')):\n        raise ValueError('invalid filename extension')\n    if not re.fullmatch(r'\\d{1,4}x\\d{1,4}', str(size)):\n        raise ValueError('invalid size')\n    args = ['convert', safe_filename, '-resize', size, 'out.jpg']\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def transcode_video_safe(filename, codec):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.mp4', '.mov')):\n        raise ValueError('invalid filename extension')\n    if codec not in {'libx264', 'libx265', 'vp9'}:\n        raise ValueError('invalid codec')\n    result = subprocess.run(['ffmpeg', '-i', safe_filename, '-c:v', codec, 'out.mp4'], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class TranscodeVideoService:\n    def run(self, filename, codec):\n        from pathlib import Path\n        import re\n        safe_filename = Path(str(filename)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n            raise ValueError('invalid filename')\n        if not safe_filename.endswith(('.mp4', '.mov')):\n            raise ValueError('invalid filename extension')\n        if codec not in {'libx264', 'libx265', 'vp9'}:\n            raise ValueError('invalid codec')\n        result = subprocess.run(['ffmpeg', '-i', safe_filename, '-c:v', codec, 'out.mp4'], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_transcode_video_safe(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    codec = data.get('codec')\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.mp4', '.mov')):\n        raise ValueError('invalid filename extension')\n    if codec not in {'libx264', 'libx265', 'vp9'}:\n        raise ValueError('invalid codec')\n    result = subprocess.run(['ffmpeg', '-i', safe_filename, '-c:v', codec, 'out.mp4'], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_transcode_video_job(payload):\n    filename = payload['filename']\n    codec = payload['codec']\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.mp4', '.mov')):\n        raise ValueError('invalid filename extension')\n    if codec not in {'libx264', 'libx265', 'vp9'}:\n        raise ValueError('invalid codec')\n    subprocess.run(['ffmpeg', '-i', safe_filename, '-c:v', codec, 'out.mp4'], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def transcode_video_with_runner(filename, codec, runner):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.mp4', '.mov')):\n        raise ValueError('invalid filename extension')\n    if codec not in {'libx264', 'libx265', 'vp9'}:\n        raise ValueError('invalid codec')\n    args = ['ffmpeg', '-i', safe_filename, '-c:v', codec, 'out.mp4']\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def pdf_to_text_safe(filename):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.pdf',)):\n        raise ValueError('invalid filename extension')\n    result = subprocess.run(['pdftotext', safe_filename, 'out.txt'], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class PdfToTextService:\n    def run(self, filename):\n        from pathlib import Path\n        import re\n        safe_filename = Path(str(filename)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n            raise ValueError('invalid filename')\n        if not safe_filename.endswith(('.pdf',)):\n            raise ValueError('invalid filename extension')\n        result = subprocess.run(['pdftotext', safe_filename, 'out.txt'], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_pdf_to_text_safe(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.pdf',)):\n        raise ValueError('invalid filename extension')\n    result = subprocess.run(['pdftotext', safe_filename, 'out.txt'], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_pdf_to_text_job(payload):\n    filename = payload['filename']\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.pdf',)):\n        raise ValueError('invalid filename extension')\n    subprocess.run(['pdftotext', safe_filename, 'out.txt'], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def pdf_to_text_with_runner(filename, runner):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.pdf',)):\n        raise ValueError('invalid filename extension')\n    args = ['pdftotext', safe_filename, 'out.txt']\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def probe_media_safe(filename):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    result = subprocess.run(['ffprobe', safe_filename], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ProbeMediaService:\n    def run(self, filename):\n        from pathlib import Path\n        import re\n        safe_filename = Path(str(filename)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n            raise ValueError('invalid filename')\n        result = subprocess.run(['ffprobe', safe_filename], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_probe_media_safe(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    result = subprocess.run(['ffprobe', safe_filename], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_probe_media_job(payload):\n    filename = payload['filename']\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    subprocess.run(['ffprobe', safe_filename], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def probe_media_with_runner(filename, runner):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    args = ['ffprobe', safe_filename]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compile_c_safe(source):\n    from pathlib import Path\n    import re\n    safe_source = Path(str(source)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_source):\n        raise ValueError('invalid source')\n    if not safe_source.endswith(('.c',)):\n        raise ValueError('invalid source extension')\n    result = subprocess.run(['gcc', safe_source, '-o', 'app'], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class CompileCService:\n    def run(self, source):\n        from pathlib import Path\n        import re\n        safe_source = Path(str(source)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_source):\n            raise ValueError('invalid source')\n        if not safe_source.endswith(('.c',)):\n            raise ValueError('invalid source extension')\n        result = subprocess.run(['gcc', safe_source, '-o', 'app'], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_compile_c_safe(request):\n    data = request.get_json()\n    source = data.get('source')\n    from pathlib import Path\n    import re\n    safe_source = Path(str(source)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_source):\n        raise ValueError('invalid source')\n    if not safe_source.endswith(('.c',)):\n        raise ValueError('invalid source extension')\n    result = subprocess.run(['gcc', safe_source, '-o', 'app'], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_compile_c_job(payload):\n    source = payload['source']\n    from pathlib import Path\n    import re\n    safe_source = Path(str(source)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_source):\n        raise ValueError('invalid source')\n    if not safe_source.endswith(('.c',)):\n        raise ValueError('invalid source extension')\n    subprocess.run(['gcc', safe_source, '-o', 'app'], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compile_c_with_runner(source, runner):\n    from pathlib import Path\n    import re\n    safe_source = Path(str(source)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_source):\n        raise ValueError('invalid source')\n    if not safe_source.endswith(('.c',)):\n        raise ValueError('invalid source extension')\n    args = ['gcc', safe_source, '-o', 'app']\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def py_compile_safe(filename):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    result = subprocess.run(['python', '-m', 'py_compile', safe_filename], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class PyCompileService:\n    def run(self, filename):\n        from pathlib import Path\n        import re\n        safe_filename = Path(str(filename)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n            raise ValueError('invalid filename')\n        if not safe_filename.endswith(('.py',)):\n            raise ValueError('invalid filename extension')\n        result = subprocess.run(['python', '-m', 'py_compile', safe_filename], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_py_compile_safe(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    result = subprocess.run(['python', '-m', 'py_compile', safe_filename], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_py_compile_job(payload):\n    filename = payload['filename']\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    subprocess.run(['python', '-m', 'py_compile', safe_filename], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def py_compile_with_runner(filename, runner):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    args = ['python', '-m', 'py_compile', safe_filename]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def pytest_target_safe(test_name):\n    if test_name not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid test_name')\n    result = subprocess.run(['pytest', test_name], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class PytestTargetService:\n    def run(self, test_name):\n        if test_name not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n            raise ValueError('invalid test_name')\n        result = subprocess.run(['pytest', test_name], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_pytest_target_safe(request):\n    data = request.get_json()\n    test_name = data.get('test_name')\n    if test_name not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid test_name')\n    result = subprocess.run(['pytest', test_name], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_pytest_target_job(payload):\n    test_name = payload['test_name']\n    if test_name not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid test_name')\n    subprocess.run(['pytest', test_name], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def pytest_target_with_runner(test_name, runner):\n    if test_name not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid test_name')\n    args = ['pytest', test_name]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def pylint_file_safe(filename):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    result = subprocess.run(['pylint', safe_filename], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class PylintFileService:\n    def run(self, filename):\n        from pathlib import Path\n        import re\n        safe_filename = Path(str(filename)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n            raise ValueError('invalid filename')\n        if not safe_filename.endswith(('.py',)):\n            raise ValueError('invalid filename extension')\n        result = subprocess.run(['pylint', safe_filename], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_pylint_file_safe(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    result = subprocess.run(['pylint', safe_filename], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_pylint_file_job(payload):\n    filename = payload['filename']\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    subprocess.run(['pylint', safe_filename], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def pylint_file_with_runner(filename, runner):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    args = ['pylint', safe_filename]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def black_format_safe(filename):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    result = subprocess.run(['black', safe_filename], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class BlackFormatService:\n    def run(self, filename):\n        from pathlib import Path\n        import re\n        safe_filename = Path(str(filename)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n            raise ValueError('invalid filename')\n        if not safe_filename.endswith(('.py',)):\n            raise ValueError('invalid filename extension')\n        result = subprocess.run(['black', safe_filename], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_black_format_safe(request):\n    data = request.get_json()\n    filename = data.get('filename')\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    result = subprocess.run(['black', safe_filename], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_black_format_job(payload):\n    filename = payload['filename']\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    subprocess.run(['black', safe_filename], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def black_format_with_runner(filename, runner):\n    from pathlib import Path\n    import re\n    safe_filename = Path(str(filename)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_filename):\n        raise ValueError('invalid filename')\n    if not safe_filename.endswith(('.py',)):\n        raise ValueError('invalid filename extension')\n    args = ['black', safe_filename]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def mypy_module_safe(module):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    result = subprocess.run(['mypy', module], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class MypyModuleService:\n    def run(self, module):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n            raise ValueError('invalid module')\n        result = subprocess.run(['mypy', module], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_mypy_module_safe(request):\n    data = request.get_json()\n    module = data.get('module')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    result = subprocess.run(['mypy', module], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_mypy_module_job(payload):\n    module = payload['module']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    subprocess.run(['mypy', module], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def mypy_module_with_runner(module, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    args = ['mypy', module]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def bandit_module_safe(module):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    result = subprocess.run(['bandit', '-r', module], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class BanditModuleService:\n    def run(self, module):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n            raise ValueError('invalid module')\n        result = subprocess.run(['bandit', '-r', module], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_bandit_module_safe(request):\n    data = request.get_json()\n    module = data.get('module')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    result = subprocess.run(['bandit', '-r', module], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_bandit_module_job(payload):\n    module = payload['module']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    subprocess.run(['bandit', '-r', module], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def bandit_module_with_runner(module, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    args = ['bandit', '-r', module]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def coverage_module_safe(module):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    result = subprocess.run(['coverage', 'run', '-m', 'pytest', module], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class CoverageModuleService:\n    def run(self, module):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n            raise ValueError('invalid module')\n        result = subprocess.run(['coverage', 'run', '-m', 'pytest', module], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_coverage_module_safe(request):\n    data = request.get_json()\n    module = data.get('module')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    result = subprocess.run(['coverage', 'run', '-m', 'pytest', module], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_coverage_module_job(payload):\n    module = payload['module']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    subprocess.run(['coverage', 'run', '-m', 'pytest', module], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def coverage_module_with_runner(module, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(module)) or '..' in str(module):\n        raise ValueError('invalid module')\n    args = ['coverage', 'run', '-m', 'pytest', module]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def git_clone_safe(repo_url):\n    import re\n    if not re.fullmatch(r'https://github\\.com/example-org/[A-Za-z0-9_.-]+\\.git', str(repo_url)):\n        raise ValueError('invalid repo_url')\n    result = subprocess.run(['git', 'clone', repo_url], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class GitCloneService:\n    def run(self, repo_url):\n        import re\n        if not re.fullmatch(r'https://github\\.com/example-org/[A-Za-z0-9_.-]+\\.git', str(repo_url)):\n            raise ValueError('invalid repo_url')\n        result = subprocess.run(['git', 'clone', repo_url], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_git_clone_safe(request):\n    data = request.get_json()\n    repo_url = data.get('repo_url')\n    import re\n    if not re.fullmatch(r'https://github\\.com/example-org/[A-Za-z0-9_.-]+\\.git', str(repo_url)):\n        raise ValueError('invalid repo_url')\n    result = subprocess.run(['git', 'clone', repo_url], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_git_clone_job(payload):\n    repo_url = payload['repo_url']\n    import re\n    if not re.fullmatch(r'https://github\\.com/example-org/[A-Za-z0-9_.-]+\\.git', str(repo_url)):\n        raise ValueError('invalid repo_url')\n    subprocess.run(['git', 'clone', repo_url], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def git_clone_with_runner(repo_url, runner):\n    import re\n    if not re.fullmatch(r'https://github\\.com/example-org/[A-Za-z0-9_.-]+\\.git', str(repo_url)):\n        raise ValueError('invalid repo_url')\n    args = ['git', 'clone', repo_url]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def git_checkout_safe(branch):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(branch)) or '..' in str(branch):\n        raise ValueError('invalid branch')\n    result = subprocess.run(['git', 'checkout', branch], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class GitCheckoutService:\n    def run(self, branch):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(branch)) or '..' in str(branch):\n            raise ValueError('invalid branch')\n        result = subprocess.run(['git', 'checkout', branch], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_git_checkout_safe(request):\n    data = request.get_json()\n    branch = data.get('branch')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(branch)) or '..' in str(branch):\n        raise ValueError('invalid branch')\n    result = subprocess.run(['git', 'checkout', branch], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_git_checkout_job(payload):\n    branch = payload['branch']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(branch)) or '..' in str(branch):\n        raise ValueError('invalid branch')\n    subprocess.run(['git', 'checkout', branch], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def git_checkout_with_runner(branch, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(branch)) or '..' in str(branch):\n        raise ValueError('invalid branch')\n    args = ['git', 'checkout', branch]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def git_pull_safe(remote, branch):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(remote)) or '..' in str(remote):\n        raise ValueError('invalid remote')\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(branch)) or '..' in str(branch):\n        raise ValueError('invalid branch')\n    result = subprocess.run(['git', 'pull', remote, branch], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class GitPullService:\n    def run(self, remote, branch):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(remote)) or '..' in str(remote):\n            raise ValueError('invalid remote')\n        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(branch)) or '..' in str(branch):\n            raise ValueError('invalid branch')\n        result = subprocess.run(['git', 'pull', remote, branch], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_git_pull_safe(request):\n    data = request.get_json()\n    remote = data.get('remote')\n    branch = data.get('branch')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(remote)) or '..' in str(remote):\n        raise ValueError('invalid remote')\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(branch)) or '..' in str(branch):\n        raise ValueError('invalid branch')\n    result = subprocess.run(['git', 'pull', remote, branch], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_git_pull_job(payload):\n    remote = payload['remote']\n    branch = payload['branch']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(remote)) or '..' in str(remote):\n        raise ValueError('invalid remote')\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(branch)) or '..' in str(branch):\n        raise ValueError('invalid branch')\n    subprocess.run(['git', 'pull', remote, branch], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def git_pull_with_runner(remote, branch, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(remote)) or '..' in str(remote):\n        raise ValueError('invalid remote')\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(branch)) or '..' in str(branch):\n        raise ValueError('invalid branch')\n    args = ['git', 'pull', remote, branch]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def docker_build_safe(tag, context):\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(tag)) or '..' in str(tag):\n        raise ValueError('invalid tag')\n    base_context = Path('/srv/app/builds').resolve()\n    safe_context = (base_context / str(context)).resolve()\n    safe_context.relative_to(base_context)\n    result = subprocess.run(['docker', 'build', '-t', tag, str(safe_context)], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class DockerBuildService:\n    def run(self, tag, context):\n        import re\n        from pathlib import Path\n        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(tag)) or '..' in str(tag):\n            raise ValueError('invalid tag')\n        base_context = Path('/srv/app/builds').resolve()\n        safe_context = (base_context / str(context)).resolve()\n        safe_context.relative_to(base_context)\n        result = subprocess.run(['docker', 'build', '-t', tag, str(safe_context)], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_docker_build_safe(request):\n    data = request.get_json()\n    tag = data.get('tag')\n    context = data.get('context')\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(tag)) or '..' in str(tag):\n        raise ValueError('invalid tag')\n    base_context = Path('/srv/app/builds').resolve()\n    safe_context = (base_context / str(context)).resolve()\n    safe_context.relative_to(base_context)\n    result = subprocess.run(['docker', 'build', '-t', tag, str(safe_context)], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_docker_build_job(payload):\n    tag = payload['tag']\n    context = payload['context']\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(tag)) or '..' in str(tag):\n        raise ValueError('invalid tag')\n    base_context = Path('/srv/app/builds').resolve()\n    safe_context = (base_context / str(context)).resolve()\n    safe_context.relative_to(base_context)\n    subprocess.run(['docker', 'build', '-t', tag, str(safe_context)], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def docker_build_with_runner(tag, context, runner):\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(tag)) or '..' in str(tag):\n        raise ValueError('invalid tag')\n    base_context = Path('/srv/app/builds').resolve()\n    safe_context = (base_context / str(context)).resolve()\n    safe_context.relative_to(base_context)\n    args = ['docker', 'build', '-t', tag, str(safe_context)]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def docker_run_safe(image):\n    if image not in {'nginx:1.25', 'redis:7', 'postgres:16-alpine'}:\n        raise ValueError('invalid image')\n    result = subprocess.run(['docker', 'run', image], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class DockerRunService:\n    def run(self, image):\n        if image not in {'nginx:1.25', 'redis:7', 'postgres:16-alpine'}:\n            raise ValueError('invalid image')\n        result = subprocess.run(['docker', 'run', image], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_docker_run_safe(request):\n    data = request.get_json()\n    image = data.get('image')\n    if image not in {'nginx:1.25', 'redis:7', 'postgres:16-alpine'}:\n        raise ValueError('invalid image')\n    result = subprocess.run(['docker', 'run', image], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_docker_run_job(payload):\n    image = payload['image']\n    if image not in {'nginx:1.25', 'redis:7', 'postgres:16-alpine'}:\n        raise ValueError('invalid image')\n    subprocess.run(['docker', 'run', image], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def docker_run_with_runner(image, runner):\n    if image not in {'nginx:1.25', 'redis:7', 'postgres:16-alpine'}:\n        raise ValueError('invalid image')\n    args = ['docker', 'run', image]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def docker_logs_safe(container):\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(container)):\n        raise ValueError('invalid container')\n    result = subprocess.run(['docker', 'logs', container], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class DockerLogsService:\n    def run(self, container):\n        import re\n        if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(container)):\n            raise ValueError('invalid container')\n        result = subprocess.run(['docker', 'logs', container], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_docker_logs_safe(request):\n    data = request.get_json()\n    container = data.get('container')\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(container)):\n        raise ValueError('invalid container')\n    result = subprocess.run(['docker', 'logs', container], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_docker_logs_job(payload):\n    container = payload['container']\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(container)):\n        raise ValueError('invalid container')\n    subprocess.run(['docker', 'logs', container], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def docker_logs_with_runner(container, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(container)):\n        raise ValueError('invalid container')\n    args = ['docker', 'logs', container]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def kubectl_apply_safe(manifest):\n    from pathlib import Path\n    import re\n    safe_manifest = Path(str(manifest)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_manifest):\n        raise ValueError('invalid manifest')\n    if not safe_manifest.endswith(('.yaml', '.yml')):\n        raise ValueError('invalid manifest extension')\n    result = subprocess.run(['kubectl', 'apply', '-f', safe_manifest], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class KubectlApplyService:\n    def run(self, manifest):\n        from pathlib import Path\n        import re\n        safe_manifest = Path(str(manifest)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_manifest):\n            raise ValueError('invalid manifest')\n        if not safe_manifest.endswith(('.yaml', '.yml')):\n            raise ValueError('invalid manifest extension')\n        result = subprocess.run(['kubectl', 'apply', '-f', safe_manifest], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_kubectl_apply_safe(request):\n    data = request.get_json()\n    manifest = data.get('manifest')\n    from pathlib import Path\n    import re\n    safe_manifest = Path(str(manifest)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_manifest):\n        raise ValueError('invalid manifest')\n    if not safe_manifest.endswith(('.yaml', '.yml')):\n        raise ValueError('invalid manifest extension')\n    result = subprocess.run(['kubectl', 'apply', '-f', safe_manifest], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_kubectl_apply_job(payload):\n    manifest = payload['manifest']\n    from pathlib import Path\n    import re\n    safe_manifest = Path(str(manifest)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_manifest):\n        raise ValueError('invalid manifest')\n    if not safe_manifest.endswith(('.yaml', '.yml')):\n        raise ValueError('invalid manifest extension')\n    subprocess.run(['kubectl', 'apply', '-f', safe_manifest], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def kubectl_apply_with_runner(manifest, runner):\n    from pathlib import Path\n    import re\n    safe_manifest = Path(str(manifest)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_manifest):\n        raise ValueError('invalid manifest')\n    if not safe_manifest.endswith(('.yaml', '.yml')):\n        raise ValueError('invalid manifest extension')\n    args = ['kubectl', 'apply', '-f', safe_manifest]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def kubectl_logs_safe(pod):\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(pod)):\n        raise ValueError('invalid pod')\n    result = subprocess.run(['kubectl', 'logs', pod], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class KubectlLogsService:\n    def run(self, pod):\n        import re\n        if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(pod)):\n            raise ValueError('invalid pod')\n        result = subprocess.run(['kubectl', 'logs', pod], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_kubectl_logs_safe(request):\n    data = request.get_json()\n    pod = data.get('pod')\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(pod)):\n        raise ValueError('invalid pod')\n    result = subprocess.run(['kubectl', 'logs', pod], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_kubectl_logs_job(payload):\n    pod = payload['pod']\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(pod)):\n        raise ValueError('invalid pod')\n    subprocess.run(['kubectl', 'logs', pod], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def kubectl_logs_with_runner(pod, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(pod)):\n        raise ValueError('invalid pod')\n    args = ['kubectl', 'logs', pod]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def helm_install_safe(release, chart):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(release)) or '..' in str(release):\n        raise ValueError('invalid release')\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(chart)) or '..' in str(chart):\n        raise ValueError('invalid chart')\n    result = subprocess.run(['helm', 'install', release, chart], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class HelmInstallService:\n    def run(self, release, chart):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(release)) or '..' in str(release):\n            raise ValueError('invalid release')\n        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(chart)) or '..' in str(chart):\n            raise ValueError('invalid chart')\n        result = subprocess.run(['helm', 'install', release, chart], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_helm_install_safe(request):\n    data = request.get_json()\n    release = data.get('release')\n    chart = data.get('chart')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(release)) or '..' in str(release):\n        raise ValueError('invalid release')\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(chart)) or '..' in str(chart):\n        raise ValueError('invalid chart')\n    result = subprocess.run(['helm', 'install', release, chart], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_helm_install_job(payload):\n    release = payload['release']\n    chart = payload['chart']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(release)) or '..' in str(release):\n        raise ValueError('invalid release')\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(chart)) or '..' in str(chart):\n        raise ValueError('invalid chart')\n    subprocess.run(['helm', 'install', release, chart], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def helm_install_with_runner(release, chart, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(release)) or '..' in str(release):\n        raise ValueError('invalid release')\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(chart)) or '..' in str(chart):\n        raise ValueError('invalid chart')\n    args = ['helm', 'install', release, chart]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def terraform_plan_safe(directory):\n    from pathlib import Path\n    base_directory = Path('/srv/app/infra').resolve()\n    safe_directory = (base_directory / str(directory)).resolve()\n    safe_directory.relative_to(base_directory)\n    result = subprocess.run(['terraform', 'plan', str(safe_directory)], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class TerraformPlanService:\n    def run(self, directory):\n        from pathlib import Path\n        base_directory = Path('/srv/app/infra').resolve()\n        safe_directory = (base_directory / str(directory)).resolve()\n        safe_directory.relative_to(base_directory)\n        result = subprocess.run(['terraform', 'plan', str(safe_directory)], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_terraform_plan_safe(request):\n    data = request.get_json()\n    directory = data.get('directory')\n    from pathlib import Path\n    base_directory = Path('/srv/app/infra').resolve()\n    safe_directory = (base_directory / str(directory)).resolve()\n    safe_directory.relative_to(base_directory)\n    result = subprocess.run(['terraform', 'plan', str(safe_directory)], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_terraform_plan_job(payload):\n    directory = payload['directory']\n    from pathlib import Path\n    base_directory = Path('/srv/app/infra').resolve()\n    safe_directory = (base_directory / str(directory)).resolve()\n    safe_directory.relative_to(base_directory)\n    subprocess.run(['terraform', 'plan', str(safe_directory)], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def terraform_plan_with_runner(directory, runner):\n    from pathlib import Path\n    base_directory = Path('/srv/app/infra').resolve()\n    safe_directory = (base_directory / str(directory)).resolve()\n    safe_directory.relative_to(base_directory)\n    args = ['terraform', 'plan', str(safe_directory)]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def ansible_playbook_safe(playbook):\n    from pathlib import Path\n    import re\n    safe_playbook = Path(str(playbook)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_playbook):\n        raise ValueError('invalid playbook')\n    if not safe_playbook.endswith(('.yml', '.yaml')):\n        raise ValueError('invalid playbook extension')\n    result = subprocess.run(['ansible-playbook', safe_playbook], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class AnsiblePlaybookService:\n    def run(self, playbook):\n        from pathlib import Path\n        import re\n        safe_playbook = Path(str(playbook)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_playbook):\n            raise ValueError('invalid playbook')\n        if not safe_playbook.endswith(('.yml', '.yaml')):\n            raise ValueError('invalid playbook extension')\n        result = subprocess.run(['ansible-playbook', safe_playbook], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_ansible_playbook_safe(request):\n    data = request.get_json()\n    playbook = data.get('playbook')\n    from pathlib import Path\n    import re\n    safe_playbook = Path(str(playbook)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_playbook):\n        raise ValueError('invalid playbook')\n    if not safe_playbook.endswith(('.yml', '.yaml')):\n        raise ValueError('invalid playbook extension')\n    result = subprocess.run(['ansible-playbook', safe_playbook], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_ansible_playbook_job(payload):\n    playbook = payload['playbook']\n    from pathlib import Path\n    import re\n    safe_playbook = Path(str(playbook)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_playbook):\n        raise ValueError('invalid playbook')\n    if not safe_playbook.endswith(('.yml', '.yaml')):\n        raise ValueError('invalid playbook extension')\n    subprocess.run(['ansible-playbook', safe_playbook], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def ansible_playbook_with_runner(playbook, runner):\n    from pathlib import Path\n    import re\n    safe_playbook = Path(str(playbook)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_playbook):\n        raise ValueError('invalid playbook')\n    if not safe_playbook.endswith(('.yml', '.yaml')):\n        raise ValueError('invalid playbook extension')\n    args = ['ansible-playbook', safe_playbook]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def make_target_safe(target):\n    if target not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid target')\n    result = subprocess.run(['make', target], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class MakeTargetService:\n    def run(self, target):\n        if target not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n            raise ValueError('invalid target')\n        result = subprocess.run(['make', target], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_make_target_safe(request):\n    data = request.get_json()\n    target = data.get('target')\n    if target not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid target')\n    result = subprocess.run(['make', target], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_make_target_job(payload):\n    target = payload['target']\n    if target not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid target')\n    subprocess.run(['make', target], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def make_target_with_runner(target, runner):\n    if target not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid target')\n    args = ['make', target]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def npm_script_safe(script_name):\n    if script_name not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid script_name')\n    result = subprocess.run(['npm', 'run', script_name], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class NpmScriptService:\n    def run(self, script_name):\n        if script_name not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n            raise ValueError('invalid script_name')\n        result = subprocess.run(['npm', 'run', script_name], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_npm_script_safe(request):\n    data = request.get_json()\n    script_name = data.get('script_name')\n    if script_name not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid script_name')\n    result = subprocess.run(['npm', 'run', script_name], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_npm_script_job(payload):\n    script_name = payload['script_name']\n    if script_name not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid script_name')\n    subprocess.run(['npm', 'run', script_name], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def npm_script_with_runner(script_name, runner):\n    if script_name not in {'build', 'test', 'lint', 'cleanup', 'backup'}:\n        raise ValueError('invalid script_name')\n    args = ['npm', 'run', script_name]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def pip_install_safe(package):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(package)) or '..' in str(package):\n        raise ValueError('invalid package')\n    result = subprocess.run(['pip', 'install', package], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class PipInstallService:\n    def run(self, package):\n        import re\n        if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(package)) or '..' in str(package):\n            raise ValueError('invalid package')\n        result = subprocess.run(['pip', 'install', package], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_pip_install_safe(request):\n    data = request.get_json()\n    package = data.get('package')\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(package)) or '..' in str(package):\n        raise ValueError('invalid package')\n    result = subprocess.run(['pip', 'install', package], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_pip_install_job(payload):\n    package = payload['package']\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(package)) or '..' in str(package):\n        raise ValueError('invalid package')\n    subprocess.run(['pip', 'install', package], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def pip_install_with_runner(package, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._/-]{0,127}', str(package)) or '..' in str(package):\n        raise ValueError('invalid package')\n    args = ['pip', 'install', package]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def restart_service_safe(service):\n    if service not in {'nginx', 'postgresql', 'redis', 'worker'}:\n        raise ValueError('invalid service')\n    result = subprocess.run(['systemctl', 'restart', service], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class RestartServiceService:\n    def run(self, service):\n        if service not in {'nginx', 'postgresql', 'redis', 'worker'}:\n            raise ValueError('invalid service')\n        result = subprocess.run(['systemctl', 'restart', service], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_restart_service_safe(request):\n    data = request.get_json()\n    service = data.get('service')\n    if service not in {'nginx', 'postgresql', 'redis', 'worker'}:\n        raise ValueError('invalid service')\n    result = subprocess.run(['systemctl', 'restart', service], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_restart_service_job(payload):\n    service = payload['service']\n    if service not in {'nginx', 'postgresql', 'redis', 'worker'}:\n        raise ValueError('invalid service')\n    subprocess.run(['systemctl', 'restart', service], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def restart_service_with_runner(service, runner):\n    if service not in {'nginx', 'postgresql', 'redis', 'worker'}:\n        raise ValueError('invalid service')\n    args = ['systemctl', 'restart', service]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def add_user_safe(username):\n    import re\n    if not re.fullmatch(r'[a-z][a-z0-9_-]{2,31}', str(username)):\n        raise ValueError('invalid username')\n    result = subprocess.run(['useradd', username], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class AddUserService:\n    def run(self, username):\n        import re\n        if not re.fullmatch(r'[a-z][a-z0-9_-]{2,31}', str(username)):\n            raise ValueError('invalid username')\n        result = subprocess.run(['useradd', username], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_add_user_safe(request):\n    data = request.get_json()\n    username = data.get('username')\n    import re\n    if not re.fullmatch(r'[a-z][a-z0-9_-]{2,31}', str(username)):\n        raise ValueError('invalid username')\n    result = subprocess.run(['useradd', username], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_add_user_job(payload):\n    username = payload['username']\n    import re\n    if not re.fullmatch(r'[a-z][a-z0-9_-]{2,31}', str(username)):\n        raise ValueError('invalid username')\n    subprocess.run(['useradd', username], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def add_user_with_runner(username, runner):\n    import re\n    if not re.fullmatch(r'[a-z][a-z0-9_-]{2,31}', str(username)):\n        raise ValueError('invalid username')\n    args = ['useradd', username]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def chown_file_safe(owner, filepath):\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[a-z][a-z0-9_-]{2,31}(?::[a-z][a-z0-9_-]{2,31})?', str(owner)):\n        raise ValueError('invalid owner')\n    base_filepath = Path('/srv/app/uploads').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    result = subprocess.run(['chown', owner, str(safe_filepath)], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ChownFileService:\n    def run(self, owner, filepath):\n        import re\n        from pathlib import Path\n        if not re.fullmatch(r'[a-z][a-z0-9_-]{2,31}(?::[a-z][a-z0-9_-]{2,31})?', str(owner)):\n            raise ValueError('invalid owner')\n        base_filepath = Path('/srv/app/uploads').resolve()\n        safe_filepath = (base_filepath / str(filepath)).resolve()\n        safe_filepath.relative_to(base_filepath)\n        result = subprocess.run(['chown', owner, str(safe_filepath)], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_chown_file_safe(request):\n    data = request.get_json()\n    owner = data.get('owner')\n    filepath = data.get('filepath')\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[a-z][a-z0-9_-]{2,31}(?::[a-z][a-z0-9_-]{2,31})?', str(owner)):\n        raise ValueError('invalid owner')\n    base_filepath = Path('/srv/app/uploads').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    result = subprocess.run(['chown', owner, str(safe_filepath)], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_chown_file_job(payload):\n    owner = payload['owner']\n    filepath = payload['filepath']\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[a-z][a-z0-9_-]{2,31}(?::[a-z][a-z0-9_-]{2,31})?', str(owner)):\n        raise ValueError('invalid owner')\n    base_filepath = Path('/srv/app/uploads').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    subprocess.run(['chown', owner, str(safe_filepath)], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def chown_file_with_runner(owner, filepath, runner):\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[a-z][a-z0-9_-]{2,31}(?::[a-z][a-z0-9_-]{2,31})?', str(owner)):\n        raise ValueError('invalid owner')\n    base_filepath = Path('/srv/app/uploads').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    args = ['chown', owner, str(safe_filepath)]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def chmod_file_safe(mode, filepath):\n    from pathlib import Path\n    if mode not in {'400', '600', '640', '644', '755'}:\n        raise ValueError('invalid mode')\n    base_filepath = Path('/srv/app/uploads').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    result = subprocess.run(['chmod', mode, str(safe_filepath)], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ChmodFileService:\n    def run(self, mode, filepath):\n        from pathlib import Path\n        if mode not in {'400', '600', '640', '644', '755'}:\n            raise ValueError('invalid mode')\n        base_filepath = Path('/srv/app/uploads').resolve()\n        safe_filepath = (base_filepath / str(filepath)).resolve()\n        safe_filepath.relative_to(base_filepath)\n        result = subprocess.run(['chmod', mode, str(safe_filepath)], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_chmod_file_safe(request):\n    data = request.get_json()\n    mode = data.get('mode')\n    filepath = data.get('filepath')\n    from pathlib import Path\n    if mode not in {'400', '600', '640', '644', '755'}:\n        raise ValueError('invalid mode')\n    base_filepath = Path('/srv/app/uploads').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    result = subprocess.run(['chmod', mode, str(safe_filepath)], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_chmod_file_job(payload):\n    mode = payload['mode']\n    filepath = payload['filepath']\n    from pathlib import Path\n    if mode not in {'400', '600', '640', '644', '755'}:\n        raise ValueError('invalid mode')\n    base_filepath = Path('/srv/app/uploads').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    subprocess.run(['chmod', mode, str(safe_filepath)], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def chmod_file_with_runner(mode, filepath, runner):\n    from pathlib import Path\n    if mode not in {'400', '600', '640', '644', '755'}:\n        raise ValueError('invalid mode')\n    base_filepath = Path('/srv/app/uploads').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    args = ['chmod', mode, str(safe_filepath)]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def gpg_encrypt_safe(filepath, passphrase):\n    from pathlib import Path\n    base_filepath = Path('/srv/app/private').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    if not isinstance(passphrase, str) or len(passphrase) < 12 or '\\n' in passphrase:\n        raise ValueError('invalid passphrase')\n    result = subprocess.run(['gpg', '--batch', '--passphrase-fd', '0', '-c', str(safe_filepath)], input=passphrase, capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class GpgEncryptService:\n    def run(self, filepath, passphrase):\n        from pathlib import Path\n        base_filepath = Path('/srv/app/private').resolve()\n        safe_filepath = (base_filepath / str(filepath)).resolve()\n        safe_filepath.relative_to(base_filepath)\n        if not isinstance(passphrase, str) or len(passphrase) < 12 or '\\n' in passphrase:\n            raise ValueError('invalid passphrase')\n        result = subprocess.run(['gpg', '--batch', '--passphrase-fd', '0', '-c', str(safe_filepath)], input=passphrase, capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_gpg_encrypt_safe(request):\n    data = request.get_json()\n    filepath = data.get('filepath')\n    passphrase = data.get('passphrase')\n    from pathlib import Path\n    base_filepath = Path('/srv/app/private').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    if not isinstance(passphrase, str) or len(passphrase) < 12 or '\\n' in passphrase:\n        raise ValueError('invalid passphrase')\n    result = subprocess.run(['gpg', '--batch', '--passphrase-fd', '0', '-c', str(safe_filepath)], input=passphrase, capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_gpg_encrypt_job(payload):\n    filepath = payload['filepath']\n    passphrase = payload['passphrase']\n    from pathlib import Path\n    base_filepath = Path('/srv/app/private').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    if not isinstance(passphrase, str) or len(passphrase) < 12 or '\\n' in passphrase:\n        raise ValueError('invalid passphrase')\n    subprocess.run(['gpg', '--batch', '--passphrase-fd', '0', '-c', str(safe_filepath)], input=passphrase, text=True, check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def gpg_encrypt_with_runner(filepath, passphrase, runner):\n    from pathlib import Path\n    base_filepath = Path('/srv/app/private').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    if not isinstance(passphrase, str) or len(passphrase) < 12 or '\\n' in passphrase:\n        raise ValueError('invalid passphrase')\n    args = ['gpg', '--batch', '--passphrase-fd', '0', '-c', str(safe_filepath)]\n    return runner.run(args, input_text=passphrase, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def mysql_dump_safe(database, outfile):\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(database)):\n        raise ValueError('invalid database')\n    safe_outfile = Path(str(outfile)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_outfile):\n        raise ValueError('invalid outfile')\n    if not safe_outfile.endswith(('.sql',)):\n        raise ValueError('invalid outfile extension')\n    result = subprocess.run(['mysqldump', database, '--result-file', safe_outfile], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class MysqlDumpService:\n    def run(self, database, outfile):\n        import re\n        from pathlib import Path\n        if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(database)):\n            raise ValueError('invalid database')\n        safe_outfile = Path(str(outfile)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_outfile):\n            raise ValueError('invalid outfile')\n        if not safe_outfile.endswith(('.sql',)):\n            raise ValueError('invalid outfile extension')\n        result = subprocess.run(['mysqldump', database, '--result-file', safe_outfile], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_mysql_dump_safe(request):\n    data = request.get_json()\n    database = data.get('database')\n    outfile = data.get('outfile')\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(database)):\n        raise ValueError('invalid database')\n    safe_outfile = Path(str(outfile)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_outfile):\n        raise ValueError('invalid outfile')\n    if not safe_outfile.endswith(('.sql',)):\n        raise ValueError('invalid outfile extension')\n    result = subprocess.run(['mysqldump', database, '--result-file', safe_outfile], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_mysql_dump_job(payload):\n    database = payload['database']\n    outfile = payload['outfile']\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(database)):\n        raise ValueError('invalid database')\n    safe_outfile = Path(str(outfile)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_outfile):\n        raise ValueError('invalid outfile')\n    if not safe_outfile.endswith(('.sql',)):\n        raise ValueError('invalid outfile extension')\n    subprocess.run(['mysqldump', database, '--result-file', safe_outfile], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def mysql_dump_with_runner(database, outfile, runner):\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(database)):\n        raise ValueError('invalid database')\n    safe_outfile = Path(str(outfile)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_outfile):\n        raise ValueError('invalid outfile')\n    if not safe_outfile.endswith(('.sql',)):\n        raise ValueError('invalid outfile extension')\n    args = ['mysqldump', database, '--result-file', safe_outfile]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def mysql_check_safe(database):\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(database)):\n        raise ValueError('invalid database')\n    result = subprocess.run(['mysqlcheck', database], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class MysqlCheckService:\n    def run(self, database):\n        import re\n        if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(database)):\n            raise ValueError('invalid database')\n        result = subprocess.run(['mysqlcheck', database], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_mysql_check_safe(request):\n    data = request.get_json()\n    database = data.get('database')\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(database)):\n        raise ValueError('invalid database')\n    result = subprocess.run(['mysqlcheck', database], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_mysql_check_job(payload):\n    database = payload['database']\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(database)):\n        raise ValueError('invalid database')\n    subprocess.run(['mysqlcheck', database], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def mysql_check_with_runner(database, runner):\n    import re\n    if not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,63}', str(database)):\n        raise ValueError('invalid database')\n    args = ['mysqlcheck', database]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def grep_logs_safe(term, logfile):\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z0-9._ -]{1,80}', str(term)) or term.startswith('-'):\n        raise ValueError('invalid term')\n    base_logfile = Path('/var/log/app').resolve()\n    safe_logfile = (base_logfile / str(logfile)).resolve()\n    safe_logfile.relative_to(base_logfile)\n    result = subprocess.run(['grep', term, str(safe_logfile)], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class GrepLogsService:\n    def run(self, term, logfile):\n        import re\n        from pathlib import Path\n        if not re.fullmatch(r'[A-Za-z0-9._ -]{1,80}', str(term)) or term.startswith('-'):\n            raise ValueError('invalid term')\n        base_logfile = Path('/var/log/app').resolve()\n        safe_logfile = (base_logfile / str(logfile)).resolve()\n        safe_logfile.relative_to(base_logfile)\n        result = subprocess.run(['grep', term, str(safe_logfile)], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_grep_logs_safe(request):\n    data = request.get_json()\n    term = data.get('term')\n    logfile = data.get('logfile')\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z0-9._ -]{1,80}', str(term)) or term.startswith('-'):\n        raise ValueError('invalid term')\n    base_logfile = Path('/var/log/app').resolve()\n    safe_logfile = (base_logfile / str(logfile)).resolve()\n    safe_logfile.relative_to(base_logfile)\n    result = subprocess.run(['grep', term, str(safe_logfile)], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_grep_logs_job(payload):\n    term = payload['term']\n    logfile = payload['logfile']\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z0-9._ -]{1,80}', str(term)) or term.startswith('-'):\n        raise ValueError('invalid term')\n    base_logfile = Path('/var/log/app').resolve()\n    safe_logfile = (base_logfile / str(logfile)).resolve()\n    safe_logfile.relative_to(base_logfile)\n    subprocess.run(['grep', term, str(safe_logfile)], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def grep_logs_with_runner(term, logfile, runner):\n    import re\n    from pathlib import Path\n    if not re.fullmatch(r'[A-Za-z0-9._ -]{1,80}', str(term)) or term.startswith('-'):\n        raise ValueError('invalid term')\n    base_logfile = Path('/var/log/app').resolve()\n    safe_logfile = (base_logfile / str(logfile)).resolve()\n    safe_logfile.relative_to(base_logfile)\n    args = ['grep', term, str(safe_logfile)]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def tail_log_safe(lines, logfile):\n    from pathlib import Path\n    lines_int = int(lines)\n    if not 1 <= lines_int <= 1000:\n        raise ValueError('invalid lines')\n    base_logfile = Path('/var/log/app').resolve()\n    safe_logfile = (base_logfile / str(logfile)).resolve()\n    safe_logfile.relative_to(base_logfile)\n    result = subprocess.run(['tail', '-n', str(lines_int), str(safe_logfile)], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class TailLogService:\n    def run(self, lines, logfile):\n        from pathlib import Path\n        lines_int = int(lines)\n        if not 1 <= lines_int <= 1000:\n            raise ValueError('invalid lines')\n        base_logfile = Path('/var/log/app').resolve()\n        safe_logfile = (base_logfile / str(logfile)).resolve()\n        safe_logfile.relative_to(base_logfile)\n        result = subprocess.run(['tail', '-n', str(lines_int), str(safe_logfile)], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_tail_log_safe(request):\n    data = request.get_json()\n    lines = data.get('lines')\n    logfile = data.get('logfile')\n    from pathlib import Path\n    lines_int = int(lines)\n    if not 1 <= lines_int <= 1000:\n        raise ValueError('invalid lines')\n    base_logfile = Path('/var/log/app').resolve()\n    safe_logfile = (base_logfile / str(logfile)).resolve()\n    safe_logfile.relative_to(base_logfile)\n    result = subprocess.run(['tail', '-n', str(lines_int), str(safe_logfile)], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_tail_log_job(payload):\n    lines = payload['lines']\n    logfile = payload['logfile']\n    from pathlib import Path\n    lines_int = int(lines)\n    if not 1 <= lines_int <= 1000:\n        raise ValueError('invalid lines')\n    base_logfile = Path('/var/log/app').resolve()\n    safe_logfile = (base_logfile / str(logfile)).resolve()\n    safe_logfile.relative_to(base_logfile)\n    subprocess.run(['tail', '-n', str(lines_int), str(safe_logfile)], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def tail_log_with_runner(lines, logfile, runner):\n    from pathlib import Path\n    lines_int = int(lines)\n    if not 1 <= lines_int <= 1000:\n        raise ValueError('invalid lines')\n    base_logfile = Path('/var/log/app').resolve()\n    safe_logfile = (base_logfile / str(logfile)).resolve()\n    safe_logfile.relative_to(base_logfile)\n    args = ['tail', '-n', str(lines_int), str(safe_logfile)]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_files_safe(directory, pattern):\n    from pathlib import Path\n    import re\n    base_directory = Path('/srv/app/data').resolve()\n    safe_directory = (base_directory / str(directory)).resolve()\n    safe_directory.relative_to(base_directory)\n    safe_pattern = Path(str(pattern)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_pattern):\n        raise ValueError('invalid pattern')\n    result = subprocess.run(['find', str(safe_directory), '-name', safe_pattern], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class FindFilesService:\n    def run(self, directory, pattern):\n        from pathlib import Path\n        import re\n        base_directory = Path('/srv/app/data').resolve()\n        safe_directory = (base_directory / str(directory)).resolve()\n        safe_directory.relative_to(base_directory)\n        safe_pattern = Path(str(pattern)).name\n        if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_pattern):\n            raise ValueError('invalid pattern')\n        result = subprocess.run(['find', str(safe_directory), '-name', safe_pattern], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_find_files_safe(request):\n    data = request.get_json()\n    directory = data.get('directory')\n    pattern = data.get('pattern')\n    from pathlib import Path\n    import re\n    base_directory = Path('/srv/app/data').resolve()\n    safe_directory = (base_directory / str(directory)).resolve()\n    safe_directory.relative_to(base_directory)\n    safe_pattern = Path(str(pattern)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_pattern):\n        raise ValueError('invalid pattern')\n    result = subprocess.run(['find', str(safe_directory), '-name', safe_pattern], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_find_files_job(payload):\n    directory = payload['directory']\n    pattern = payload['pattern']\n    from pathlib import Path\n    import re\n    base_directory = Path('/srv/app/data').resolve()\n    safe_directory = (base_directory / str(directory)).resolve()\n    safe_directory.relative_to(base_directory)\n    safe_pattern = Path(str(pattern)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_pattern):\n        raise ValueError('invalid pattern')\n    subprocess.run(['find', str(safe_directory), '-name', safe_pattern], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_files_with_runner(directory, pattern, runner):\n    from pathlib import Path\n    import re\n    base_directory = Path('/srv/app/data').resolve()\n    safe_directory = (base_directory / str(directory)).resolve()\n    safe_directory.relative_to(base_directory)\n    safe_pattern = Path(str(pattern)).name\n    if not re.fullmatch(r'(?!-)[A-Za-z0-9._-]{1,128}', safe_pattern):\n        raise ValueError('invalid pattern')\n    args = ['find', str(safe_directory), '-name', safe_pattern]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def sed_replace_safe(expression, filepath):\n    from pathlib import Path\n    if expression not in {'s/error/warning/g', 's/debug/info/g', 's/foo/bar/g'}:\n        raise ValueError('invalid expression')\n    base_filepath = Path('/srv/app/data').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    result = subprocess.run(['sed', '-i', expression, str(safe_filepath)], capture_output=True, text=True, check=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class SedReplaceService:\n    def run(self, expression, filepath):\n        from pathlib import Path\n        if expression not in {'s/error/warning/g', 's/debug/info/g', 's/foo/bar/g'}:\n            raise ValueError('invalid expression')\n        base_filepath = Path('/srv/app/data').resolve()\n        safe_filepath = (base_filepath / str(filepath)).resolve()\n        safe_filepath.relative_to(base_filepath)\n        result = subprocess.run(['sed', '-i', expression, str(safe_filepath)], capture_output=True, text=True, check=True)\n        return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_sed_replace_safe(request):\n    data = request.get_json()\n    expression = data.get('expression')\n    filepath = data.get('filepath')\n    from pathlib import Path\n    if expression not in {'s/error/warning/g', 's/debug/info/g', 's/foo/bar/g'}:\n        raise ValueError('invalid expression')\n    base_filepath = Path('/srv/app/data').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    result = subprocess.run(['sed', '-i', expression, str(safe_filepath)], capture_output=True, text=True, check=True, timeout=30)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_sed_replace_job(payload):\n    expression = payload['expression']\n    filepath = payload['filepath']\n    from pathlib import Path\n    if expression not in {'s/error/warning/g', 's/debug/info/g', 's/foo/bar/g'}:\n        raise ValueError('invalid expression')\n    base_filepath = Path('/srv/app/data').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    subprocess.run(['sed', '-i', expression, str(safe_filepath)], check=True, timeout=60)\n    return 'queued'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def sed_replace_with_runner(expression, filepath, runner):\n    from pathlib import Path\n    if expression not in {'s/error/warning/g', 's/debug/info/g', 's/foo/bar/g'}:\n        raise ValueError('invalid expression')\n    base_filepath = Path('/srv/app/data').resolve()\n    safe_filepath = (base_filepath / str(filepath)).resolve()\n    safe_filepath.relative_to(base_filepath)\n    args = ['sed', '-i', expression, str(safe_filepath)]\n    return runner.run(args, timeout=30)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def ping(host):\n    os.system('ping ' + host)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def convert_file(filename):\n    subprocess.call('convert ' + filename + ' output.png', shell=True)\n    return 'converted'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def run_scan(target):\n    os.system('nmap ' + target)\n    return 'scan complete'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def compress(filepath):\n    os.system('zip output.zip ' + filepath)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def backup_db(db_name):\n    os.system('pg_dump ' + db_name + ' > backup.sql')",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def resize_image(filename, size):\n    subprocess.call('convert ' + filename + ' -resize ' + size, shell=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def run_test(test_name):\n    os.system('pytest ' + test_name)\n    return 'tests done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def send_file(dest, filename):\n    os.system('scp ' + filename + ' ' + dest)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def lookup_dns(domain):\n    os.system('nslookup ' + domain)\n    return 'lookup done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def traceroute(host):\n    subprocess.call('traceroute ' + host, shell=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def compile_code(filename):\n    os.system('gcc ' + filename + ' -o output')",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def run_migration(script):\n    os.system('python ' + script)\n    return 'migrated'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def list_dir(path):\n    os.system('ls ' + path)\n    return 'listed'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def delete_file(filepath):\n    os.system('rm ' + filepath)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def run_curl(url):\n    os.system('curl ' + url)\n    return 'fetched'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def extract_archive(filename):\n    subprocess.call('tar -xf ' + filename, shell=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def run_deploy(env):\n    os.system('deploy.sh ' + env)\n    return 'deployed'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def check_port(host, port):\n    os.system('nc -zv ' + host + ' ' + port)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def generate_report(report_id):\n    subprocess.call('generate_report.sh ' + report_id, shell=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def run_linter(filename):\n    os.system('pylint ' + filename)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def process_video(filename):\n    subprocess.call('ffmpeg -i ' + filename + ' output.mp4', shell=True)",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def get_disk_usage(path):\n    result = os.popen('du -sh ' + path).read()\n    return result",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def run_script(script_name):\n    proc = subprocess.Popen('bash ' + script_name, shell=True)\n    proc.wait()",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def scan_host(request):\n    host = request.form.get('host')\n    os.system('ping -c 1 ' + host)\n    return 'done'",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "class FileProcessor:\n    def convert(self, filename):\n        os.system('convert ' + filename + ' output.jpg')",
+    "label": 1,
+    "type": "cmd_injection"
+  },
+  {
+    "code": "def ping(host):\n    subprocess.run(['ping', '-c', '1', host], capture_output=True)\n    return 'done'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def convert_file(filename):\n    safe = os.path.basename(filename)\n    subprocess.run(['convert', safe, 'output.png'])\n    return 'converted'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_scan(target):\n    if not re.match(r'^[a-zA-Z0-9.-]+$', target):\n        raise ValueError('Invalid target')\n    subprocess.run(['nmap', target])\n    return 'scan complete'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compress(filepath):\n    safe = os.path.basename(filepath)\n    subprocess.run(['zip', 'output.zip', safe])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def backup_db(db_name):\n    if not db_name.isalnum():\n        raise ValueError('Invalid db name')\n    with open('backup.sql', 'w') as f:\n        subprocess.run(['pg_dump', db_name], stdout=f)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def resize_image(filename, size):\n    safe_file = os.path.basename(filename)\n    if not re.match(r'^\\d+x\\d+$', size):\n        raise ValueError('Invalid size format')\n    subprocess.run(['convert', safe_file, '-resize', size])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_test(test_name):\n    allowed = ['test_auth', 'test_api', 'test_db']\n    if test_name not in allowed:\n        raise ValueError('Test not allowed')\n    subprocess.run(['pytest', test_name])\n    return 'tests done'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def send_file(dest, filename):\n    safe_file = os.path.basename(filename)\n    subprocess.run(['scp', safe_file, dest])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def lookup_dns(domain):\n    if not re.match(r'^[a-zA-Z0-9.-]+$', domain):\n        raise ValueError('Invalid domain')\n    subprocess.run(['nslookup', domain])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def traceroute(host):\n    if not re.match(r'^[a-zA-Z0-9.-]+$', host):\n        raise ValueError('Invalid host')\n    subprocess.run(['traceroute', host])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compile_code(filename):\n    safe = os.path.basename(filename)\n    subprocess.run(['gcc', safe, '-o', 'output'])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_migration(script):\n    allowed = ['001_init', '002_users', '003_orders']\n    if script not in allowed:\n        raise ValueError('Migration not allowed')\n    subprocess.run(['python', script])\n    return 'migrated'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def list_dir(path):\n    safe = os.path.realpath(path)\n    if not safe.startswith('/allowed/base'):\n        raise ValueError('Access denied')\n    return os.listdir(safe)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def delete_file(filepath):\n    safe = os.path.realpath(filepath)\n    if not safe.startswith('/uploads'):\n        raise ValueError('Cannot delete outside uploads')\n    os.remove(safe)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_curl(url):\n    import urllib.request\n    return urllib.request.urlopen(url).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def extract_archive(filename):\n    safe = os.path.basename(filename)\n    subprocess.run(['tar', '-xf', safe])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_deploy(env):\n    allowed = ['staging', 'production', 'dev']\n    if env not in allowed:\n        raise ValueError('Invalid environment')\n    subprocess.run(['deploy.sh', env])\n    return 'deployed'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def check_port(host, port):\n    import socket\n    sock = socket.socket()\n    result = sock.connect_ex((host, int(port)))\n    sock.close()\n    return result == 0",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def generate_report(report_id):\n    if not report_id.isalnum():\n        raise ValueError('Invalid report id')\n    subprocess.run(['generate_report.sh', report_id])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_linter(filename):\n    safe = os.path.basename(filename)\n    subprocess.run(['pylint', safe])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_video(filename):\n    safe = os.path.basename(filename)\n    subprocess.run(['ffmpeg', '-i', safe, 'output.mp4'])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_disk_usage(path):\n    safe = os.path.realpath(path)\n    if not safe.startswith('/data'):\n        raise ValueError('Access denied')\n    result = subprocess.run(['du', '-sh', safe], capture_output=True, text=True)\n    return result.stdout",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_script(script_name):\n    allowed = ['cleanup.sh', 'backup.sh', 'report.sh']\n    if script_name not in allowed:\n        raise ValueError('Script not allowed')\n    proc = subprocess.Popen(['bash', script_name])\n    proc.wait()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def scan_host(request):\n    host = request.form.get('host')\n    if not re.match(r'^[a-zA-Z0-9.-]+$', host):\n        raise ValueError('Invalid host')\n    subprocess.run(['ping', '-c', '1', host], capture_output=True)\n    return 'done'",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class FileProcessor:\n    def convert(self, filename):\n        safe = os.path.basename(filename)\n        subprocess.run(['convert', safe, 'output.jpg'])",
+    "label": 0,
+    "type": "safe"
+  }
+]

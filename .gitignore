@@ -1,0 +1,38 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Model files (too large for GitHub)
+backend/models/saved/*.h5
+backend/models/saved/*.keras
+backend/models/saved/*.pkl
+backend/models/saved/*.pt
+
+# Dataset files
+backend/data/raw/
+backend/data/processed/
+
+# Environment variables
+.env
+*.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# VS Code / Cursor
+.vscode/
+.cursor/
+
+# Node modules
+node_modules/
+
+# Build outputs
+dist/
+build/

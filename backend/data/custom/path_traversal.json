@@ -1,0 +1,2752 @@
+[
+  {
+    "code": "class ReportGenerator:\n    def fetch_source(self, report_name):\n        path = '/srv/report_sources/' + report_name + '.tex'\n        return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_route_gpx(route_id):\n    if not route_id.replace('-', '').isalnum():\n        raise ValueError('Invalid route id')\n    return open(f'/var/routes/{route_id}.gpx').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_layout(layout_name):\n    return open('/var/layouts/' + layout_name + '.xml').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from connexion import request\ndef get_resource(name):\n    return open('/srv/connexion/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_map_tile(tileset, tile_id):\n    path = '/var/tilesets/' + tileset + '/' + tile_id + '.tile'\n    return open(path, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_wiki_page(page):\n    return open(f'/srv/wiki/{page}.wiki').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_workflow(wf_name):\n    allowed = {'onboard', 'offboard', 'review', 'approve', 'notify'}\n    if wf_name not in allowed:\n        raise ValueError('Workflow not allowed')\n    return open(f'/etc/workflows/{wf_name}.yaml').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def celery_task(filename):\n    with open('/var/celery/' + filename) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_invoice(invoice_id):\n    return open(f'/srv/invoices/{invoice_id}.pdf', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_binary(bin_name):\n    allowed = {'tool', 'worker', 'agent', 'runner', 'cli'}\n    if bin_name not in allowed:\n        raise ValueError('Binary not allowed')\n    return open(f'/usr/local/bin/{bin_name}', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef fetch_avatar(uid):\n    if not str(uid).isdigit():\n        raise ValueError('Invalid uid')\n    base = Path('/var/avatars').resolve()\n    full = (base / f'{uid}.png').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef get_module_doc_safe(module):\n    if not module.replace('_', '').isalnum():\n        raise ValueError('Invalid module')\n    base = Path('/srv/docs/modules').resolve()\n    full = (base / f'{module}.html').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_blueprint(model_id):\n    return open(f'/srv/blueprints/{model_id}.dwg', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import shutil\ndef serve_static(name, dest):\n    shutil.copy('/var/static/' + name, dest)",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from werkzeug.utils import secure_filename\nimport os\ndef avatar_v2(name):\n    fn = secure_filename(name)\n    if not fn.endswith('.png'):\n        raise ValueError('only .png')\n    base = '/var/avatars_v2'\n    full = os.path.realpath(os.path.join(base, fn))\n    if not full.startswith(base + os.sep):\n        raise ValueError('denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_scan(scan_id):\n    return open('/srv/scans/' + scan_id + '.dcm', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_device_log(device_id):\n    if not device_id.replace('-', '').isalnum():\n        raise ValueError('Invalid device id')\n    with open(f'/var/log/devices/{device_id}.log') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class LogReader:\n    def get(self, log_file):\n        return open('/var/log/app/' + log_file).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_doc(name):\n    return Path('/srv/docs/' + name).read_text()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_manifest(manifest_file):\n    base = '/srv/manifests'\n    safe = os.path.basename(manifest_file)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from fastapi import APIRouter, HTTPException\nimport os\nrouter = APIRouter()\n@router.get('/asset/{name}')\ndef asset_route(name: str):\n    if not name.replace('_', '').isalnum():\n        raise HTTPException(400)\n    base = '/var/router_assets'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base + os.sep):\n        raise HTTPException(400)\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_sql_query(query_name):\n    allowed = {'get_users', 'get_orders', 'get_products', 'summary_report'}\n    if query_name not in allowed:\n        raise ValueError('Query not allowed')\n    return open(f'/srv/queries/{query_name}.sql').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef fetch_school_record(school, student):\n    if not school.replace('-', '').isalnum() or not student.isalnum():\n        raise ValueError('Invalid params')\n    base = os.path.realpath(os.path.join('/srv/schools', school, 'students'))\n    full = os.path.realpath(os.path.join(base, student + '.json'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import re\ndef read_spec(spec_name):\n    if not re.fullmatch(r'[a-zA-Z0-9_-]{1,64}', spec_name):\n        raise ValueError('Invalid spec name')\n    with open(f'/srv/specs/{spec_name}.md') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_patch(patch_id):\n    return open('/srv/patches/' + patch_id + '.diff').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import send_from_directory\ndef download_static(filename):\n    return send_from_directory('/var/static', filename)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef check_before_resolve(name):\n    if '..' not in name:\n        path = os.path.realpath('/var/x/' + name)\n        return open(path).read()\n    raise ValueError('bad')",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import gzip\ndef read_gz(name):\n    with gzip.open('/var/gz/' + name + '.gz', 'rt') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def ext_only(name):\n    if not name.endswith('.txt'):\n        raise ValueError('bad ext')\n    return open('/var/txt/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef get_image(name):\n    return Path(f'/var/images/{name}').read_bytes()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_dataset_partition(ds, partition):\n    p = os.path.join('/data', ds, 'partitions', partition + '.parquet')\n    return open(p, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class TemplateEngine:\n    def render_source(self, tpl_name):\n        with open('/srv/templates/' + tpl_name + '.tpl') as f:\n            return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import configparser\ndef load_ini(name):\n    cp = configparser.ConfigParser()\n    cp.read('/etc/ini/' + name + '.ini')\n    return cp",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_static_page(page):\n    path = '/var/www/static/' + page + '.htm'\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_blueprint(model_id):\n    base = '/srv/blueprints'\n    safe = os.path.basename(model_id)\n    full = os.path.realpath(os.path.join(base, safe + '.dwg'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_workflow(wf_name):\n    path = '/etc/workflows/' + wf_name + '.yaml'\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from bottle import request, route, abort\n@route('/get')\ndef get_doc():\n    name = request.query.name\n    if not name.replace('_', '').isalnum():\n        abort(400)\n    return open(f'/srv/bottle/{name}').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_project_file(project, filename):\n    path = f'/srv/projects/{project}/files/{filename}'\n    with open(path) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import tarfile\ndef extract_tar(name, dest):\n    with tarfile.open('/var/tars/' + name + '.tar') as t:\n        t.extractall(dest)",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from django.views import View\nclass DocView(View):\n    def get(self, request):\n        d = request.GET['doc']\n        return open('/srv/django_docs/' + d).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_sla_doc(client_id):\n    if not client_id.replace('-', '').isalnum():\n        raise ValueError('Invalid client id')\n    with open(f'/srv/sla/{client_id}.pdf', 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_with_codecs(name):\n    import codecs\n    return codecs.open('/srv/codecs/' + name, encoding='utf-8').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import request, abort\n@app.route('/preview')\ndef preview():\n    img = request.args.get('img', '')\n    if not img:\n        abort(400)\n    return open('/var/preview/' + img, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class KeyStore:\n    def get_key(self, key_id):\n        with open(f'/etc/keys/{key_id}.key', 'rb') as f:\n            return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef load_wasm_pathlib(module_name):\n    base = Path('/var/wasm').resolve()\n    full = (base / Path(module_name).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from aiohttp import web\nasync def serve(request):\n    fname = request.match_info['fname']\n    return web.FileResponse('/var/static/' + fname)",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from starlette.responses import FileResponse\nasync def media(request):\n    media_id = request.path_params['media_id']\n    return FileResponse('/var/media/' + media_id)",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_shader(shader_name):\n    allowed = {'vertex', 'fragment', 'compute', 'geometry'}\n    if shader_name not in allowed:\n        raise ValueError('Shader not allowed')\n    with open(f'/var/shaders/{shader_name}.glsl') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ScriptLoader:\n    def read(self, script_name):\n        return open('/srv/scripts/' + script_name + '.py').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class BackupManager:\n    def restore(self, backup_id):\n        return open('/var/backups/' + backup_id + '.tar.gz', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_player_profile(player):\n    return open(f'/var/players/{player}.profile').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_school_record(school, student):\n    return open(f'/srv/schools/{school}/students/{student}.json').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import request, jsonify, abort\n@app.route('/api/note')\ndef api_note():\n    note_id = request.args.get('id', '')\n    if not note_id.isalnum():\n        abort(400)\n    with open(f'/srv/notes/{note_id}.json') as f:\n        return jsonify(f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef load_dashboard(user, dashboard):\n    if not user.isalnum() or not dashboard.replace('_', '').isalnum():\n        raise ValueError('Invalid params')\n    base = os.path.realpath(os.path.join('/var/dashboards', user))\n    full = os.path.realpath(os.path.join(base, dashboard + '.json'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_shader(shader_name):\n    with open('/var/shaders/' + shader_name + '.glsl') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def kinesis_handler(event, context):\n    for r in event['Records']:\n        n = r['kinesis']['partitionKey']\n        with open('/tmp/kinesis/' + n) as f:\n            handle(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_section_conf(section, key):\n    if not section.replace('_', '').isalnum() or not key.replace('_', '').isalnum():\n        raise ValueError('Invalid params')\n    base = os.path.realpath(os.path.join('/etc/conf', section))\n    full = os.path.realpath(os.path.join(base, key + '.cfg'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import request\n@app.route('/download/<path:filename>')\ndef download(filename):\n    return open(f'/var/downloads/{filename}', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef fetch_certificate(user_id):\n    p = os.path.join('/srv/certificates', user_id + '.pdf')\n    return open(p, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_page(slug):\n    if not slug.replace('-', '').replace('_', '').isalnum() or len(slug) > 80:\n        raise ValueError('Invalid slug')\n    with open(f'/var/www/pages/{slug}.html') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class TestRunner:\n    def fetch_fixture(self, name):\n        return open('/tests/fixtures/' + name + '.json').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import re\ndef read_tax_form(year, form):\n    if not re.fullmatch(r'\\d{4}', year):\n        raise ValueError('Invalid year')\n    if not form.replace('_', '').replace('-', '').isalnum():\n        raise ValueError('Invalid form')\n    return open(f'/srv/tax_forms/{year}/{form}.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_notification_template(event_type):\n    return open('/srv/notification_templates/' + event_type + '.txt').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class DocumentStore:\n    BASE = '/srv/docstore'\n    def retrieve(self, doc_id):\n        with open(self.BASE + '/' + doc_id) as f:\n            return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def retrieve_video(video_name):\n    path = '/var/videos/' + video_name\n    with open(path, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_calibration(device_serial):\n    with open(f'/var/calibration/{device_serial}.cal') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os, re\ndef read_audit_log(date, logfile):\n    if not re.fullmatch(r'\\d{4}-\\d{2}-\\d{2}', date):\n        raise ValueError('Invalid date')\n    base = os.path.realpath(os.path.join('/var/log/audit', date))\n    full = os.path.realpath(os.path.join(base, os.path.basename(logfile)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def cloud_function(request):\n    fname = request.args.get('fname')\n    with open('/workspace/' + fname) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_draft(draft_id):\n    if not draft_id.replace('-', '').isalnum():\n        raise ValueError('Invalid draft id')\n    with open(f'/var/drafts/{draft_id}.txt') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import request, abort\nimport re\n@app.route('/inv/<inv_id>')\ndef inv(inv_id):\n    if not re.fullmatch(r'INV-\\d{6,10}', inv_id):\n        abort(400)\n    return open(f'/srv/inv/{inv_id}.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_diagnostic(vehicle_id):\n    return open(f'/var/diagnostics/{vehicle_id}.dtc').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from werkzeug.utils import secure_filename\nimport os\ndef serve_avatar(uid, name):\n    if not str(uid).isdigit():\n        raise ValueError('Invalid uid')\n    fn = secure_filename(name)\n    if not fn:\n        raise ValueError('Invalid name')\n    base = os.path.realpath(os.path.join('/var/avatars', str(uid)))\n    full = os.path.realpath(os.path.join(base, fn))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef fetch_job_result(job_id, result_file):\n    if not job_id.replace('-', '').isalnum():\n        raise ValueError('Invalid job id')\n    base = os.path.realpath(os.path.join('/var/jobs', job_id))\n    full = os.path.realpath(os.path.join(base, os.path.basename(result_file)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_route_definition(svc):\n    allowed = {'users', 'orders', 'inventory', 'analytics'}\n    if svc not in allowed:\n        raise ValueError('Service not allowed')\n    return open(f'/etc/routes/{svc}.yaml').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef fetch_chart(dash, chart):\n    if not dash.replace('_', '').isalnum() or not chart.replace('_', '').isalnum():\n        raise ValueError('Invalid params')\n    base = (Path('/srv/dashboards') / dash / 'charts').resolve()\n    full = (base / f'{chart}.json').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_collection(coll, item):\n    if not coll.replace('-', '').isalnum():\n        raise ValueError('Invalid collection')\n    base = (Path('/var/collections') / coll).resolve()\n    full = (base / Path(item).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import boto3\ndef download_local(event, context):\n    name = event['name']\n    with open('/tmp/downloads/' + name, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class TemplateEngine:\n    ALLOWED = {'base', 'home', 'dashboard', 'error', 'email'}\n    def render_source(self, tpl_name):\n        if tpl_name not in self.ALLOWED:\n            raise ValueError('Template not allowed')\n        with open(f'/srv/templates/{tpl_name}.tpl') as f:\n            return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef fetch_blob(key):\n    return (Path('/var/blobs') / key).read_bytes()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef load_grafana_dashboard(dash):\n    p = os.path.join('/srv/grafana', dash + '.json')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_migration(migration_name):\n    path = '/srv/migrations/' + migration_name + '.sql'\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_icon(icon_name):\n    with open('/var/icons/' + icon_name + '.svg', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from rest_framework.views import APIView\nfrom rest_framework.response import Response\nfrom rest_framework.exceptions import ValidationError\nclass ReportAPI(APIView):\n    def get(self, request):\n        rid = request.query_params.get('rid', '')\n        if not rid.isalnum():\n            raise ValidationError('Invalid rid')\n        with open(f'/srv/reports/{rid}.json') as f:\n            return Response(f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def blacklist_names(name):\n    if name in ('passwd', 'shadow', 'hosts'):\n        raise ValueError('blocked')\n    return open('/etc/safe/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef get_snippet(snippet_id):\n    if not snippet_id.replace('-', '').isalnum():\n        raise ValueError('Invalid snippet id')\n    base = Path('/var/snippets').resolve()\n    full = (base / snippet_id).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from fastapi import FastAPI, HTTPException\nimport os\napp = FastAPI()\n\n@app.get('/asset')\ndef asset(name: str):\n    if not name.replace('_', '').replace('-', '').isalnum():\n        raise HTTPException(400, 'Invalid name')\n    base = '/var/assets'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base + os.sep):\n        raise HTTPException(400, 'Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_kb_article(category, slug):\n    allowed_cats = {'billing', 'technical', 'account', 'general'}\n    if category not in allowed_cats:\n        raise ValueError('Category not allowed')\n    if not slug.replace('-', '').isalnum():\n        raise ValueError('Invalid slug')\n    return open(f'/srv/kb/{category}/{slug}.md').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_replay(match_id):\n    with open(f'/var/replays/{match_id}.replay', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from fastapi import FastAPI, HTTPException, Query\napp = FastAPI()\n\nALLOWED_TEMPLATES = {'welcome', 'invoice', 'reset', 'verify'}\n\n@app.get('/template')\nasync def template(name: str = Query(...)):\n    if name not in ALLOWED_TEMPLATES:\n        raise HTTPException(400, 'Template not allowed')\n    with open(f'/srv/templates/{name}.html') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_cache(cache_key):\n    with open('/var/cache/app/' + cache_key + '.bin', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_log_chunk(service, ts):\n    with open(f'/var/log/{service}/{ts}.log') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class MailQueue:\n    def read_message(self, msg_id):\n        return open('/var/mail/queue/' + msg_id + '.eml').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_signature(sig_file):\n    base = '/var/signatures'\n    safe = os.path.basename(sig_file)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def argparse_main():\n    import argparse\n    p = argparse.ArgumentParser()\n    p.add_argument('--file')\n    args = p.parse_args()\n    with open('/var/argparse/' + args.file) as f:\n        print(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class APIDocStore:\n    def fetch(self, endpoint):\n        return open('/srv/api_docs/' + endpoint + '.md').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_route_gpx(route_id):\n    with open(f'/var/routes/{route_id}.gpx') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef load_workspace(ws_name, resource):\n    path = os.path.join('/srv/workspaces', ws_name, resource)\n    with open(path) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef get_kb_pathlib(category, slug):\n    allowed = {'billing', 'technical', 'account', 'general'}\n    if category not in allowed or not slug.replace('-', '').isalnum():\n        raise ValueError('Invalid params')\n    base = (Path('/srv/kb') / category).resolve()\n    full = (base / f'{slug}.md').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_user_file(uid, fname):\n    if not uid.isalnum():\n        raise ValueError('Invalid uid')\n    base = (Path('/var/users') / uid).resolve()\n    full = (base / Path(fname).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from chalice import Chalice\napp = Chalice(app_name='demo')\n@app.route('/file/{name}')\ndef chalice_file(name):\n    return open('/tmp/chalice/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef get_lang_file(lang, key):\n    return (Path('/opt/i18n') / lang / key).read_text()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_event(event_file):\n    if not event_file.replace('_', '').replace('-', '').isalnum():\n        raise ValueError('Invalid event file')\n    return open(f'/var/events/{event_file}.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_blocklist(name):\n    if '../' in name:\n        raise ValueError('bad')\n    return open('/var/x/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import uuid\ndef fetch_report(report_id):\n    try:\n        uuid.UUID(report_id)\n    except ValueError:\n        raise ValueError('Invalid report id')\n    return open(f'/srv/reports/{report_id}.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_state(machine_id):\n    with open(f'/var/state/{machine_id}.state') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_cron_def(job_name):\n    allowed = {'cleanup', 'report', 'sync', 'backup', 'notify'}\n    if job_name not in allowed:\n        raise ValueError('Job not allowed')\n    with open(f'/etc/crons/{job_name}.cron') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class InvoiceService:\n    def get_pdf(self, invoice_id):\n        with open(f'/srv/invoices/{invoice_id}.pdf', 'rb') as f:\n            return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef fetch_blob(key):\n    base = Path('/var/blobs').resolve()\n    full = (base / Path(key).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from fastapi import APIRouter\nrouter = APIRouter()\n@router.get('/asset/{name}')\ndef asset_route(name):\n    return open(f'/var/router_assets/{name}', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_seed(seed_name):\n    allowed = {'users', 'products', 'categories', 'tags'}\n    if seed_name not in allowed:\n        raise ValueError('Seed not allowed')\n    return open(f'/srv/seeds/{seed_name}.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_audit_log(date, logfile):\n    with open('/var/log/audit/' + date + '/' + logfile) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef load_template(tpl):\n    base = Path('/srv/templates').resolve()\n    full = (base / Path(tpl).name).resolve()\n    if not str(full).startswith(str(base) + '/'):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_build_artifact(build_id, artifact):\n    return open(f'/var/builds/{build_id}/{artifact}', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_pipeline_output(pipeline, run_id):\n    path = os.path.join('/var/pipelines', pipeline, run_id, 'output.log')\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_module_doc(module):\n    allowed = {'auth', 'users', 'admin', 'reports', 'billing'}\n    if module not in allowed:\n        raise ValueError('Module not allowed')\n    return open(f'/srv/docs/modules/{module}.html').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef step_function_handler(event, context):\n    artifact = os.path.basename(event['artifact'])\n    base = '/tmp/artifacts'\n    full = os.path.realpath(os.path.join(base, artifact))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from aiohttp import web\nimport os\nasync def handle(request):\n    name = request.query.get('name', '')\n    if not name.replace('_', '').isalnum():\n        raise web.HTTPBadRequest()\n    base = '/var/data'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base + os.sep):\n        raise web.HTTPBadRequest()\n    with open(full) as f:\n        return web.Response(text=f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from masonite.request import Request\ndef show(request: Request):\n    name = request.input('name')\n    return open('/srv/masonite/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_product_image(product_id, img):\n    path = '/var/products/' + product_id + '/images/' + img\n    return open(path, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from werkzeug.utils import secure_filename\ndef partial_secure(folder, filename):\n    fn = secure_filename(filename)\n    return open('/var/u/' + folder + '/' + fn).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_attachment(msg_id, filename):\n    path = '/data/attachments/' + msg_id + '/' + filename\n    with open(path, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef fetch_sound(sound_file):\n    base = '/var/sounds'\n    safe = os.path.basename(sound_file)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import aiofiles, os\nasync def read_async(filename):\n    safe = os.path.basename(filename)\n    base = '/var/async'\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    async with aiofiles.open(full) as f:\n        return await f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import pandas as pd\ndef read_parquet(name):\n    return pd.read_parquet('/var/parquet/' + name + '.parquet')",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef load_rule(rule_file):\n    base = '/etc/rules'\n    safe = os.path.basename(rule_file)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef get_token_file(token_name):\n    base = Path('/etc/tokens').resolve()\n    full = (base / Path(token_name).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_shared_file(share_id, fname):\n    if not share_id.isalnum():\n        raise ValueError('Invalid share id')\n    base = os.path.realpath(os.path.join('/srv/shares', share_id))\n    full = os.path.realpath(os.path.join(base, os.path.basename(fname)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def api_gateway_proxy(event, context):\n    fname = event['pathParameters']['file']\n    with open('/var/task/files/' + fname) as f:\n        return {'body': f.read()}",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import request, send_file\n@app.route('/report')\ndef report():\n    rid = request.args['id']\n    return send_file('/srv/reports/' + rid + '.pdf')",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_component(component_name):\n    allowed = {'Button', 'Input', 'Modal', 'Table', 'Navbar', 'Footer'}\n    if component_name not in allowed:\n        raise ValueError('Component not allowed')\n    with open(f'/srv/components/{component_name}.jsx') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_swagger(service):\n    allowed = {'users', 'orders', 'products', 'payments', 'auth'}\n    if service not in allowed:\n        raise ValueError('Service not allowed')\n    with open(f'/srv/swagger/{service}.yaml') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_font(font_name):\n    with open('/opt/fonts/' + font_name, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_policy(policy_name):\n    with open('/etc/policies/' + policy_name + '.xml') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef s3_event_handler(event, context):\n    key = event['Records'][0]['s3']['object']['key']\n    safe = os.path.basename(key)\n    base = '/tmp'\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef fetch_archive(archive_name):\n    base = '/var/archives'\n    safe = os.path.basename(archive_name)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_backup(backup_id):\n    return open(f'/var/backups/{backup_id}.tar', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_audio_clip(audio_file):\n    base = '/var/audio'\n    safe = os.path.basename(audio_file)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_dataset(dataset_name):\n    allowed = {'train', 'test', 'validation', 'sample'}\n    if dataset_name not in allowed:\n        raise ValueError('Dataset not allowed')\n    with open(f'/data/datasets/{dataset_name}.csv') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_thumbnail(image_id):\n    if not image_id.isalnum():\n        raise ValueError('Invalid image id')\n    with open(f'/var/thumbnails/{image_id}.jpg', 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import send_from_directory, abort\n@app.route('/api/static/<path:filename>')\ndef api_static(filename):\n    if '..' in filename or filename.startswith('/'):\n        abort(400)\n    return send_from_directory('/var/api_static', filename)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import tornado.web\nclass DocHandler(tornado.web.RequestHandler):\n    def get(self, doc):\n        with open(f'/srv/docs/{doc}.txt') as f:\n            self.write(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import request, send_from_directory, abort\nfrom werkzeug.utils import secure_filename\n@app.route('/safe_dl')\ndef safe_dl():\n    fn = secure_filename(request.args.get('fn', ''))\n    if not fn:\n        abort(400)\n    return send_from_directory('/var/safe_downloads', fn)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_locale_section(locale, section):\n    path = f'/opt/locales/{locale}/{section}.po'\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class ContentDelivery:\n    def serve(self, content_id):\n        with open('/var/cdn/' + content_id, 'rb') as f:\n            return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from django.http import HttpResponse\ndef view_doc(request):\n    name = request.GET.get('name')\n    with open('/srv/docs/' + name) as f:\n        return HttpResponse(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from bottle import request, route\n@route('/get')\ndef get_doc():\n    name = request.query.name\n    return open('/srv/bottle/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef load_backup(backup_id):\n    if not backup_id.replace('-', '').isalnum():\n        raise ValueError('Invalid backup id')\n    base = Path('/var/backups').resolve()\n    full = (base / f'{backup_id}.tar').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_warranty(serial):\n    base = '/srv/warranty'\n    safe = os.path.basename(serial)\n    full = os.path.realpath(os.path.join(base, safe + '.json'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef stream_file(request):\n    name = os.path.basename(request.params['name'])\n    base = '/var/media'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import send_from_directory, abort\nfrom werkzeug.utils import secure_filename\n@app.route('/u/<name>')\ndef u(name):\n    safe = secure_filename(name)\n    if not safe:\n        abort(400)\n    return send_from_directory('/var/u', safe)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def grpc_method(self, request, context):\n    fname = request.filename\n    with open('/var/grpc/' + fname) as f:\n        return MyReply(data=f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import falcon\nclass ResourceHandler:\n    def on_get(self, req, resp):\n        name = req.get_param('name')\n        with open('/srv/falcon/' + name) as f:\n            resp.text = f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import tornado.web\nimport os\nclass FileHandler(tornado.web.RequestHandler):\n    def get(self):\n        name = self.get_argument('name')\n        if not name.replace('_', '').isalnum():\n            self.set_status(400); return\n        base = '/var/tornado_files'\n        full = os.path.realpath(os.path.join(base, name))\n        if not full.startswith(base + os.sep):\n            self.set_status(400); return\n        with open(full) as f:\n            self.write(f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef load_backup(backup_id):\n    base = '/var/backups'\n    safe = os.path.basename(backup_id)\n    full = os.path.realpath(os.path.join(base, safe + '.tar'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_helm_chart_version(chart, version):\n    import re\n    allowed_charts = {'redis', 'postgres', 'rabbitmq', 'nginx', 'prometheus'}\n    if chart not in allowed_charts:\n        raise ValueError('Chart not allowed')\n    if not re.fullmatch(r'\\d+\\.\\d+\\.\\d+', version):\n        raise ValueError('Invalid version')\n    return open(f'/srv/charts/{chart}/{version}.tgz', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from werkzeug.utils import secure_filename\nimport os\ndef double_safe(name):\n    fn = secure_filename(name)\n    base = '/var/double'\n    full = os.path.realpath(os.path.join(base, fn))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_map(map_name):\n    allowed = {'world', 'us', 'europe', 'asia'}\n    if map_name not in allowed:\n        raise ValueError('Map not allowed')\n    return open(f'/var/maps/{map_name}.geojson').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_rule(rule_file):\n    path = '/etc/rules/' + rule_file\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from twisted.web.resource import Resource\nfrom twisted.web.server import NOT_DONE_YET\nimport os\nclass FileServ(Resource):\n    def render_GET(self, request):\n        name = request.args.get(b'name', [b''])[0].decode()\n        if not name.replace('_', '').isalnum():\n            request.setResponseCode(400); return b''\n        base = '/srv/twisted'\n        full = os.path.realpath(os.path.join(base, name))\n        if not full.startswith(base + os.sep):\n            request.setResponseCode(400); return b''\n        return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_signature(sig_file):\n    with open('/var/signatures/' + sig_file) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import Flask, request\napp = Flask(__name__)\n\n@app.route('/file')\ndef get_file():\n    name = request.args.get('name')\n    with open('/var/files/' + name) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_no_sep(name):\n    base = '/srv/data'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base):\n        raise ValueError('bad')\n    return open(full).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_module_source(pkg, module):\n    allowed_pkgs = {'core', 'utils', 'auth', 'db'}\n    if pkg not in allowed_pkgs:\n        raise ValueError('Package not allowed')\n    base = os.path.realpath(os.path.join('/opt/packages', pkg))\n    full = os.path.realpath(os.path.join(base, os.path.basename(module) + '.py'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_prescription(rx_id):\n    base = '/srv/rx'\n    safe = os.path.basename(rx_id)\n    full = os.path.realpath(os.path.join(base, safe + '.pdf'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class PluginRunner:\n    ALLOWED = {'auth', 'cache', 'logger', 'mailer', 'storage'}\n    def get_code(self, plugin_id):\n        if plugin_id not in self.ALLOWED:\n            raise ValueError('Plugin not allowed')\n        return open(f'/opt/plugins/{plugin_id}/main.py').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef load_product_image(product_id, img):\n    if not product_id.isalnum():\n        raise ValueError('Invalid product id')\n    base = os.path.realpath(os.path.join('/var/products', product_id, 'images'))\n    full = os.path.realpath(os.path.join(base, os.path.basename(img)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import request, jsonify\n@app.route('/api/note')\ndef api_note():\n    note_id = request.args.get('id')\n    with open('/srv/notes/' + note_id + '.json') as f:\n        return jsonify(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import asyncio\nclass AsyncFileServer:\n    async def serve(self, name):\n        with open('/var/async_serve/' + name) as f:\n            return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_abi(contract_name):\n    if not contract_name.replace('_', '').isalnum():\n        raise ValueError('Invalid contract name')\n    with open(f'/srv/abis/{contract_name}.json') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef get_sound(sound_file):\n    base = Path('/var/sounds').resolve()\n    full = (base / Path(sound_file).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import asyncio\nasync def fetch_async(name):\n    with open('/var/async/' + name) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def eventbridge_handler(event, context):\n    detail = event['detail']['filename']\n    with open('/tmp/eventbridge/' + detail) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_dataset_partition(ds, partition):\n    if not ds.replace('-', '').isalnum() or not partition.replace('-', '').replace('_', '').isalnum():\n        raise ValueError('Invalid params')\n    base = (Path('/data') / ds / 'partitions').resolve()\n    full = (base / f'{partition}.parquet').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_model(model_name):\n    with open('/var/models/' + model_name + '.pkl', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_firmware(device_type):\n    return open('/srv/firmware/' + device_type + '.bin', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_export(export_id):\n    with open(f'/var/exports/{export_id}.csv') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_diagnostic(vehicle_id):\n    base = '/var/diagnostics'\n    safe = os.path.basename(vehicle_id)\n    full = os.path.realpath(os.path.join(base, safe + '.dtc'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_sql_query(query_name):\n    return open('/srv/queries/' + query_name + '.sql').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef get_image(name):\n    base = Path('/var/images').resolve()\n    full = (base / Path(name).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from werkzeug.utils import secure_filename\ndef save_upload(uploaded_file):\n    fname = secure_filename(uploaded_file.filename)\n    if not fname:\n        raise ValueError('Invalid filename')\n    uploaded_file.save(f'/var/uploads/{fname}')\n    return fname",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_thumbnail(image_id):\n    base = '/var/thumbnails'\n    safe = os.path.basename(image_id)\n    full = os.path.realpath(os.path.join(base, safe + '.jpg'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class PolicyEngine:\n    def load_policy(self, name):\n        return open('/etc/policies/' + name + '.json').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef load_template(tpl):\n    return (Path('/srv/templates') / tpl).read_text()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from werkzeug.utils import secure_filename\ndef bulk_upload(files):\n    saved = []\n    for f in files:\n        name = secure_filename(f.filename)\n        if name:\n            f.save(f'/var/bulk/{name}')\n            saved.append(name)\n    return saved",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import Flask, request, abort, send_from_directory\napp = Flask(__name__)\n\n@app.route('/file')\ndef get_file():\n    name = request.args.get('name', '')\n    if not name.replace('_', '').replace('-', '').isalnum():\n        abort(400)\n    return send_from_directory('/var/files', name)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_user_avatar(user_id):\n    with open(f'/var/avatars/{user_id}.png', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_prescription(rx_id):\n    with open(f'/srv/rx/{rx_id}.pdf', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import abort\nfrom werkzeug.utils import secure_filename\n@app.route('/font/<name>')\ndef font(name):\n    fn = secure_filename(name)\n    if not fn or not fn.endswith('.woff2'):\n        abort(400)\n    return open(f'/var/fonts/{fn}', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_grade_report(term, student):\n    with open(f'/srv/grades/{term}/{student}.pdf', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def s3_event_handler(event, context):\n    key = event['Records'][0]['s3']['object']['key']\n    with open('/tmp/' + key) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_pricing(currency):\n    allowed = {'usd', 'eur', 'gbp', 'jpy', 'inr'}\n    if currency.lower() not in allowed:\n        raise ValueError('Currency not allowed')\n    return open(f'/srv/pricing/{currency.lower()}.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_grade_report(term, student):\n    if not term.replace('-', '').isalnum() or not student.isalnum():\n        raise ValueError('Invalid params')\n    base = os.path.realpath(os.path.join('/srv/grades', term))\n    full = os.path.realpath(os.path.join(base, student + '.pdf'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_plugin_source(plugin):\n    allowed = {'auth', 'cache', 'mailer', 'storage', 'queue'}\n    if plugin not in allowed:\n        raise ValueError('Plugin not allowed')\n    return open(f'/opt/plugins/{plugin}/__init__.py').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import abort\nimport re\n@app.route('/page/<slug>')\ndef page(slug):\n    if not re.fullmatch(r'[a-z0-9-]{1,60}', slug):\n        abort(404)\n    return open(f'/var/www/pages/{slug}.html').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef fetch_helm_chart(chart, version):\n    p = os.path.join('/srv/charts', chart, version + '.tgz')\n    return open(p, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def in_subdir(name):\n    if 'etc' in name or 'passwd' in name:\n        raise ValueError('blocked')\n    return open('/var/srv/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_swagger(service):\n    with open('/srv/swagger/' + service + '.yaml') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_upload(filename):\n    with open(f'/var/uploads/{filename}') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import aiofiles\nasync def read_async(filename):\n    async with aiofiles.open('/var/async/' + filename) as f:\n        return await f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import request, send_from_directory, abort\n@app.route('/report')\ndef report():\n    rid = request.args['id']\n    if not rid.isalnum():\n        abort(400)\n    return send_from_directory('/srv/reports', f'{rid}.pdf')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_snippet(snippet_id):\n    base = '/var/snippets'\n    safe = os.path.basename(snippet_id)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef retrieve_video(video_name):\n    base = '/var/videos'\n    safe = os.path.basename(video_name)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def serve_manifest(request):\n    name = request.data.get('name', '')\n    if not name.replace('_', '').replace('-', '').isalnum() or len(name) > 64:\n        raise ValueError('Invalid manifest name')\n    with open(f'/srv/manifests/{name}.json') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\nclass AsyncFileServer:\n    BASE = '/var/async_serve'\n    async def serve(self, name):\n        safe = os.path.basename(name)\n        full = os.path.realpath(os.path.join(self.BASE, safe))\n        if not full.startswith(self.BASE + os.sep):\n            raise ValueError('Access denied')\n        with open(full) as f:\n            return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import zipfile\ndef extract_zip(name, dest):\n    with zipfile.ZipFile('/var/zips/' + name + '.zip') as z:\n        z.extractall(dest)",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def grpc_method(self, request, context):\n    import os, grpc\n    fname = request.filename\n    if not fname.replace('_', '').isalnum():\n        context.abort(grpc.StatusCode.INVALID_ARGUMENT, 'Invalid filename')\n    base = '/var/grpc'\n    full = os.path.realpath(os.path.join(base, fname))\n    if not full.startswith(base + os.sep):\n        context.abort(grpc.StatusCode.PERMISSION_DENIED, 'Access denied')\n    with open(full) as f:\n        return MyReply(data=f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_lab_notebook(lab, nb):\n    p = os.path.join('/srv/labs', lab, 'notebooks', nb)\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_contract(contract_id):\n    return open('/srv/contracts/' + contract_id + '.pdf', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_with_io(name):\n    import io\n    with io.open('/srv/io/' + name) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_tutorial(course, tut):\n    p = os.path.join('/srv/tutorials', course, tut + '.md')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def export_handler(request):\n    export_id = request.form['id']\n    if not export_id.isalnum():\n        raise ValueError('Invalid export id')\n    with open(f'/var/exports/{export_id}.csv') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import re\ndef fetch_static_page(page):\n    if not re.fullmatch(r'[a-zA-Z0-9_-]{1,64}', page):\n        raise ValueError('Invalid page name')\n    return open(f'/var/www/static/{page}.htm').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from sanic import Sanic, response\nfrom sanic.exceptions import SanicException\nimport os\napp = Sanic('demo')\n@app.get('/grab')\nasync def grab(request):\n    n = request.args.get('n', '')\n    if not n.replace('_', '').isalnum():\n        raise SanicException(status_code=400)\n    base = '/var/sanic'\n    full = os.path.realpath(os.path.join(base, n))\n    if not full.startswith(base + os.sep):\n        raise SanicException(status_code=400)\n    with open(full) as f:\n        return response.text(f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef load_resource(category, name):\n    allowed_cats = ['images', 'fonts', 'icons', 'sounds']\n    if category not in allowed_cats:\n        raise ValueError('Category not allowed')\n    base = os.path.realpath(os.path.join('/opt/resources', category))\n    full = os.path.realpath(os.path.join(base, os.path.basename(name)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import click, os\n@click.command()\n@click.argument('filename')\ndef click_command(filename):\n    safe = os.path.basename(filename)\n    base = '/var/click'\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise click.BadParameter('access denied')\n    with open(full) as f:\n        click.echo(f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_replay(match_id):\n    if not match_id.replace('-', '').isalnum() or len(match_id) > 64:\n        raise ValueError('Invalid match id')\n    return open(f'/var/replays/{match_id}.replay', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef partial_check(user, fname):\n    if not user.isalnum():\n        raise ValueError('bad user')\n    return open('/var/users/' + user + '/' + fname).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from connexion.exceptions import BadRequestProblem\ndef get_resource(name):\n    ALLOWED = {'a', 'b', 'c', 'd'}\n    if name not in ALLOWED:\n        raise BadRequestProblem(detail='Invalid name')\n    return open(f'/srv/connexion/{name}').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import falcon, os\nclass ResourceHandler:\n    def on_get(self, req, resp):\n        name = req.get_param('name', default='')\n        if not name.replace('_', '').isalnum():\n            raise falcon.HTTPBadRequest()\n        base = '/srv/falcon'\n        full = os.path.realpath(os.path.join(base, name))\n        if not full.startswith(base + os.sep):\n            raise falcon.HTTPBadRequest()\n        with open(full) as f:\n            resp.text = f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_queue(queue_file):\n    path = '/var/queues/' + queue_file\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import yaml\ndef load_yaml_config(name):\n    with open('/etc/configs/' + name + '.yaml') as f:\n        return yaml.safe_load(f)",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from django.utils._os import safe_join\nfrom django.http import FileResponse, Http404\ndef django_dl(request, fname):\n    try:\n        full = safe_join('/srv/django_dl', fname)\n    except ValueError:\n        raise Http404\n    return FileResponse(open(full, 'rb'))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_recipe(slug):\n    return open(f'/srv/recipes/{slug}.json').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_policy(policy_name):\n    if not policy_name.replace('-', '').replace('_', '').isalnum():\n        raise ValueError('Invalid policy name')\n    with open(f'/etc/policies/{policy_name}.xml') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef fetch_job_result(job_id, result_file):\n    path = os.path.join('/var/jobs', job_id, result_file)\n    with open(path) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef handler(event, context):\n    fname = os.path.basename(event.get('filename', ''))\n    if not fname:\n        raise ValueError('No filename')\n    base = '/var/task'\n    full = os.path.realpath(os.path.join(base, fname))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_session(session_id):\n    return open('/var/sessions/' + session_id + '.dat', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_build_artifact(build_id, artifact):\n    if not build_id.isalnum():\n        raise ValueError('Invalid build id')\n    base = os.path.realpath(os.path.join('/var/builds', build_id))\n    full = os.path.realpath(os.path.join(base, os.path.basename(artifact)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class PluginRunner:\n    def get_code(self, plugin_id):\n        return open(f'/opt/plugins/{plugin_id}/main.py').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import request, abort\nfrom werkzeug.utils import secure_filename\nimport os\n@app.route('/wsf')\ndef wsf():\n    fn = secure_filename(request.args.get('fn', ''))\n    if not fn:\n        abort(400)\n    base = '/var/wsf'\n    full = os.path.realpath(os.path.join(base, fn))\n    if not full.startswith(base + os.sep):\n        abort(400)\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from django.core.files.storage import default_storage\nfrom django.utils._os import safe_join\ndef read_from_storage(name):\n    try:\n        full = safe_join(default_storage.location, name)\n    except ValueError:\n        raise PermissionError('denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\nimport re\ndef get_release_note(product, version):\n    if not product.replace('-', '').isalnum() or not re.fullmatch(r'\\d+\\.\\d+\\.\\d+', version):\n        raise ValueError('Invalid params')\n    base = (Path('/srv/releases') / product).resolve()\n    full = (base / f'{version}.md').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import csv\ndef read_csv(name):\n    with open('/var/csv/' + name + '.csv') as f:\n        return list(csv.reader(f))",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef load_tfstate(env, region):\n    if not env.isalnum() or not region.replace('-', '').isalnum():\n        raise ValueError('Invalid params')\n    base = (Path('/var/tfstate') / env).resolve()\n    full = (base / f'{region}.tfstate').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef load_resource(category, name):\n    full_path = os.path.join('/opt/resources', category, name)\n    with open(full_path, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import re\ndef fetch_payslip(emp_id, month):\n    if not emp_id.isalnum() or not re.fullmatch(r'\\d{4}-\\d{2}', month):\n        raise ValueError('Invalid params')\n    return open(f'/srv/payslips/{emp_id}/{month}.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_shipment_label(shipment):\n    return open(f'/srv/labels/{shipment}.pdf', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from fastapi import FastAPI, HTTPException\nfrom pathlib import Path\napp = FastAPI()\n@app.get('/p/{fname}')\ndef p(fname: str):\n    base = Path('/srv/fastapi_p').resolve()\n    full = (base / Path(fname).name).resolve()\n    if not full.is_relative_to(base):\n        raise HTTPException(400)\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\nclass UserStorage:\n    def read_file(self, uid, fname):\n        path = os.path.join('/var/user_data', uid, fname)\n        with open(path) as f:\n            return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef no_absolute(name):\n    if os.path.isabs(name):\n        raise ValueError('absolute not allowed')\n    return open('/var/rel/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef load_fixture(fixture_file):\n    base = Path('/tests/fixtures').resolve()\n    full = (base / Path(fixture_file).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_sprite(sprite_name):\n    with open('/var/sprites/' + sprite_name + '.png', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_section_conf(section, key):\n    path = os.path.join('/etc/conf', section, key + '.cfg')\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def click_command(filename):\n    import click\n    with open('/var/click/' + filename) as f:\n        click.echo(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import re\ndef permissive_regex(name):\n    if not re.match(r'^[\\w./-]+$', name):\n        raise ValueError('bad')\n    return open('/var/perm/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def schedule_handler(event, context):\n    rule = event['rule']\n    with open('/var/task/rules/' + rule + '.json') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_page(slug):\n    with open(f'/var/www/pages/{slug}.html') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\nfrom werkzeug.utils import secure_filename\ndef store_evidence(case_id, file_obj):\n    if not case_id.replace('-', '').isalnum():\n        raise ValueError('Invalid case')\n    fn = secure_filename(file_obj.filename)\n    if not fn:\n        raise ValueError('Invalid file')\n    dest_dir = os.path.realpath(os.path.join('/srv/evidence', case_id))\n    os.makedirs(dest_dir, exist_ok=True)\n    full = os.path.realpath(os.path.join(dest_dir, fn))\n    if not full.startswith(dest_dir + os.sep):\n        raise ValueError('denied')\n    file_obj.save(full)\n    return fn",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from sanic import Sanic, response\napp = Sanic('demo')\n@app.get('/grab')\nasync def grab(request):\n    n = request.args.get('n')\n    with open('/var/sanic/' + n) as f:\n        return response.text(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pyramid.view import view_config\n@view_config(route_name='file')\ndef file_view(request):\n    name = request.params['name']\n    return open('/srv/pyramid/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import sqlite3\ndef get_db(name):\n    return sqlite3.connect('/var/sqlite/' + name + '.db')",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import send_from_directory\n@app.route('/download/<path:filename>')\ndef download(filename):\n    return send_from_directory('/var/downloads', filename)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import asyncio, os\nasync def fetch_async(name):\n    if not name.replace('_', '').isalnum():\n        raise ValueError('Invalid name')\n    base = '/var/async'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def schedule_handler(event, context):\n    rule = event['rule']\n    ALLOWED = {'daily', 'weekly', 'monthly'}\n    if rule not in ALLOWED:\n        raise ValueError('Invalid rule')\n    with open(f'/var/task/rules/{rule}.json') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from django.http import FileResponse, Http404\nfrom django.utils._os import safe_join\ndef serve_safe(request, fname):\n    try:\n        full = safe_join('/srv/django_safe', fname)\n    except ValueError:\n        raise Http404\n    return FileResponse(open(full, 'rb'))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef read_branch_file(repo, branch, path):\n    full = os.path.join('/srv/repos', repo, branch, path)\n    return open(full).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef serve_user_content(username, content):\n    if not username.isalnum():\n        raise ValueError('Invalid username')\n    base = os.path.realpath(os.path.join('/var/user_content', username))\n    full = os.path.realpath(os.path.join(base, os.path.basename(content)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import request, abort\nimport os\n@app.post('/upload-view')\ndef upload_view():\n    fn = request.form.get('filename', '')\n    safe = os.path.basename(fn)\n    if not safe.replace('_', '').replace('-', '').isalnum():\n        abort(400)\n    base = '/var/uploads'\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        abort(400)\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef read_translation_file(project, lang):\n    p = os.path.join('/srv/translations', project, lang + '.po')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef fetch_cache(cache_key):\n    base = '/var/cache/app'\n    safe = os.path.basename(cache_key)\n    full = os.path.realpath(os.path.join(base, safe + '.bin'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ThemeLoader:\n    def load_css(self, theme):\n        with open('/srv/themes/' + theme + '/main.css') as f:\n            return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import re\ndef fetch_calibration(device_serial):\n    if not re.fullmatch(r'DEV-[A-F0-9]{16}', device_serial):\n        raise ValueError('Invalid device serial')\n    return open(f'/var/calibration/{device_serial}.cal').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_chapter(book_id, chapter):\n    with open('/srv/library/' + book_id + '/' + chapter + '.txt') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef serve_static(req):\n    fname = req.GET['path']\n    base = '/var/www/static'\n    safe = os.path.basename(fname)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_team_file(team, fname):\n    with open('/srv/teams/' + team + '/' + fname) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_archive(archive_name):\n    base = Path('/var/archives').resolve()\n    full = (base / Path(archive_name).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from werkzeug.utils import secure_filename\ndef read_upload(name):\n    safe = secure_filename(name)\n    if not safe:\n        raise ValueError('Invalid filename')\n    with open(f'/var/uploads/{safe}') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import re\ndef read_invoice(invoice_id):\n    if not re.fullmatch(r'INV-\\d{8}', invoice_id):\n        raise ValueError('Invalid invoice id')\n    return open(f'/srv/invoices/{invoice_id}.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_blueprint(model_id):\n    if not model_id.replace('-', '').replace('_', '').isalnum():\n        raise ValueError('Invalid model id')\n    return open(f'/srv/blueprints/{model_id}.dwg', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_env(env_name):\n    return open('/etc/envs/' + env_name + '.env').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class CacheStore:\n    def get_blob(self, key):\n        return open('/var/cache/' + key, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_alert_def(alert):\n    allowed = {'cpu_high', 'memory_high', 'disk_full', 'service_down'}\n    if alert not in allowed:\n        raise ValueError('Alert not allowed')\n    return open(f'/etc/alerts/{alert}.yml').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef read_collection(coll, item):\n    p = os.path.join('/var/collections', coll, item)\n    with open(p) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_feed(feed_name):\n    if not feed_name.replace('-', '').replace('_', '').isalnum():\n        raise ValueError('Invalid feed name')\n    with open(f'/var/feeds/{feed_name}.xml') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_config_env(env):\n    return open(f'/etc/configs/{env}.yaml').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef fetch_layer(model, layer):\n    return (Path('/var/models') / model / (layer + '.h5')).read_bytes()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_token_file(token_name):\n    base = '/etc/tokens'\n    safe = os.path.basename(token_name)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import pickle\ndef load_pickle(name):\n    with open('/var/pickles/' + name + '.pkl', 'rb') as f:\n        return pickle.load(f)",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "ALLOWED_ICONS = {'home', 'user', 'settings', 'logout', 'search'}\ndef get_icon(icon_name):\n    if icon_name not in ALLOWED_ICONS:\n        raise ValueError('Icon not allowed')\n    with open(f'/var/icons/{icon_name}.svg', 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_tenant_config(tenant_id):\n    if not tenant_id.replace('-', '').isalnum():\n        raise ValueError('Invalid tenant id')\n    return open(f'/srv/tenants/{tenant_id}/config.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from twisted.web.resource import Resource\nclass FileServ(Resource):\n    def render_GET(self, request):\n        name = request.args[b'name'][0].decode()\n        return open('/srv/twisted/' + name, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_module_source(pkg, module):\n    full = os.path.join('/opt/packages', pkg, module + '.py')\n    return open(full).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "ALLOWED_RESOURCES = {'theme.css', 'app.js', 'logo.svg', 'manifest.json'}\ndef fetch_resource(resource_name):\n    if resource_name not in ALLOWED_RESOURCES:\n        raise ValueError('Resource not allowed')\n    return open('/var/resources/' + resource_name).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_scan(scan_id):\n    if not scan_id.replace('-', '').isalnum():\n        raise ValueError('Invalid scan id')\n    with open(f'/srv/scans/{scan_id}.dcm', 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_runbook(service, runbook):\n    allowed_svcs = {'api', 'worker', 'db', 'cache'}\n    allowed_runbooks = {'deploy', 'rollback', 'restart', 'scale'}\n    if service not in allowed_svcs or runbook not in allowed_runbooks:\n        raise ValueError('Not allowed')\n    return open(f'/srv/runbooks/{service}/{runbook}.md').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ThemeLoader:\n    ALLOWED = {'light', 'dark', 'solarized', 'monokai', 'nord'}\n    def load_css(self, theme):\n        if theme not in self.ALLOWED:\n            raise ValueError('Theme not allowed')\n        with open(f'/srv/themes/{theme}/main.css') as f:\n            return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def download_receipt(request):\n    rid = request.params['receipt_id']\n    if not rid.isalnum():\n        raise ValueError('Invalid receipt id')\n    return open(f'/srv/receipts/{rid}.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_route_definition(svc):\n    return open(f'/etc/routes/{svc}.yaml').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_calibration(device_serial):\n    base = '/var/calibration'\n    safe = os.path.basename(device_serial)\n    full = os.path.realpath(os.path.join(base, safe + '.cal'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def rstrip_only(name):\n    return open('/var/r/' + name.rstrip('/')).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_plugin_source(plugin):\n    return open(f'/opt/plugins/{plugin}/__init__.py').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_cert(domain):\n    with open(f'/etc/ssl/certs/{domain}/cert.pem') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef load_feed(feed_name):\n    base = '/var/feeds'\n    safe = os.path.basename(feed_name)\n    full = os.path.realpath(os.path.join(base, safe + '.xml'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\nfrom django.http import HttpResponse, HttpResponseBadRequest\ndef view_doc(request):\n    name = request.GET.get('name', '')\n    if not name.replace('_', '').isalnum():\n        return HttpResponseBadRequest('Invalid name')\n    base = '/srv/docs'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base + os.sep):\n        return HttpResponseBadRequest('Access denied')\n    with open(full) as f:\n        return HttpResponse(f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef commonprefix_bug(name):\n    base = '/srv/cp'\n    full = os.path.abspath('/srv/cp/' + name)\n    if os.path.commonprefix([full, base]) != base:\n        raise ValueError('bad')\n    return open(full).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_proto(service):\n    return open('/srv/protos/' + service + '.proto').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_compose(project):\n    if not project.replace('-', '').replace('_', '').isalnum():\n        raise ValueError('Invalid project')\n    base = (Path('/srv/projects') / project).resolve()\n    full = (base / 'docker-compose.yml').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import re\ndef get_lab_result(patient, test_id):\n    if not patient.isalnum() or not re.fullmatch(r'T\\d{6}', test_id):\n        raise ValueError('Invalid params')\n    return open(f'/srv/labs/{patient}/{test_id}.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef load_terraform_state(env, region):\n    p = os.path.join('/var/tfstate', env, region + '.tfstate')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_map(map_name):\n    return open('/var/maps/' + map_name + '.geojson').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_module_doc(module):\n    p = os.path.join('/srv/docs/modules', module + '.html')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask_restful import Resource, reqparse\nclass FileResource(Resource):\n    def get(self):\n        parser = reqparse.RequestParser()\n        parser.add_argument('name')\n        args = parser.parse_args()\n        return open('/srv/restful/' + args['name']).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import re\ndef get_order_receipt(order_id):\n    if not re.fullmatch(r'ORD-[A-Z0-9]{10}', order_id):\n        raise ValueError('Invalid order id')\n    return open(f'/srv/orders/{order_id}/receipt.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_config_override(name):\n    allowed = {'logging', 'database', 'cache', 'queue', 'storage'}\n    if name not in allowed:\n        raise ValueError('Override not allowed')\n    return open(f'/etc/overrides/{name}.ini').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_thumbnail(image_id):\n    with open('/var/thumbnails/' + image_id + '.jpg', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef fetch_resource(resource_name):\n    base = '/var/resources'\n    safe = os.path.basename(resource_name)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class MediaServer:\n    def stream(self, media_id):\n        with open('/var/media/' + media_id, 'rb') as f:\n            return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_org_file(org_id, category, fname):\n    if not org_id.isalnum():\n        raise ValueError('Invalid org id')\n    allowed = {'docs', 'reports', 'assets', 'configs'}\n    if category not in allowed:\n        raise ValueError('Category not allowed')\n    base = os.path.realpath(os.path.join('/srv/orgs', org_id, category))\n    full = os.path.realpath(os.path.join(base, os.path.basename(fname)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_resource(resource_name):\n    with open('/var/resources/' + resource_name) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_proto(service):\n    base = '/srv/protos'\n    safe = os.path.basename(service)\n    full = os.path.realpath(os.path.join(base, safe + '.proto'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef read_export(export_id):\n    base = '/var/exports'\n    safe = os.path.basename(export_id)\n    full = os.path.realpath(os.path.join(base, safe + '.csv'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_kb_article(category, slug):\n    return open(f'/srv/kb/{category}/{slug}.md').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import asyncio\nasync def serve_doc(doc_id):\n    return open(f'/var/docs/{doc_id}.json').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_quiz(quiz_id):\n    allowed = {'q1', 'q2', 'q3', 'q4', 'q5'}\n    if quiz_id not in allowed:\n        raise ValueError('Quiz not allowed')\n    return open(f'/srv/quizzes/{quiz_id}.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import send_from_directory\ndef serve_doc(category, fname):\n    ALLOWED_CATS = {'public', 'whitepapers', 'guides'}\n    if category not in ALLOWED_CATS:\n        return 'Forbidden', 403\n    return send_from_directory(f'/srv/docs/{category}', fname)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef fetch_layout(layout_name):\n    base = Path('/var/layouts').resolve()\n    full = (base / (Path(layout_name).name + '.xml')).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_notification_template(event_type):\n    allowed = {'signup', 'reset_password', 'order_confirm', 'invoice', 'alert'}\n    if event_type not in allowed:\n        raise ValueError('Event type not allowed')\n    return open(f'/srv/notification_templates/{event_type}.txt').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from rest_framework.views import APIView\nfrom rest_framework.response import Response\nclass ReportAPI(APIView):\n    def get(self, request):\n        rid = request.query_params.get('rid')\n        with open(f'/srv/reports/{rid}.json') as f:\n            return Response(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_device_log(device_id):\n    with open('/var/log/devices/' + device_id + '.log') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_fixture(fixture_file):\n    base = '/tests/fixtures'\n    safe = os.path.basename(fixture_file)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_warranty(serial):\n    with open(f'/srv/warranty/{serial}.json') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef fetch_attachment(msg_id, filename):\n    if not msg_id.isalnum():\n        raise ValueError('Invalid msg_id')\n    base = os.path.realpath(os.path.join('/data/attachments', msg_id))\n    full = os.path.realpath(os.path.join(base, os.path.basename(filename)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from starlette.requests import Request\nfrom starlette.exceptions import HTTPException\nimport os\nasync def endpoint(request: Request):\n    name = request.query_params.get('name', '')\n    if not name.replace('_', '').isalnum():\n        raise HTTPException(400)\n    base = '/srv/files'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base + os.sep):\n        raise HTTPException(400)\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_manifest(manifest_file):\n    path = '/srv/manifests/' + manifest_file\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from fastapi import HTTPException, FastAPI\nimport os\napp = FastAPI()\n@app.get('/team/{team}/{fname}')\ndef team_file(team: str, fname: str):\n    if not team.replace('-', '').isalnum():\n        raise HTTPException(400)\n    base = os.path.realpath(os.path.join('/srv/teams', team))\n    full = os.path.realpath(os.path.join(base, os.path.basename(fname)))\n    if not full.startswith(base + os.sep):\n        raise HTTPException(400)\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_invoice_xml(client, inv):\n    return open(f'/srv/invoices/{client}/{inv}.xml').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import xml.etree.ElementTree as ET\ndef parse_xml(name):\n    return ET.parse('/srv/xml/' + name + '.xml').getroot()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from starlette.responses import FileResponse\nfrom starlette.exceptions import HTTPException\nimport os\nasync def media(request):\n    media_id = request.path_params['media_id']\n    if not media_id.replace('-', '').isalnum():\n        raise HTTPException(400)\n    base = '/var/media'\n    full = os.path.realpath(os.path.join(base, media_id))\n    if not full.startswith(base + os.sep):\n        raise HTTPException(400)\n    return FileResponse(full)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "async def fetch_user_blob(uid, blob):\n    import os\n    if not uid.isalnum():\n        raise ValueError('Invalid uid')\n    base = os.path.realpath(os.path.join('/var/blobs', uid))\n    full = os.path.realpath(os.path.join(base, os.path.basename(blob)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from django.http import HttpResponse, HttpResponseBadRequest\ndef report_view(request, year):\n    import re\n    if not re.fullmatch(r'\\d{4}', year):\n        return HttpResponseBadRequest()\n    return HttpResponse(open(f'/srv/reports/{year}/summary.json').read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_map_tile(tileset, tile_id):\n    allowed_tilesets = {'forest', 'desert', 'city', 'dungeon'}\n    if tileset not in allowed_tilesets or not tile_id.isalnum():\n        raise ValueError('Invalid tile params')\n    return open(f'/var/tilesets/{tileset}/{tile_id}.tile', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_thumbnail(image_id):\n    if not image_id.isalnum():\n        raise ValueError('Invalid id')\n    base = Path('/var/thumbnails').resolve()\n    full = (base / f'{image_id}.jpg').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pyramid.view import view_config\nfrom pyramid.httpexceptions import HTTPBadRequest\nimport os\n@view_config(route_name='file')\ndef file_view(request):\n    name = request.params.get('name', '')\n    if not name.replace('_', '').isalnum():\n        raise HTTPBadRequest()\n    base = '/srv/pyramid'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base + os.sep):\n        raise HTTPBadRequest()\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_medical_record(patient_id, record):\n    with open('/srv/records/' + patient_id + '/' + record) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_translation(lang, filename):\n    path = '/opt/locales/' + lang + '/' + filename\n    with open(path, encoding='utf-8') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_player_profile(player):\n    base = '/var/players'\n    safe = os.path.basename(player)\n    full = os.path.realpath(os.path.join(base, safe + '.profile'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef fetch_runbook(service, runbook):\n    p = os.path.join('/srv/runbooks', service, runbook + '.md')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef load_layout(layout_name):\n    base = '/var/layouts'\n    safe = os.path.basename(layout_name)\n    full = os.path.realpath(os.path.join(base, safe + '.xml'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef check_input_only(name):\n    if name.startswith('/srv/safe/'):\n        return open(name).read()\n    raise ValueError('bad')",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef get_export(export_id):\n    if not export_id.isalnum():\n        raise ValueError('Invalid export')\n    base = Path('/var/exports').resolve()\n    full = (base / f'{export_id}.csv').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def sqs_consumer(event, context):\n    for record in event['Records']:\n        fname = record['body']\n        with open('/tmp/sqs/' + fname) as f:\n            process(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def step_function_handler(event, context):\n    artifact = event['artifact']\n    return open('/tmp/artifacts/' + artifact, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_submission(contest, user, fname):\n    path = '/srv/contests/' + contest + '/' + user + '/' + fname\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_chapter(book_id, chapter):\n    if not book_id.isalnum() or not chapter.isalnum():\n        raise ValueError('Invalid params')\n    base = os.path.realpath(os.path.join('/srv/library', book_id))\n    full = os.path.realpath(os.path.join(base, chapter + '.txt'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef sqs_consumer(event, context):\n    for record in event['Records']:\n        fname = os.path.basename(record['body'])\n        base = '/tmp/sqs'\n        full = os.path.realpath(os.path.join(base, fname))\n        if not full.startswith(base + os.sep):\n            continue\n        with open(full) as f:\n            process(f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import abort, request, send_from_directory\nimport re\n@app.route('/v/<vid>')\ndef v(vid):\n    if not re.fullmatch(r'v\\d{6,10}', vid):\n        abort(404)\n    return send_from_directory('/var/videos', f'{vid}.mp4')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from aiohttp import web\nimport os\nasync def serve(request):\n    fname = request.match_info['fname']\n    base = '/var/static'\n    full = os.path.realpath(os.path.join(base, os.path.basename(fname)))\n    if not full.startswith(base + os.sep):\n        raise web.HTTPNotFound()\n    return web.FileResponse(full)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_user_doc(uid, doc):\n    return open(f'/srv/users/{uid}/docs/{doc}').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_driver(driver_name):\n    with open('/lib/drivers/' + driver_name + '.ko', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_token_file(token_name):\n    with open('/etc/tokens/' + token_name) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_component(component_name):\n    with open('/srv/components/' + component_name + '.jsx') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef load_font(font_name):\n    base = '/opt/fonts'\n    safe = os.path.basename(font_name)\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef fetch_model(model_name):\n    base = '/var/models'\n    safe = os.path.basename(model_name)\n    full = os.path.realpath(os.path.join(base, safe + '.pkl'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_tenant_config(tenant_id):\n    path = f'/srv/tenants/{tenant_id}/config.json'\n    with open(path) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_wasm(module_name):\n    if not module_name.replace('_', '').isalnum() or len(module_name) > 32:\n        raise ValueError('Invalid module name')\n    with open(f'/var/wasm/{module_name}.wasm', 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from fastapi.responses import FileResponse\nfrom fastapi import HTTPException\nimport re\n@app.get('/photo/{photo_id}')\ndef photo(photo_id: str):\n    if not re.fullmatch(r'[a-f0-9]{32}', photo_id):\n        raise HTTPException(400, 'Invalid id')\n    return FileResponse(f'/var/photos/{photo_id}.jpg')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "async def fetch_user_blob(uid, blob):\n    with open(f'/var/blobs/{uid}/{blob}') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_org_doc(org, doc):\n    if not org.replace('-', '').isalnum():\n        raise ValueError('Invalid org')\n    base = os.path.realpath(os.path.join('/srv/orgs', org, 'docs'))\n    full = os.path.realpath(os.path.join(base, os.path.basename(doc)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import json\ndef load_json_config(name):\n    with open('/etc/configs/' + name + '.json') as f:\n        return json.load(f)",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef fetch_team_file(team, fname):\n    if not team.replace('-', '').replace('_', '').isalnum():\n        raise ValueError('Invalid team')\n    base = os.path.realpath(os.path.join('/srv/teams', team))\n    full = os.path.realpath(os.path.join(base, os.path.basename(fname)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from django.http import FileResponse\ndef serve_export(request):\n    eid = request.GET['export']\n    return FileResponse(open(f'/var/exports/{eid}.csv', 'rb'))",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_invoice(invoice_id):\n    base = '/srv/invoices'\n    safe = os.path.basename(invoice_id)\n    full = os.path.realpath(os.path.join(base, safe + '.pdf'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from werkzeug.utils import secure_filename\nimport mimetypes\ndef upload_image(file_obj):\n    fn = secure_filename(file_obj.filename)\n    if not fn:\n        raise ValueError('Invalid')\n    mime, _ = mimetypes.guess_type(fn)\n    if mime not in ('image/png', 'image/jpeg', 'image/gif'):\n        raise ValueError('Not an image')\n    file_obj.save(f'/var/img/{fn}')\n    return fn",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_alert_definition(alert):\n    p = os.path.join('/etc/alerts', alert + '.yml')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def cli_main():\n    import sys, os\n    if len(sys.argv) < 2:\n        sys.exit('usage: tool FILENAME')\n    fname = os.path.basename(sys.argv[1])\n    if not fname:\n        sys.exit('invalid filename')\n    base = '/var/cli'\n    full = os.path.realpath(os.path.join(base, fname))\n    if not full.startswith(base + os.sep):\n        sys.exit('access denied')\n    with open(full) as f:\n        print(f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from django.views import View\nfrom django.http import HttpResponse, HttpResponseBadRequest\nimport os\nclass DocView(View):\n    def get(self, request):\n        d = request.GET.get('doc', '')\n        if not d.replace('_', '').isalnum():\n            return HttpResponseBadRequest()\n        base = '/srv/django_docs'\n        full = os.path.realpath(os.path.join(base, d))\n        if not full.startswith(base + os.sep):\n            return HttpResponseBadRequest()\n        return HttpResponse(open(full).read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_draft(draft_id):\n    with open(f'/var/drafts/{draft_id}.txt') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from PIL import Image\ndef open_image(name):\n    return Image.open('/var/images/' + name)",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_terms(region):\n    allowed = {'us', 'eu', 'uk', 'au', 'ca'}\n    if region not in allowed:\n        raise ValueError('Region not allowed')\n    return open(f'/srv/legal/{region}/terms.txt').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def cognito_handler(event, context):\n    template = event['triggerSource']\n    with open('/tmp/templates/' + template + '.html') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_icon(icon_name):\n    base = '/var/icons'\n    safe = os.path.basename(icon_name)\n    full = os.path.realpath(os.path.join(base, safe + '.svg'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ConfigLoader:\n    ALLOWED_ENVS = {'dev', 'test', 'staging', 'prod'}\n    def fetch(self, env, filename):\n        import os\n        if env not in self.ALLOWED_ENVS:\n            raise ValueError('Env not allowed')\n        base = os.path.realpath(os.path.join('/etc/conf', env))\n        full = os.path.realpath(os.path.join(base, os.path.basename(filename)))\n        if not full.startswith(base + os.sep):\n            raise ValueError('Access denied')\n        return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import uuid\ndef fetch_prescription(rx_id):\n    try:\n        uuid.UUID(rx_id)\n    except ValueError:\n        raise ValueError('Invalid prescription id')\n    return open(f'/srv/rx/{rx_id}.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_certificate(user_id):\n    if not user_id.isalnum():\n        raise ValueError('Invalid user id')\n    return open(f'/srv/certificates/{user_id}.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_save_game(player_id):\n    if not player_id.replace('-', '').isalnum():\n        raise ValueError('Invalid player id')\n    with open(f'/var/saves/{player_id}.sav', 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef load_workspace(ws_name, resource):\n    if not ws_name.replace('-', '').replace('_', '').isalnum():\n        raise ValueError('Invalid workspace')\n    base = os.path.realpath(os.path.join('/srv/workspaces', ws_name))\n    full = os.path.realpath(os.path.join(base, os.path.basename(resource)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_experiment_data(exp_id, datafile):\n    path = os.path.join('/var/experiments', exp_id, datafile)\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_org_file(org_id, category, fname):\n    path = '/srv/orgs/' + org_id + '/' + category + '/' + fname\n    with open(path) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from fastapi.responses import FileResponse\n@app.get('/photo/{photo_id}')\ndef photo(photo_id: str):\n    return FileResponse('/var/photos/' + photo_id + '.jpg')",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def cli_main():\n    import sys\n    fname = sys.argv[1]\n    with open('/var/cli/' + fname) as f:\n        print(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class AssetManager:\n    def load(self, asset_name):\n        path = '/srv/assets/' + asset_name\n        return open(path, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def cloud_function(request):\n    fname = request.args.get('fname', '')\n    if not fname.replace('_', '').isalnum():\n        return ('Invalid filename', 400)\n    import os\n    base = '/workspace'\n    full = os.path.realpath(os.path.join(base, fname))\n    if not full.startswith(base + os.sep):\n        return ('Access denied', 400)\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_release_note(product, version):\n    p = os.path.join('/srv/releases', product, version + '.md')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_feed(feed_name):\n    with open('/var/feeds/' + feed_name + '.xml') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class ConfigLoader:\n    def fetch(self, env, filename):\n        path = '/etc/conf/' + env + '/' + filename\n        return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_patch(patch_id):\n    if not patch_id.isalnum():\n        raise ValueError('Invalid patch id')\n    return open(f'/srv/patches/{patch_id}.diff').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from werkzeug.utils import secure_filename\nclass UploadHandler:\n    BASE = '/var/uploads'\n    def store(self, fileobj, name):\n        fn = secure_filename(name)\n        if not fn:\n            raise ValueError('Invalid name')\n        fileobj.save(f'{self.BASE}/{fn}')\n        return fn",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef fetch_route_gpx(route_id):\n    base = '/var/routes'\n    safe = os.path.basename(route_id)\n    full = os.path.realpath(os.path.join(base, safe + '.gpx'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_contract(contract_id):\n    if not contract_id.isalnum():\n        raise ValueError('Invalid contract id')\n    return open(f'/srv/contracts/{contract_id}.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eventbridge_handler(event, context):\n    import os\n    detail = os.path.basename(event['detail']['filename'])\n    base = '/tmp/eventbridge'\n    full = os.path.realpath(os.path.join(base, detail))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from aiohttp import web\nasync def handle(request):\n    name = request.query.get('name')\n    with open('/var/data/' + name) as f:\n        return web.Response(text=f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import send_from_directory, abort\nfrom werkzeug.utils import secure_filename\ndef secure_dl(name):\n    safe = secure_filename(name)\n    if not safe:\n        abort(400)\n    return send_from_directory('/var/secure', safe)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_lstrip(name):\n    safe = name.lstrip('/')\n    return open('/var/data/' + safe).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef fetch_meeting_minutes(meeting_id):\n    if not meeting_id.replace('-', '').isalnum():\n        raise ValueError('Invalid meeting id')\n    base = Path('/srv/meetings').resolve()\n    full = (base / f'{meeting_id}.md').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def argparse_main():\n    import argparse, os, sys\n    p = argparse.ArgumentParser()\n    p.add_argument('--file', required=True)\n    args = p.parse_args()\n    safe = os.path.basename(args.file)\n    base = '/var/argparse'\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        sys.exit('access denied')\n    with open(full) as f:\n        print(f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from quart import Quart, request, abort\nimport os\napp = Quart(__name__)\n@app.route('/q')\nasync def q():\n    name = request.args.get('name', '')\n    if not name.replace('_', '').isalnum():\n        abort(400)\n    base = '/var/quart'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base + os.sep):\n        abort(400)\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef read_event(event_file):\n    base = '/var/events'\n    safe = os.path.basename(event_file)\n    full = os.path.realpath(os.path.join(base, safe + '.json'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_lesson(course, lesson):\n    with open(f'/srv/courses/{course}/{lesson}.md') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_tutorial(course, tut):\n    if not course.replace('-', '').isalnum() or not tut.replace('-', '').isalnum():\n        raise ValueError('Invalid params')\n    base = (Path('/srv/tutorials') / course).resolve()\n    full = (base / f'{tut}.md').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_env(env_name):\n    allowed = {'development', 'staging', 'production'}\n    if env_name not in allowed:\n        raise ValueError('Env not allowed')\n    return open(f'/etc/envs/{env_name}.env').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_dashboard(user, dashboard):\n    with open('/var/dashboards/' + user + '/' + dashboard + '.json') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_user_script(request):\n    allowed = {'setup', 'teardown', 'migrate', 'seed'}\n    script = request.json.get('script')\n    if script not in allowed:\n        raise ValueError('Script not allowed')\n    return open(f'/srv/user_scripts/{script}.sh').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_state(machine_id):\n    allowed = {'order_processing', 'shipping', 'payment', 'returns'}\n    if machine_id not in allowed:\n        raise ValueError('Machine not allowed')\n    return open(f'/var/state/{machine_id}.state').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from werkzeug.utils import secure_filename\nimport os\ndef strict_serve(name):\n    fn = secure_filename(name)\n    if not fn or not fn.endswith(('.png', '.jpg', '.gif')):\n        raise ValueError('Invalid')\n    base = '/var/images'\n    full = os.path.realpath(os.path.join(base, fn))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from fastapi import FastAPI, Query\napp = FastAPI()\n\n@app.get('/template')\nasync def template(name: str = Query(...)):\n    with open(f'/srv/templates/{name}.html') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_grafana_dashboard(dash):\n    allowed = {'overview', 'api', 'db', 'queue'}\n    if dash not in allowed:\n        raise ValueError('Dashboard not allowed')\n    return open(f'/srv/grafana/{dash}.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef serve_user_content(username, content):\n    full = os.path.join('/var/user_content', username, content)\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class WidgetFactory:\n    def get_template(self, widget_id):\n        return open('/srv/widgets/' + widget_id + '.html').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def azure_func(req):\n    name = req.params.get('name')\n    return open('/home/site/wwwroot/uploads/' + name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_pricing(currency):\n    with open(f'/srv/pricing/{currency}.json') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def handler(event, context):\n    fname = event.get('filename')\n    path = '/var/task/' + fname\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_sprite(sprite_name):\n    allowed = {'player', 'enemy', 'coin', 'heart', 'star', 'bullet'}\n    if sprite_name not in allowed:\n        raise ValueError('Sprite not allowed')\n    with open(f'/var/sprites/{sprite_name}.png', 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import numpy as np\ndef load_npy(name):\n    return np.load('/var/np/' + name + '.npy')",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import abort, send_from_directory\n@app.route('/firmware/<dt>')\ndef firmware(dt):\n    ALLOWED = {'router', 'switch', 'camera'}\n    if dt not in ALLOWED:\n        abort(404)\n    return send_from_directory('/srv/firmware', f'{dt}.bin')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask_restful import Resource, reqparse\nimport os\nclass FileResource(Resource):\n    def get(self):\n        parser = reqparse.RequestParser()\n        parser.add_argument('name')\n        args = parser.parse_args()\n        name = args['name'] or ''\n        if not name.replace('_', '').isalnum():\n            return {'error': 'Invalid name'}, 400\n        base = '/srv/restful'\n        full = os.path.realpath(os.path.join(base, name))\n        if not full.startswith(base + os.sep):\n            return {'error': 'Access denied'}, 400\n        return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_level_data(level_id):\n    return open('/var/levels/' + level_id + '.dat', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from flask import send_from_directory, abort\n@app.route('/cdn/<path:asset>')\ndef cdn(asset):\n    if asset.startswith('/') or '..' in asset.split('/'):\n        abort(400)\n    return send_from_directory('/var/cdn', asset)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import request, abort, send_from_directory\n@app.route('/preview')\ndef preview():\n    img = request.args.get('img', '')\n    if not img.replace('_', '').replace('-', '').isalnum():\n        abort(400)\n    return send_from_directory('/var/preview', img + '.png')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from quart import Quart, request\napp = Quart(__name__)\n@app.route('/q')\nasync def q():\n    name = request.args.get('name')\n    with open('/var/quart/' + name) as f:\n        return await f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_log(name):\n    base = Path('/var/log/app').resolve()\n    full = (base / Path(name).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef fetch_meeting_minutes(meeting_id):\n    p = os.path.join('/srv/meetings', meeting_id + '.md')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_recipe(slug):\n    allowed = {'pasta', 'salad', 'soup', 'dessert', 'curry'}\n    if slug not in allowed:\n        raise ValueError('Recipe not allowed')\n    return open(f'/srv/recipes/{slug}.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_event(event_file):\n    path = '/var/events/' + event_file + '.json'\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_version_file(app, version, fname):\n    path = '/srv/releases/' + app + '/' + version + '/' + fname\n    return open(path, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_notebook(nb_name):\n    if not nb_name.replace('_', '').replace('-', '').isalnum():\n        raise ValueError('Invalid notebook name')\n    return open(f'/home/jupyter/notebooks/{nb_name}.ipynb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_lab_result(patient, test_id):\n    return open(f'/srv/labs/{patient}/{test_id}.json').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_pipeline_output(pipeline, run_id):\n    if not pipeline.replace('_', '').isalnum() or not run_id.replace('-', '').isalnum():\n        raise ValueError('Invalid params')\n    base = os.path.realpath(os.path.join('/var/pipelines', pipeline, run_id))\n    full = os.path.realpath(os.path.join(base, 'output.log'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def lambda_handler(event, context):\n    key = event['key']\n    with open('/tmp/' + key) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_queue(queue_file):\n    allowed = {'high', 'medium', 'low', 'dead_letter'}\n    if queue_file not in allowed:\n        raise ValueError('Queue not allowed')\n    return open(f'/var/queues/{queue_file}').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_email_template(template_name):\n    allowed = {'welcome', 'goodbye', 'invoice', 'reset', 'verify'}\n    if template_name not in allowed:\n        raise ValueError('Template not allowed')\n    with open(f'/srv/email_templates/{template_name}.html') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from django.http import FileResponse, HttpResponseBadRequest\ndef serve_export(request):\n    eid = request.GET.get('export', '')\n    if not eid.isalnum():\n        return HttpResponseBadRequest('Invalid export id')\n    return FileResponse(open(f'/var/exports/{eid}.csv', 'rb'))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from flask import request\n@app.post('/upload-view')\ndef upload_view():\n    fn = request.form['filename']\n    with open('/var/uploads/' + fn, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef load_replay(match_id):\n    base = '/var/replays'\n    safe = os.path.basename(match_id)\n    full = os.path.realpath(os.path.join(base, safe + '.replay'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_email_template(template_name):\n    with open('/srv/email_templates/' + template_name + '.html') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "async def get_avatar(uid):\n    import aiofiles\n    async with aiofiles.open(f'/var/avatars/{uid}.png', 'rb') as f:\n        return await f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_report(report_id):\n    return open(f'/srv/reports/{report_id}.pdf', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef load_session(session_id):\n    base = '/var/sessions'\n    safe = os.path.basename(session_id)\n    full = os.path.realpath(os.path.join(base, safe + '.dat'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_partial_fix(name):\n    safe = name.replace('..', '')\n    return open('/var/files/' + safe).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import re\ndef fetch_evidence(case_id, evidence_id):\n    if not case_id.isalnum() or not re.fullmatch(r'[A-Z0-9-]+', evidence_id):\n        raise ValueError('Invalid params')\n    with open(f'/srv/evidence/{case_id}/{evidence_id}', 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_archive(archive_name):\n    with open('/var/archives/' + archive_name, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef fetch_certificate_path(user_id):\n    if not user_id.isalnum():\n        raise ValueError('Invalid user id')\n    base = Path('/srv/certificates').resolve()\n    full = (base / f'{user_id}.pdf').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from fastapi import FastAPI\napp = FastAPI()\n\n@app.get('/asset')\ndef asset(name: str):\n    return open('/var/assets/' + name, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_project_file(project, filename):\n    if not project.replace('-', '').replace('_', '').isalnum():\n        raise ValueError('Invalid project')\n    base = os.path.realpath(os.path.join('/srv/projects', project, 'files'))\n    full = os.path.realpath(os.path.join(base, os.path.basename(filename)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class CertStore:\n    def load_cert(self, name):\n        return open('/etc/certs/' + name + '.crt').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import tornado.web\nclass DocHandler(tornado.web.RequestHandler):\n    ALLOWED = {'intro', 'guide', 'faq', 'changelog'}\n    def get(self, doc):\n        if doc not in self.ALLOWED:\n            self.set_status(404); return\n        with open(f'/srv/docs/{doc}.txt') as f:\n            self.write(f.read())",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ProtoCache:\n    def get(self, proto):\n        return open('/srv/proto/' + proto + '.proto').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_sound(sound_file):\n    return open('/var/sounds/' + sound_file, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def gcp_handler(request):\n    blob = request.get_json().get('blob')\n    with open('/workspace/blobs/' + blob, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef lambda_handler(event, context):\n    key = os.path.basename(event['key'])\n    base = '/tmp'\n    full = os.path.realpath(os.path.join(base, key))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def api_gateway_proxy(event, context):\n    import os\n    fname = event['pathParameters']['file']\n    if not fname.replace('_', '').isalnum():\n        return {'statusCode': 400, 'body': 'Invalid'}\n    base = '/var/task/files'\n    full = os.path.realpath(os.path.join(base, fname))\n    if not full.startswith(base + os.sep):\n        return {'statusCode': 400, 'body': 'Denied'}\n    with open(full) as f:\n        return {'statusCode': 200, 'body': f.read()}",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ContractRepository:\n    def fetch(self, contract_id):\n        return open('/srv/contracts/' + contract_id + '.docx', 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_doc(name):\n    base = Path('/srv/docs').resolve()\n    full = (base / Path(name).name).resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef load_namespace_config(ns, conf):\n    full = os.path.join('/etc/namespaces', ns, conf)\n    with open(full) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_avatar_thumb(uid, size):\n    with open(f'/var/avatars/{uid}/{size}.png', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from django.utils._os import safe_join\ndef django_safe_read(base, user_path):\n    try:\n        full = safe_join(base, user_path)\n    except ValueError:\n        raise PermissionError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class SessionStore:\n    def load(self, session_id):\n        return open('/var/sessions/' + session_id + '.sess').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def azure_func(req):\n    import os\n    name = req.params.get('name', '')\n    if not name.replace('_', '').isalnum():\n        return 'Invalid', 400\n    base = '/home/site/wwwroot/uploads'\n    full = os.path.realpath(os.path.join(base, name))\n    if not full.startswith(base + os.sep):\n        return 'Denied', 400\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_user_avatar(user_id):\n    if not str(user_id).isdigit():\n        raise ValueError('Invalid user id')\n    with open(f'/var/avatars/{user_id}.png', 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_resource_lang(lang, key):\n    with open(f'/opt/i18n/{lang}/{key}.json') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef load_quiz_safe(quiz_id):\n    if not quiz_id.replace('-', '').isalnum():\n        raise ValueError('Invalid quiz id')\n    base = Path('/srv/quizzes').resolve()\n    full = (base / f'{quiz_id}.json').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_proto(service):\n    if not service.replace('_', '').isalnum():\n        raise ValueError('Invalid service name')\n    return open(f'/srv/protos/{service}.proto').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_audio_clip(audio_file):\n    return open('/var/audio/' + audio_file, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from chalice import Chalice, BadRequestError\napp = Chalice(app_name='demo')\n@app.route('/file/{name}')\ndef chalice_file(name):\n    if not name.replace('_', '').isalnum():\n        raise BadRequestError('Invalid name')\n    return open(f'/tmp/chalice/{name}').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_translation_safe(project, lang):\n    import re\n    if not project.replace('-', '').isalnum() or not re.fullmatch(r'[a-z]{2}(_[A-Z]{2})?', lang):\n        raise ValueError('Invalid params')\n    base = (Path('/srv/translations') / project).resolve()\n    full = (base / f'{lang}.po').resolve()\n    if not full.is_relative_to(base):\n        raise ValueError('Access denied')\n    return full.read_text()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import tornado.web\nclass FileHandler(tornado.web.RequestHandler):\n    def get(self):\n        name = self.get_argument('name')\n        with open('/var/tornado_files/' + name) as f:\n            self.write(f.read())",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_submission(contest, user, fname):\n    if not contest.isalnum() or not user.isalnum():\n        raise ValueError('Invalid params')\n    base = os.path.realpath(os.path.join('/srv/contests', contest, user))\n    full = os.path.realpath(os.path.join(base, os.path.basename(fname)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import bz2\ndef read_bz2(name):\n    with bz2.open('/var/bz2/' + name + '.bz2', 'rt') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_org_doc(org, doc):\n    full = os.path.join('/srv/orgs', org, 'docs', doc)\n    with open(full) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from pathlib import Path\ndef read_user_file(uid, fname):\n    return (Path('/var/users') / uid / fname).read_text()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "async def get_avatar(uid):\n    import aiofiles\n    if not str(uid).isdigit():\n        raise ValueError('Invalid uid')\n    async with aiofiles.open(f'/var/avatars/{uid}.png', 'rb') as f:\n        return await f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import re\ndef read_cert(domain):\n    if not re.fullmatch(r'[a-z0-9.-]+', domain) or '..' in domain:\n        raise ValueError('Invalid domain')\n    with open(f'/etc/ssl/certs/{domain}/cert.pem') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_icon_http(request):\n    allowed = {'edit', 'delete', 'view', 'share', 'download', 'upload'}\n    icon = request.args.get('icon')\n    if icon not in allowed:\n        raise ValueError('Icon not allowed')\n    return open(f'/var/icons/{icon}.png', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_level_data(level_id):\n    if not level_id.isdigit() or not (1 <= int(level_id) <= 100):\n        raise ValueError('Invalid level id')\n    return open(f'/var/levels/{level_id}.dat', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef get_shared_file(share_id, fname):\n    path = os.path.join('/srv/shares', share_id, fname)\n    return open(path, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_lab_result(patient, test_id):\n    if not patient.isalnum():\n        raise ValueError('Invalid patient')\n    base = os.path.realpath(os.path.join('/srv/labs', patient))\n    full = os.path.realpath(os.path.join(base, os.path.basename(test_id) + '.json'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_seed(seed_name):\n    path = '/srv/seeds/' + seed_name + '.json'\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_experiment_data(exp_id, datafile):\n    if not exp_id.replace('-', '').isalnum():\n        raise ValueError('Invalid experiment id')\n    base = os.path.realpath(os.path.join('/var/experiments', exp_id))\n    full = os.path.realpath(os.path.join(base, os.path.basename(datafile)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef read_migration(migration_name):\n    base = '/srv/migrations'\n    safe = os.path.basename(migration_name)\n    full = os.path.realpath(os.path.join(base, safe + '.sql'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full).read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "import os\ndef load_quiz(quiz_id):\n    p = os.path.join('/srv/quizzes', quiz_id + '.json')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef fetch_room_log(room_id, day):\n    path = os.path.join('/var/rooms', room_id, day + '.log')\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_snippet(snippet_id):\n    path = '/var/snippets/' + snippet_id\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_notebook(nb_name):\n    return open('/home/jupyter/notebooks/' + nb_name + '.ipynb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_dataset(dataset_name):\n    with open('/data/datasets/' + dataset_name + '.csv') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import shutil\ndef copy_upload(filename, out):\n    shutil.copyfile('/var/uploads/' + filename, out)",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef get_version_file(app, version, fname):\n    import re\n    if not app.replace('-', '').isalnum() or not re.fullmatch(r'\\d+(\\.\\d+){0,3}', version):\n        raise ValueError('Invalid params')\n    base = os.path.realpath(os.path.join('/srv/releases', app, version))\n    full = os.path.realpath(os.path.join(base, os.path.basename(fname)))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_cron_def(job_name):\n    with open('/etc/crons/' + job_name + '.cron') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef fetch_shipment_label(shipment):\n    base = '/srv/labels'\n    safe = os.path.basename(shipment)\n    full = os.path.realpath(os.path.join(base, safe + '.pdf'))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from fastapi import HTTPException\nfrom uuid import UUID\n@app.get('/r/{rid}')\ndef r(rid: str):\n    try:\n        UUID(rid)\n    except ValueError:\n        raise HTTPException(400)\n    return open(f'/srv/r/{rid}.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from celery import shared_task\nimport os\n@shared_task\ndef celery_task(filename):\n    safe = os.path.basename(filename)\n    base = '/var/celery'\n    full = os.path.realpath(os.path.join(base, safe))\n    if not full.startswith(base + os.sep):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_translation_file(project, lang):\n    import re\n    allowed_projects = {'web', 'mobile', 'admin', 'api'}\n    if project not in allowed_projects:\n        raise ValueError('Project not allowed')\n    if not re.fullmatch(r'[a-z]{2}(_[A-Z]{2})?', lang):\n        raise ValueError('Invalid lang')\n    return open(f'/srv/translations/{project}/{lang}.po').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_save_game(player_id):\n    with open('/var/saves/' + player_id + '.sav', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import re\ndef read_state_machine(machine_id):\n    if not re.fullmatch(r'sm_[a-z0-9]+', machine_id):\n        raise ValueError('Invalid machine id')\n    return open(f'/var/state/{machine_id}.state').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_order_receipt(order_id):\n    with open(f'/srv/orders/{order_id}/receipt.pdf', 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef load_chart(dashboard, chart):\n    p = os.path.join('/srv/dashboards', dashboard, 'charts', chart + '.json')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import os\ndef read_docker_compose(project):\n    p = os.path.join('/srv/projects', project, 'docker-compose.yml')\n    return open(p).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "from starlette.requests import Request\nasync def endpoint(request: Request):\n    name = request.query_params['name']\n    return open(f'/srv/files/{name}').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "import re\ndef fetch_warranty(serial):\n    if not re.fullmatch(r'[A-Z]{2}\\d{8,12}', serial):\n        raise ValueError('Invalid serial')\n    return open(f'/srv/warranty/{serial}.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_fixture(fixture_file):\n    with open('/tests/fixtures/' + fixture_file) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def fetch_payslip(emp_id, month):\n    path = '/srv/payslips/' + emp_id + '/' + month + '.pdf'\n    return open(path, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_firmware(device_type):\n    allowed = {'router', 'switch', 'camera', 'sensor', 'hub'}\n    if device_type not in allowed:\n        raise ValueError('Device type not allowed')\n    return open(f'/srv/firmware/{device_type}.bin', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_file(filename):\n    with open('/uploads/' + filename) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_template(name):\n    path = '/templates/' + name + '.html'\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def serve_file(filepath):\n    with open('/static/' + filepath, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_config(config_name):\n    return open('/configs/' + config_name).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_user_file(username, filename):\n    path = '/home/' + username + '/' + filename\n    with open(path) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_log(log_name):\n    with open('/var/logs/' + log_name) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_report(report_id):\n    path = '/reports/' + report_id + '.pdf'\n    return open(path, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_image(image_name):\n    return open('/images/' + image_name, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_data(data_file):\n    with open('/data/' + data_file) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_document(doc_name):\n    path = '/documents/' + doc_name\n    with open(path) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_plugin(plugin_name):\n    with open('/plugins/' + plugin_name + '.py') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_backup(backup_file):\n    return open('/backups/' + backup_file, 'rb').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_certificate(cert_name):\n    with open('/certs/' + cert_name) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_script(script_name):\n    path = '/scripts/' + script_name\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_asset(asset_path):\n    with open('/assets/' + asset_path, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_profile(username):\n    with open('/profiles/' + username + '.json') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_invoice(invoice_id):\n    path = '/invoices/' + invoice_id + '.txt'\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_theme(theme_name):\n    return open('/themes/' + theme_name + '/style.css').read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_key(key_name):\n    with open('/keys/' + key_name) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_export(export_file):\n    with open('/exports/' + export_file) as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def load_schema(schema_name):\n    path = '/schemas/' + schema_name + '.json'\n    return open(path).read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def download(request):\n    filename = request.args.get('file')\n    with open('/uploads/' + filename, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_user_data(user_id):\n    with open(f'/data/users/{user_id}.json') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "class FileServer:\n    def serve(self, filename):\n        with open('/public/' + filename, 'rb') as f:\n            return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def get_attachment(base_dir, filename):\n    path = os.path.join(base_dir, filename)\n    with open(path, 'rb') as f:\n        return f.read()",
+    "label": 1,
+    "type": "path_traversal"
+  },
+  {
+    "code": "def read_file(filename):\n    safe = os.path.basename(filename)\n    with open(os.path.join('/uploads', safe)) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_template(name):\n    allowed = ['home', 'about', 'contact']\n    if name not in allowed:\n        raise ValueError('Invalid template')\n    return open(f'/templates/{name}.html').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def serve_file(filepath):\n    base = '/static'\n    full = os.path.realpath(os.path.join(base, filepath))\n    if not full.startswith(base + '/'):\n        raise ValueError('Access denied')\n    return open(full, 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_config(config_name):\n    allowed = ['app', 'db', 'cache']\n    if config_name not in allowed:\n        raise ValueError('Config not allowed')\n    return open(f'/configs/{config_name}').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_user_file(username, filename):\n    safe_user = os.path.basename(username)\n    safe_file = os.path.basename(filename)\n    path = os.path.join('/home', safe_user, safe_file)\n    with open(path) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_log(log_name):\n    safe = os.path.basename(log_name)\n    with open(os.path.join('/var/logs', safe)) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_report(report_id):\n    if not report_id.isalnum():\n        raise ValueError('Invalid report id')\n    return open(f'/reports/{report_id}.pdf', 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_image(image_name):\n    safe = os.path.basename(image_name)\n    return open(os.path.join('/images', safe), 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_data(data_file):\n    safe = os.path.basename(data_file)\n    with open(os.path.join('/data', safe)) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_document(doc_name):\n    base = '/documents'\n    full = os.path.realpath(os.path.join(base, doc_name))\n    if not full.startswith(base + '/'):\n        raise ValueError('Access denied')\n    with open(full) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_plugin(plugin_name):\n    allowed = ['auth', 'cache', 'logger']\n    if plugin_name not in allowed:\n        raise ValueError('Plugin not allowed')\n    with open(f'/plugins/{plugin_name}.py') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_backup(backup_file):\n    safe = os.path.basename(backup_file)\n    return open(os.path.join('/backups', safe), 'rb').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_certificate(cert_name):\n    if not cert_name.replace('-','').replace('_','').isalnum():\n        raise ValueError('Invalid cert name')\n    with open(f'/certs/{cert_name}') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_script(script_name):\n    allowed = ['deploy', 'test', 'lint']\n    if script_name not in allowed:\n        raise ValueError('Script not allowed')\n    return open(f'/scripts/{script_name}').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_asset(asset_path):\n    base = '/assets'\n    full = os.path.realpath(os.path.join(base, asset_path))\n    if not full.startswith(base + '/'):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_profile(username):\n    if not username.isalnum():\n        raise ValueError('Invalid username')\n    with open(f'/profiles/{username}.json') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_invoice(invoice_id):\n    if not invoice_id.isalnum():\n        raise ValueError('Invalid invoice id')\n    return open(f'/invoices/{invoice_id}.txt').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_theme(theme_name):\n    allowed = ['light', 'dark', 'blue']\n    if theme_name not in allowed:\n        raise ValueError('Theme not allowed')\n    return open(f'/themes/{theme_name}/style.css').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def read_key(key_name):\n    safe = os.path.basename(key_name)\n    with open(os.path.join('/keys', safe)) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_export(export_file):\n    safe = os.path.basename(export_file)\n    with open(os.path.join('/exports', safe)) as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_schema(schema_name):\n    allowed = ['user', 'product', 'order']\n    if schema_name not in allowed:\n        raise ValueError('Schema not allowed')\n    return open(f'/schemas/{schema_name}.json').read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def download(request):\n    filename = request.args.get('file')\n    base = '/uploads'\n    full = os.path.realpath(os.path.join(base, filename))\n    if not full.startswith(base + '/'):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_user_data(user_id):\n    if not str(user_id).isdigit():\n        raise ValueError('Invalid user id')\n    with open(f'/data/users/{user_id}.json') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class FileServer:\n    BASE = '/public'\n    def serve(self, filename):\n        from pathlib import Path\n        safe = Path(self.BASE) / Path(filename).name\n        if not str(safe.resolve()).startswith(self.BASE):\n            raise ValueError('Access denied')\n        return safe.read_bytes()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_attachment(base_dir, filename):\n    base = os.path.realpath('/attachments')\n    full = os.path.realpath(os.path.join(base, os.path.basename(filename)))\n    if not full.startswith(base + '/'):\n        raise ValueError('Access denied')\n    with open(full, 'rb') as f:\n        return f.read()",
+    "label": 0,
+    "type": "safe"
+  }
+]

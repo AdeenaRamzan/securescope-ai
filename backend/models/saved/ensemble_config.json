@@ -1,0 +1,74 @@
+{
+  "version": "v3_ensemble_phase1",
+  "description": "Phase 1 ANN gate \u2014 ensemble of ANN + XGBoost + LightGBM",
+  "deployment": {
+    "threshold": 0.39,
+    "voting": "soft_average",
+    "ann_uses_scaled_features": true,
+    "tree_models_use_raw_features": true
+  },
+  "models": {
+    "ann": "ann_v3_tuned.keras",
+    "xgboost": "xgb_v3.pkl",
+    "lightgbm": "lgb_v3.pkl",
+    "scaler": "scaler_v3.pkl"
+  },
+  "features": {
+    "count": 22,
+    "names": [
+      "f1_sql_concat",
+      "f2_hardcoded_secret",
+      "f3_eval_exec",
+      "f4_path_traversal",
+      "f5_cmd_injection",
+      "f6_ast_nodes",
+      "f7_string_count",
+      "f8_uses_environ",
+      "f9_parameterized",
+      "f10_user_input",
+      "f11_ast_dangerous_calls",
+      "f12_ast_hardcoded_assign",
+      "f13_user_controlled_input",
+      "f14_db_operation",
+      "f15_file_subprocess",
+      "f16_dangerous_deserialize",
+      "f17_nesting_depth",
+      "f18_param_count",
+      "f19_exception_handling",
+      "f20_string_formatting",
+      "f21_network_calls",
+      "f22_weak_crypto"
+    ]
+  },
+  "training_data": {
+    "synthetic": {
+      "rows": 2750,
+      "description": "Hand-crafted OWASP-aligned examples, 5 vulnerability types"
+    },
+    "real": {
+      "rows": 14248,
+      "source": "PyCode Vul \u2014 real GitHub functions from Django, Flask, Airflow etc",
+      "citation": "Karim et al. 2025, IEEE"
+    },
+    "combined_after_cleaning": 16926
+  },
+  "evaluation": {
+    "test_set": "PyCode Vul holdout \u2014 3,563 real functions, never seen in training",
+    "test_rows": 3563,
+    "safe_rows": 1962,
+    "vulnerable_rows": 1601,
+    "metrics": {
+      "accuracy": 0.734,
+      "precision": 0.68,
+      "recall": 0.773,
+      "f1": 0.723
+    }
+  },
+  "known_limitations": [
+    "Features are hand-crafted regex + AST patterns",
+    "Model learns code complexity as proxy for vulnerability",
+    "Recall ceiling ~0.77 due to feature representation limits",
+    "Phase 2 BiLSTM on token sequences designed to address this"
+  ],
+  "next_phase": "Phase 2 \u2014 BiLSTM on tokenized code sequences"
+}

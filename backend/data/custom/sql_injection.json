@@ -1,0 +1,2752 @@
+[
+  {
+    "code": "def get_user(user_id):\n    query = \"SELECT * FROM users WHERE id = '\" + user_id + \"'\"\n    return db.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_product(name):\n    sql = \"SELECT * FROM products WHERE name = '\" + name + \"'\"\n    return cursor.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_orders(customer):\n    q = \"SELECT * FROM orders WHERE customer = '\" + customer + \"'\"\n    conn.execute(q)\n    return conn.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_users(email):\n    query = \"SELECT id, name FROM users WHERE email = '\" + email + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_post(post_id):\n    return db.execute(\"SELECT * FROM posts WHERE id = '\" + post_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def login(username, password):\n    sql = \"SELECT * FROM users WHERE username = '\" + username + \"' AND password = '\" + password + \"'\"\n    return cursor.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def filter_by_status(status):\n    query = \"SELECT * FROM tasks WHERE status = '\" + status + \"'\"\n    db.execute(query)\n    return db.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_employee(emp_id):\n    sql = \"SELECT name, salary FROM employees WHERE id = '\" + emp_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_logs(keyword):\n    q = \"SELECT * FROM logs WHERE message LIKE '%\" + keyword + \"%'\"\n    return db.execute(q).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_category(cat_name):\n    query = \"SELECT * FROM categories WHERE name = '\" + cat_name + \"'\"\n    return conn.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def delete_user(user_id):\n    db.execute(\"DELETE FROM users WHERE id = '\" + user_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def update_email(user_id, email):\n    sql = \"UPDATE users SET email = '\" + email + \"' WHERE id = '\" + user_id + \"'\"\n    db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_report(report_type):\n    query = \"SELECT * FROM reports WHERE type = '\" + report_type + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_by_username(username):\n    return db.execute(\"SELECT * FROM accounts WHERE username = '\" + username + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_transactions(account_id):\n    sql = \"SELECT * FROM transactions WHERE account_id = '\" + account_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_items(query_str):\n    sql = \"SELECT * FROM items WHERE title LIKE '%\" + query_str + \"%'\"\n    return db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_comments(post_id):\n    q = \"SELECT * FROM comments WHERE post_id = '\" + post_id + \"'\"\n    cursor.execute(q)\n    return cursor.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_invoice(invoice_num):\n    return conn.execute(\"SELECT * FROM invoices WHERE number = '\" + invoice_num + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_customer(phone):\n    sql = \"SELECT * FROM customers WHERE phone = '\" + phone + \"'\"\n    return db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_schedule(day):\n    query = \"SELECT * FROM schedule WHERE day = '\" + day + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_sensor_data(sensor_id):\n    sql = \"SELECT * FROM sensors WHERE id = '\" + sensor_id + \"'\"\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_product_by_sku(sku):\n    return db.execute(f\"SELECT * FROM products WHERE sku = '{sku}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_user_profile(username):\n    result = db.execute(f\"SELECT * FROM profiles WHERE username = '{username}'\")\n    return result.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search(request):\n    term = request.args.get('q')\n    rows = db.execute(\"SELECT * FROM posts WHERE title LIKE '%\" + term + \"%'\")\n    return rows.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "class UserRepository:\n    def find_by_email(self, email):\n        sql = \"SELECT * FROM users WHERE email = '\" + email + \"'\"\n        return self.db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_user(user_id):\n    query = \"SELECT * FROM users WHERE id = ?\"\n    return db.execute(query, (user_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_product(name):\n    cursor.execute(\"SELECT * FROM products WHERE name = ?\", (name,))\n    return cursor.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_orders(customer):\n    q = \"SELECT * FROM orders WHERE customer = ?\"\n    conn.execute(q, (customer,))\n    return conn.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_users(email):\n    query = \"SELECT id, name FROM users WHERE email = ?\"\n    return db.execute(query, (email,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_post(post_id):\n    return db.execute(\"SELECT * FROM posts WHERE id = ?\", (post_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def login(username, password):\n    sql = \"SELECT * FROM users WHERE username = ? AND password = ?\"\n    return cursor.execute(sql, (username, password))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def filter_by_status(status):\n    query = \"SELECT * FROM tasks WHERE status = ?\"\n    db.execute(query, (status,))\n    return db.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_employee(emp_id):\n    sql = \"SELECT name, salary FROM employees WHERE id = ?\"\n    return cursor.execute(sql, (emp_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_logs(keyword):\n    q = \"SELECT * FROM logs WHERE message LIKE ?\"\n    return db.execute(q, (f'%{keyword}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_category(cat_name):\n    query = \"SELECT * FROM categories WHERE name = ?\"\n    return conn.execute(query, (cat_name,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def delete_user(user_id):\n    db.execute(\"DELETE FROM users WHERE id = ?\", (user_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def update_email(user_id, email):\n    sql = \"UPDATE users SET email = ? WHERE id = ?\"\n    db.execute(sql, (email, user_id))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_report(report_type):\n    query = \"SELECT * FROM reports WHERE type = ?\"\n    return cursor.execute(query, (report_type,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_by_username(username):\n    return db.execute(\"SELECT * FROM accounts WHERE username = ?\", (username,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_transactions(account_id):\n    sql = \"SELECT * FROM transactions WHERE account_id = ?\"\n    return cursor.execute(sql, (account_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_items(query_str):\n    sql = \"SELECT * FROM items WHERE title LIKE ?\"\n    return db.execute(sql, (f'%{query_str}%',))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_comments(post_id):\n    q = \"SELECT * FROM comments WHERE post_id = ?\"\n    cursor.execute(q, (post_id,))\n    return cursor.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_invoice(invoice_num):\n    return conn.execute(\"SELECT * FROM invoices WHERE number = ?\", (invoice_num,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_customer(phone):\n    sql = \"SELECT * FROM customers WHERE phone = ?\"\n    return db.execute(sql, (phone,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_schedule(day):\n    query = \"SELECT * FROM schedule WHERE day = ?\"\n    return cursor.execute(query, (day,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_sensor_data(sensor_id):\n    sql = \"SELECT * FROM sensors WHERE id = ?\"\n    return db.execute(sql, (sensor_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_product_by_sku(sku):\n    return db.execute(\"SELECT * FROM products WHERE sku = ?\", (sku,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_user_profile(username):\n    result = db.execute(\"SELECT * FROM profiles WHERE username = ?\", (username,))\n    return result.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search(request):\n    term = request.args.get('q')\n    rows = db.execute(\"SELECT * FROM posts WHERE title LIKE ?\", (f'%{term}%',))\n    return rows.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class UserRepository:\n    def find_by_email(self, email):\n        sql = \"SELECT * FROM users WHERE email = ?\"\n        return self.db.execute(sql, (email,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_product(product_id):\n    query = \"SELECT * FROM products WHERE id = '\" + product_id + \"'\"\n    return db.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_order(order_id):\n    sql = \"SELECT * FROM orders WHERE id = '\" + order_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_student(student_id):\n    q = \"SELECT * FROM students WHERE id = '\" + student_id + \"'\"\n    conn.execute(q)\n    return conn.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_article(slug):\n    query = \"SELECT * FROM articles WHERE slug = '\" + slug + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_review(review_id):\n    return db.execute(\"SELECT * FROM reviews WHERE id = '\" + review_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def authenticate(username, password):\n    sql = \"SELECT * FROM admins WHERE username = '\" + username + \"' AND password = '\" + password + \"'\"\n    return cursor.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def filter_by_category(category):\n    query = \"SELECT * FROM products WHERE category = '\" + category + \"'\"\n    db.execute(query)\n    return db.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_staff(staff_id):\n    sql = \"SELECT name, role FROM staff WHERE id = '\" + staff_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_messages(keyword):\n    q = \"SELECT * FROM messages WHERE body LIKE '%\" + keyword + \"%'\"\n    return db.execute(q).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_tag(tag_name):\n    query = \"SELECT * FROM tags WHERE name = '\" + tag_name + \"'\"\n    return conn.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def remove_account(account_id):\n    db.execute(\"DELETE FROM accounts WHERE id = '\" + account_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def update_username(user_id, username):\n    sql = \"UPDATE users SET username = '\" + username + \"' WHERE id = '\" + user_id + \"'\"\n    db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_audit_log(log_type):\n    query = \"SELECT * FROM audit_logs WHERE type = '\" + log_type + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_by_phone(phone):\n    return db.execute(\"SELECT * FROM contacts WHERE phone = '\" + phone + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_payments(user_id):\n    sql = \"SELECT * FROM payments WHERE user_id = '\" + user_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_titles(search_str):\n    sql = \"SELECT * FROM books WHERE title LIKE '%\" + search_str + \"%'\"\n    return db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_replies(comment_id):\n    q = \"SELECT * FROM replies WHERE comment_id = '\" + comment_id + \"'\"\n    cursor.execute(q)\n    return cursor.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_receipt(receipt_num):\n    return conn.execute(\"SELECT * FROM receipts WHERE number = '\" + receipt_num + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_supplier(email):\n    sql = \"SELECT * FROM suppliers WHERE email = '\" + email + \"'\"\n    return db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_shift(date):\n    query = \"SELECT * FROM shifts WHERE date = '\" + date + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_subscription(sub_id):\n    return db.execute(f\"SELECT * FROM subscriptions WHERE id = '{sub_id}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_tenant_profile(tenant_name):\n    result = db.execute(f\"SELECT * FROM tenants WHERE name = '{tenant_name}'\")\n    return result.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_coupon(coupon_code):\n    return db.execute(f\"SELECT * FROM coupons WHERE code = '{coupon_code}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def load_workspace(workspace_slug):\n    result = db.execute(f\"SELECT * FROM workspaces WHERE slug = '{workspace_slug}'\")\n    return result.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_campaign(campaign_id):\n    return db.execute(f\"SELECT * FROM campaigns WHERE id = '{campaign_id}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def load_template(template_name):\n    result = db.execute(f\"SELECT * FROM templates WHERE name = '{template_name}'\")\n    return result.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_project(project_code):\n    return db.execute(f\"SELECT * FROM projects WHERE code = '{project_code}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def load_document(doc_name):\n    result = db.execute(f\"SELECT * FROM documents WHERE name = '{doc_name}'\")\n    return result.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_promo(promo_code):\n    return db.execute(f\"SELECT * FROM promotions WHERE code = '{promo_code}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def load_theme(theme_name):\n    result = db.execute(f\"SELECT * FROM themes WHERE name = '{theme_name}'\")\n    return result.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_user_profile(username):\n    sql = f\"SELECT id, email, bio FROM users WHERE username = '{username}'\"\n    return db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_post(post_id):\n    return db.execute(f\"SELECT * FROM posts WHERE id = {post_id}\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def fetch_invoice(invoice_id):\n    sql = f\"SELECT * FROM invoices WHERE id = {invoice_id}\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_log_entry(entry_id):\n    return conn.execute(f\"SELECT * FROM logs WHERE id = {entry_id}\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_user(user_id):\n    sql = \"SELECT * FROM users WHERE id = '%s'\" % user_id\n    return cursor.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_employee(emp_id):\n    query = \"SELECT * FROM employees WHERE id = '%s'\" % emp_id\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_category(name):\n    sql = \"SELECT * FROM categories WHERE name = '%s'\" % name\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_users(username):\n    q = \"SELECT * FROM users WHERE username LIKE '%%%s%%'\" % username\n    return db.execute(q).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_config_value(key):\n    sql = \"SELECT value FROM config WHERE key = '%s'\" % key\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_transaction(txn_id):\n    return db.execute(\"SELECT * FROM transactions WHERE id = '%s'\" % txn_id)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def filter_orders(status):\n    sql = \"SELECT * FROM orders WHERE status = '%s'\" % status\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_account(account_id):\n    sql = \"SELECT * FROM accounts WHERE id = '{}'\".format(account_id)\n    return db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_customer(email):\n    query = \"SELECT * FROM customers WHERE email = '{}'\".format(email)\n    return cursor.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_record(record_id, table):\n    sql = \"SELECT * FROM {} WHERE id = '{}'\".format(table, record_id)\n    return db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_by_name(name):\n    q = \"SELECT * FROM people WHERE name LIKE '%{}%'\".format(name)\n    return conn.execute(q).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_widget(widget_id):\n    return db.execute(\"SELECT * FROM widgets WHERE id = '{}'\".format(widget_id))",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_report(period):\n    sql = \"SELECT * FROM reports WHERE period = '{}'\".format(period)\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_warehouse(location):\n    query = \"SELECT * FROM warehouses WHERE location = '{}'\".format(location)\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_products(request):\n    term = request.args.get('q')\n    rows = db.execute(\"SELECT * FROM products WHERE name LIKE '%\" + term + \"%'\")\n    return rows.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def filter_users(request):\n    role = request.args.get('role')\n    rows = db.execute(\"SELECT * FROM users WHERE role = '\" + role + \"'\")\n    return rows.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def list_items(request):\n    category = request.args.get('category')\n    rows = db.execute(\"SELECT * FROM items WHERE category = '\" + category + \"'\")\n    return rows.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_results(request):\n    status = request.args.get('status')\n    rows = db.execute(\"SELECT * FROM jobs WHERE status = '\" + status + \"'\")\n    return rows.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_open_issues(request):\n    label = request.args.get('label')\n    rows = db.execute(\"SELECT * FROM issues WHERE label = '\" + label + \"'\")\n    return rows.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_by_tag(request):\n    tag = request.form.get('tag')\n    return db.execute(\"SELECT * FROM posts WHERE tag = '\" + tag + \"'\").fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def filter_by_date(request):\n    date = request.args.get('date')\n    sql = \"SELECT * FROM events WHERE event_date = '\" + date + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_employees(request):\n    dept = request.args.get('department')\n    return db.execute(f\"SELECT * FROM employees WHERE department = '{dept}'\").fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "class OrderRepository:\n    def find_by_ref(self, ref):\n        sql = \"SELECT * FROM orders WHERE ref = '\" + ref + \"'\"\n        return self.db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "class ProductRepository:\n    def find_by_barcode(self, barcode):\n        sql = \"SELECT * FROM products WHERE barcode = '\" + barcode + \"'\"\n        return self.db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "class InvoiceRepository:\n    def find_by_number(self, number):\n        sql = \"SELECT * FROM invoices WHERE number = '\" + number + \"'\"\n        return self.db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "class TicketRepository:\n    def find_by_code(self, code):\n        sql = \"SELECT * FROM tickets WHERE code = '\" + code + \"'\"\n        return self.db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "class ReportRepository:\n    def find_by_period(self, period):\n        sql = \"SELECT * FROM reports WHERE period = '\" + period + \"'\"\n        return self.db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "class UserRepository:\n    def find_by_email(self, email):\n        sql = \"SELECT * FROM users WHERE email = '\" + email + \"'\"\n        return self.db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "class AssetRepository:\n    def find_by_tag(self, tag):\n        sql = f\"SELECT * FROM assets WHERE tag = '{tag}'\"\n        return self.db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "class CustomerRepository:\n    def search(self, name):\n        sql = \"SELECT * FROM customers WHERE name LIKE '%\" + name + \"%'\"\n        return self.db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "class SessionRepository:\n    def get_by_token(self, token):\n        return self.db.execute(\"SELECT * FROM sessions WHERE token = '\" + token + \"'\").fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_user_psycopg(user_id):\n    cur.execute(\"SELECT * FROM users WHERE id = '%s'\" % user_id)\n    return cur.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_post_psycopg(post_id):\n    cur.execute(\"SELECT * FROM posts WHERE id = %s\" % post_id)\n    return cur.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_psycopg(term):\n    cur.execute(\"SELECT * FROM articles WHERE title LIKE '%%%s%%'\" % term)\n    return cur.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_order_psycopg(order_id):\n    query = \"SELECT * FROM orders WHERE id = %s\" % order_id\n    cur.execute(query)\n    return cur.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_users_sorted(sort_col):\n    sql = \"SELECT * FROM users ORDER BY \" + sort_col\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def list_products_sorted(order_by, direction):\n    sql = \"SELECT * FROM products ORDER BY \" + order_by + \" \" + direction\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def dynamic_table_query(table_name, col, val):\n    sql = f\"SELECT * FROM {table_name} WHERE {col} = '{val}'\"\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_column_value(table, column, row_id):\n    return db.execute(\"SELECT \" + column + \" FROM \" + table + \" WHERE id = \" + str(row_id)).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_user_by_id(user_id):\n    # developer thinks int() makes it safe\n    sql = \"SELECT * FROM users WHERE id = \" + str(int(user_id))\n    return db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_product_by_id(product_id):\n    # int cast provides no protection against second-order injection or logic bugs\n    query = \"SELECT * FROM products WHERE id = \" + str(int(product_id))\n    return cursor.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef get_user(user_id):\n    sql = text(f\"SELECT * FROM users WHERE id = '{user_id}'\")\n    return db.session.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef search_products(term):\n    query = text(\"SELECT * FROM products WHERE name LIKE '%\" + term + \"%'\")\n    return db.session.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef get_order(order_id):\n    sql = text(\"SELECT * FROM orders WHERE id = '\" + order_id + \"'\")\n    return db.session.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef find_user_by_email(email):\n    sql = text(\"SELECT * FROM users WHERE email = '%s'\" % email)\n    return session.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def process_search(request):\n    # user-controlled value stored then used unsafely\n    saved_query = request.json.get('query')\n    sql = \"SELECT * FROM logs WHERE message LIKE '%\" + saved_query + \"%'\"\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_user_orders(session):\n    # user_id comes from session but was set from user input earlier\n    user_id = session.get('user_id')\n    sql = \"SELECT * FROM orders WHERE user_id = '\" + user_id + \"'\"\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def run_report(params):\n    start = params['start_date']\n    end = params['end_date']\n    sql = \"SELECT * FROM sales WHERE date BETWEEN '\" + start + \"' AND '\" + end + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def sign_in(email, password):\n    sql = \"SELECT * FROM members WHERE email = '\" + email + \"' AND password = '\" + password + \"'\"\n    return cursor.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def verify_token(user_id, token):\n    sql = \"SELECT * FROM tokens WHERE user_id = '\" + user_id + \"' AND token = '\" + token + \"'\"\n    return cursor.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def check_credentials(api_key, secret):\n    sql = \"SELECT * FROM api_clients WHERE key = '\" + api_key + \"' AND secret = '\" + secret + \"'\"\n    return cursor.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def validate_user(username, pin):\n    sql = \"SELECT * FROM accounts WHERE username = '\" + username + \"' AND pin = '\" + pin + \"'\"\n    return cursor.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def update_password(user_id, password):\n    sql = \"UPDATE users SET password = '\" + password + \"' WHERE id = '\" + user_id + \"'\"\n    db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def update_bio(user_id, bio):\n    sql = \"UPDATE profiles SET bio = '\" + bio + \"' WHERE user_id = '\" + user_id + \"'\"\n    db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def update_status(order_id, status):\n    sql = \"UPDATE orders SET status = '\" + status + \"' WHERE id = '\" + order_id + \"'\"\n    db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def update_role(user_id, role):\n    sql = \"UPDATE users SET role = '\" + role + \"' WHERE id = '\" + user_id + \"'\"\n    db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def remove_account(account_id):\n    db.execute(\"DELETE FROM accounts WHERE id = '\" + account_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def remove_post(post_id):\n    db.execute(\"DELETE FROM posts WHERE id = '\" + post_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def remove_item(item_id):\n    db.execute(\"DELETE FROM cart_items WHERE id = '\" + item_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def remove_comment(comment_id):\n    db.execute(\"DELETE FROM comments WHERE id = '\" + comment_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def remove_review(review_id):\n    db.execute(\"DELETE FROM reviews WHERE id = '\" + review_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def purge_logs(log_type):\n    db.execute(\"DELETE FROM logs WHERE type = '\" + log_type + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def delete_session(token):\n    cursor.execute(\"DELETE FROM sessions WHERE token = '\" + token + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def create_user(username, email):\n    sql = \"INSERT INTO users (username, email) VALUES ('\" + username + \"', '\" + email + \"')\"\n    db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def add_comment(post_id, content):\n    query = \"INSERT INTO comments (post_id, body) VALUES ('\" + post_id + \"', '\" + content + \"')\"\n    cursor.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def log_event(user_id, event):\n    db.execute(\"INSERT INTO events (user_id, name) VALUES ('\" + user_id + \"', '\" + event + \"')\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def register_device(device_id, owner):\n    sql = f\"INSERT INTO devices (id, owner) VALUES ('{device_id}', '{owner}')\"\n    cursor.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_device_data(device_id):\n    sql = \"SELECT * FROM devices WHERE id = '\" + device_id + \"'\"\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_vendor(vendor_id):\n    query = \"SELECT * FROM vendors WHERE id = '\" + vendor_id + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_asset(asset_id):\n    query = \"SELECT * FROM assets WHERE id = '\" + asset_id + \"'\"\n    return db.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def fetch_session(session_token):\n    sql = \"SELECT * FROM sessions WHERE token = '\" + session_token + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def load_preference(pref_key):\n    q = \"SELECT value FROM preferences WHERE key = '\" + pref_key + \"'\"\n    conn.execute(q)\n    return conn.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_comment_by_author(author):\n    query = \"SELECT * FROM comments WHERE author = '\" + author + \"'\"\n    return db.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_alert(alert_id):\n    return db.execute(\"SELECT * FROM alerts WHERE id = '\" + alert_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def filter_by_region(region):\n    query = \"SELECT * FROM stores WHERE region = '\" + region + \"'\"\n    db.execute(query)\n    return db.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_advisor(advisor_id):\n    sql = \"SELECT name, email FROM advisors WHERE id = '\" + advisor_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_faqs(keyword):\n    q = \"SELECT * FROM faqs WHERE question LIKE '%\" + keyword + \"%'\"\n    return db.execute(q).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_branch(branch_code):\n    query = \"SELECT * FROM branches WHERE code = '\" + branch_code + \"'\"\n    return conn.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_access_log(resource):\n    query = \"SELECT * FROM access_logs WHERE resource = '\" + resource + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_by_token(token):\n    return db.execute(\"SELECT * FROM api_keys WHERE token = '\" + token + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_charges(invoice_id):\n    sql = \"SELECT * FROM charges WHERE invoice_id = '\" + invoice_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_notes(search_str):\n    sql = \"SELECT * FROM notes WHERE content LIKE '%\" + search_str + \"%'\"\n    return db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_votes(poll_id):\n    q = \"SELECT * FROM votes WHERE poll_id = '\" + poll_id + \"'\"\n    cursor.execute(q)\n    return cursor.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_contract(contract_num):\n    return conn.execute(\"SELECT * FROM contracts WHERE number = '\" + contract_num + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_agent(license_num):\n    sql = \"SELECT * FROM agents WHERE license = '\" + license_num + \"'\"\n    return db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_booking(checkin_date):\n    query = \"SELECT * FROM bookings WHERE checkin = '\" + checkin_date + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_telemetry(node_id):\n    sql = \"SELECT * FROM telemetry WHERE node_id = '\" + node_id + \"'\"\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def filter_by_priority(priority):\n    query = \"SELECT * FROM issues WHERE priority = '\" + priority + \"'\"\n    db.execute(query)\n    return db.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_contractor(contractor_id):\n    sql = \"SELECT name, rate FROM contractors WHERE id = '\" + contractor_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_events(keyword):\n    q = \"SELECT * FROM events WHERE title LIKE '%\" + keyword + \"%'\"\n    return db.execute(q).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_department(dept_name):\n    query = \"SELECT * FROM departments WHERE name = '\" + dept_name + \"'\"\n    return conn.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_error_log(error_type):\n    query = \"SELECT * FROM error_logs WHERE type = '\" + error_type + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_by_alias(alias):\n    return db.execute(\"SELECT * FROM profiles WHERE alias = '\" + alias + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_refunds(order_id):\n    sql = \"SELECT * FROM refunds WHERE order_id = '\" + order_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_descriptions(search_str):\n    sql = \"SELECT * FROM items WHERE description LIKE '%\" + search_str + \"%'\"\n    return db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_attachments(message_id):\n    q = \"SELECT * FROM attachments WHERE message_id = '\" + message_id + \"'\"\n    cursor.execute(q)\n    return cursor.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_shipment(tracking_num):\n    return conn.execute(\"SELECT * FROM shipments WHERE tracking = '\" + tracking_num + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_vendor(name):\n    sql = \"SELECT * FROM vendors WHERE name = '\" + name + \"'\"\n    return db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_availability(date):\n    query = \"SELECT * FROM availability WHERE date = '\" + date + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_reading(meter_id):\n    sql = \"SELECT * FROM meter_readings WHERE meter_id = '\" + meter_id + \"'\"\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_signal(channel_id):\n    sql = \"SELECT * FROM signals WHERE channel_id = '\" + channel_id + \"'\"\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_trace(trace_id):\n    sql = \"SELECT * FROM traces WHERE trace_id = '\" + trace_id + \"'\"\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_permission(perm_id):\n    query = \"SELECT * FROM permissions WHERE id = '\" + perm_id + \"'\"\n    return db.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def fetch_feed(feed_id):\n    sql = \"SELECT * FROM feeds WHERE id = '\" + feed_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def load_rule(rule_name):\n    q = \"SELECT * FROM rules WHERE name = '\" + rule_name + \"'\"\n    conn.execute(q)\n    return conn.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_channel_by_name(name):\n    query = \"SELECT * FROM channels WHERE name = '\" + name + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_flag(flag_id):\n    return db.execute(\"SELECT * FROM flags WHERE id = '\" + flag_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def filter_by_source(source):\n    query = \"SELECT * FROM leads WHERE source = '\" + source + \"'\"\n    db.execute(query)\n    return db.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_driver(driver_id):\n    sql = \"SELECT name, license FROM drivers WHERE id = '\" + driver_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_comments(keyword):\n    q = \"SELECT * FROM comments WHERE content LIKE '%\" + keyword + \"%'\"\n    return db.execute(q).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_zone(zone_code):\n    query = \"SELECT * FROM zones WHERE code = '\" + zone_code + \"'\"\n    return conn.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_webhook_log(endpoint):\n    query = \"SELECT * FROM webhook_logs WHERE endpoint = '\" + endpoint + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_by_iban(iban):\n    return db.execute(\"SELECT * FROM bank_accounts WHERE iban = '\" + iban + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_credits(member_id):\n    sql = \"SELECT * FROM credits WHERE member_id = '\" + member_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_docs(search_str):\n    sql = \"SELECT * FROM documents WHERE title LIKE '%\" + search_str + \"%'\"\n    return db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_followers(user_id):\n    q = \"SELECT * FROM followers WHERE user_id = '\" + user_id + \"'\"\n    cursor.execute(q)\n    return cursor.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_quote(quote_id):\n    return conn.execute(\"SELECT * FROM quotes WHERE id = '\" + quote_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_reseller(reseller_id):\n    sql = \"SELECT * FROM resellers WHERE id = '\" + reseller_id + \"'\"\n    return db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_task(due_date):\n    query = \"SELECT * FROM tasks WHERE due_date = '\" + due_date + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_partner(partner_code):\n    sql = \"SELECT * FROM partners WHERE code = '\" + partner_code + \"'\"\n    return db.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_appointment(appt_date):\n    query = \"SELECT * FROM appointments WHERE date = '\" + appt_date + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_nurse(nurse_id):\n    sql = \"SELECT name, ward FROM nurses WHERE id = '\" + nurse_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_products_by_desc(keyword):\n    q = \"SELECT * FROM products WHERE description LIKE '%\" + keyword + \"%'\"\n    return db.execute(q).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_floor(floor_number):\n    query = \"SELECT * FROM floors WHERE number = '\" + floor_number + \"'\"\n    return conn.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_event_log(event_name):\n    query = \"SELECT * FROM event_logs WHERE name = '\" + event_name + \"'\"\n    return cursor.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_by_card(card_number):\n    return db.execute(\"SELECT * FROM payment_methods WHERE card = '\" + card_number + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_discounts(product_id):\n    sql = \"SELECT * FROM discounts WHERE product_id = '\" + product_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_profiles(search_str):\n    sql = \"SELECT * FROM profiles WHERE bio LIKE '%\" + search_str + \"%'\"\n    return db.execute(sql)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_likes(post_id):\n    q = \"SELECT * FROM likes WHERE post_id = '\" + post_id + \"'\"\n    cursor.execute(q)\n    return cursor.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_warranty(serial_num):\n    return conn.execute(\"SELECT * FROM warranties WHERE serial = '\" + serial_num + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_badge(badge_name):\n    return db.execute(\"SELECT * FROM badges WHERE name = '\" + badge_name + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def filter_by_label(label):\n    query = \"SELECT * FROM tasks WHERE label = '\" + label + \"'\"\n    db.execute(query)\n    return db.fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_role(role_id):\n    query = \"SELECT * FROM roles WHERE id = '\" + role_id + \"'\"\n    return db.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def fetch_media(media_id):\n    sql = \"SELECT * FROM media WHERE id = '\" + media_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def load_setting(setting_name):\n    q = \"SELECT value FROM settings WHERE name = '\" + setting_name + \"'\"\n    conn.execute(q)\n    return conn.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_post_by_slug(slug):\n    query = \"SELECT * FROM blog_posts WHERE slug = '\" + slug + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_post_by_title(title):\n    query = \"SELECT * FROM posts WHERE title = '\" + title + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_notification(notif_id):\n    return db.execute(\"SELECT * FROM notifications WHERE id = '\" + notif_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def load_config(config_key):\n    q = \"SELECT value FROM config WHERE key = '\" + config_key + \"'\"\n    conn.execute(q)\n    return conn.fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def fetch_ticket(ticket_id):\n    sql = \"SELECT * FROM tickets WHERE id = '\" + ticket_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_venue(venue_id):\n    query = \"SELECT * FROM venues WHERE id = '\" + venue_id + \"'\"\n    return db.execute(query)",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_staff_by_dept(dept):\n    sql = \"SELECT * FROM staff WHERE department = '\" + dept + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_membership(member_id):\n    query = \"SELECT * FROM memberships WHERE member_id = '\" + member_id + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_patient(patient_id):\n    sql = \"SELECT * FROM patients WHERE id = '\" + patient_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_prescription(rx_id):\n    return db.execute(\"SELECT * FROM prescriptions WHERE id = '\" + rx_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_claim(claim_number):\n    sql = \"SELECT * FROM claims WHERE number = '\" + claim_number + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_policy(policy_id):\n    query = \"SELECT * FROM policies WHERE id = '\" + policy_id + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_property(address):\n    sql = \"SELECT * FROM properties WHERE address LIKE '%\" + address + \"%'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_listing(listing_id):\n    return db.execute(f\"SELECT * FROM listings WHERE id = '{listing_id}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_bid(auction_id):\n    sql = \"SELECT * FROM bids WHERE auction_id = '\" + auction_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_inventory(sku):\n    query = \"SELECT * FROM inventory WHERE sku = '\" + sku + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_course(course_code):\n    sql = \"SELECT * FROM courses WHERE code = '\" + course_code + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_enrollment(student_id):\n    query = \"SELECT * FROM enrollments WHERE student_id = '\" + student_id + \"'\"\n    return db.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_grade(student_id, course_id):\n    sql = \"SELECT grade FROM grades WHERE student_id = '\" + student_id + \"' AND course_id = '\" + course_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_instructor(name):\n    query = \"SELECT * FROM instructors WHERE name LIKE '%\" + name + \"%'\"\n    return db.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_sensor_data(sensor_id):\n    sql = \"SELECT * FROM sensor_readings WHERE sensor_id = '\" + sensor_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_firmware(device_model):\n    query = \"SELECT * FROM firmware WHERE model = '\" + device_model + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_knowledge_base(query_str):\n    sql = \"SELECT * FROM kb_articles WHERE content LIKE '%\" + query_str + \"%'\"\n    return db.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_survey_response(response_id):\n    return db.execute(f\"SELECT * FROM responses WHERE id = '{response_id}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_form_submission(form_id):\n    sql = \"SELECT * FROM submissions WHERE form_id = '\" + form_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_webhook(webhook_id):\n    query = \"SELECT * FROM webhooks WHERE id = '\" + webhook_id + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_api_log(client_id):\n    sql = \"SELECT * FROM api_logs WHERE client_id = '\" + client_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_integration(service_name):\n    query = \"SELECT * FROM integrations WHERE service = '\" + service_name + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_metric(metric_name, date):\n    sql = \"SELECT value FROM metrics WHERE name = '\" + metric_name + \"' AND date = '\" + date + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_dashboard(user_id):\n    return db.execute(f\"SELECT * FROM dashboards WHERE owner_id = '{user_id}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_plugin(plugin_slug):\n    sql = \"SELECT * FROM plugins WHERE slug = '\" + plugin_slug + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_extension(ext_name):\n    query = \"SELECT * FROM extensions WHERE name = '\" + ext_name + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_oauth_client(client_id):\n    sql = \"SELECT * FROM oauth_clients WHERE client_id = '\" + client_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_refresh_token(token):\n    return db.execute(\"SELECT * FROM refresh_tokens WHERE token = '\" + token + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_warehouse_stock(warehouse_id):\n    sql = \"SELECT * FROM stock WHERE warehouse_id = '\" + warehouse_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_discount_code(code):\n    return db.execute(\"SELECT * FROM discount_codes WHERE code = '\" + code + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_chat_room(room_id):\n    sql = f\"SELECT * FROM chat_rooms WHERE id = '{room_id}'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_file_metadata(file_id):\n    query = \"SELECT * FROM files WHERE id = '\" + file_id + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_label(label_id):\n    return conn.execute(\"SELECT * FROM labels WHERE id = '\" + label_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_sprint(sprint_id):\n    sql = \"SELECT * FROM sprints WHERE id = '\" + sprint_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_pipeline(pipeline_name):\n    query = \"SELECT * FROM pipelines WHERE name = '\" + pipeline_name + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_build(build_id):\n    return db.execute(f\"SELECT * FROM builds WHERE id = '{build_id}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_deployment(env):\n    sql = \"SELECT * FROM deployments WHERE environment = '\" + env + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_environment(name):\n    query = \"SELECT * FROM environments WHERE name = '\" + name + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_release(version):\n    sql = \"SELECT * FROM releases WHERE version = '\" + version + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_changelog(keyword):\n    q = \"SELECT * FROM changelog WHERE description LIKE '%\" + keyword + \"%'\"\n    return db.execute(q).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_feature_flag(flag_name):\n    return db.execute(\"SELECT * FROM feature_flags WHERE name = '\" + flag_name + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_experiment(exp_id):\n    sql = f\"SELECT * FROM experiments WHERE id = '{exp_id}'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_variant(variant_key):\n    query = \"SELECT * FROM variants WHERE key = '\" + variant_key + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_hypothesis(h_id):\n    return conn.execute(\"SELECT * FROM hypotheses WHERE id = '\" + h_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_cohort(cohort_name):\n    sql = \"SELECT * FROM cohorts WHERE name = '\" + cohort_name + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_segment(segment_id):\n    query = \"SELECT * FROM segments WHERE id = '\" + segment_id + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_funnel(funnel_id):\n    return db.execute(f\"SELECT * FROM funnels WHERE id = '{funnel_id}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_conversion(source):\n    sql = \"SELECT * FROM conversions WHERE source = '\" + source + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_goal(goal_name):\n    query = \"SELECT * FROM goals WHERE name = '\" + goal_name + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_milestone(milestone_id):\n    sql = \"SELECT * FROM milestones WHERE id = '\" + milestone_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_roadmap_item(item_id):\n    return db.execute(\"SELECT * FROM roadmap WHERE id = '\" + item_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_changelog_entry(entry_id):\n    query = f\"SELECT * FROM changelog_entries WHERE id = '{entry_id}'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_tag_by_slug(slug):\n    sql = \"SELECT * FROM tags WHERE slug = '\" + slug + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_media_by_type(media_type):\n    query = \"SELECT * FROM media WHERE type = '\" + media_type + \"'\"\n    return db.execute(query).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_location(city):\n    sql = \"SELECT * FROM locations WHERE city = '\" + city + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_address(user_id):\n    return db.execute(\"SELECT * FROM addresses WHERE user_id = '\" + user_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def search_by_zip(zip_code):\n    sql = \"SELECT * FROM addresses WHERE zip = '\" + zip_code + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_country(country_code):\n    query = \"SELECT * FROM countries WHERE code = '\" + country_code + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_currency(currency_code):\n    return conn.execute(\"SELECT * FROM currencies WHERE code = '\" + currency_code + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_language(lang_code):\n    sql = \"SELECT * FROM languages WHERE code = '\" + lang_code + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_timezone(tz_name):\n    query = \"SELECT * FROM timezones WHERE name = '\" + tz_name + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_translation(key, locale):\n    sql = \"SELECT value FROM translations WHERE key = '\" + key + \"' AND locale = '\" + locale + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_locale_setting(locale):\n    return db.execute(f\"SELECT * FROM locale_settings WHERE locale = '{locale}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_price_tier(tier_name):\n    query = \"SELECT * FROM price_tiers WHERE name = '\" + tier_name + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_bundle(bundle_id):\n    sql = \"SELECT * FROM bundles WHERE id = '\" + bundle_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_upsell(product_id):\n    return db.execute(\"SELECT * FROM upsells WHERE product_id = '\" + product_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_cross_sell(category):\n    sql = f\"SELECT * FROM cross_sells WHERE category = '{category}'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_wishlist(user_id):\n    query = \"SELECT * FROM wishlists WHERE user_id = '\" + user_id + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_saved_item(item_id):\n    return conn.execute(\"SELECT * FROM saved_items WHERE id = '\" + item_id + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_return_request(order_id):\n    sql = \"SELECT * FROM return_requests WHERE order_id = '\" + order_id + \"'\"\n    return cursor.execute(sql).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_dispute(dispute_id):\n    query = \"SELECT * FROM disputes WHERE id = '\" + dispute_id + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_chargeback(txn_id):\n    return db.execute(f\"SELECT * FROM chargebacks WHERE txn_id = '{txn_id}'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_fraud_flag(account_id):\n    sql = \"SELECT * FROM fraud_flags WHERE account_id = '\" + account_id + \"'\"\n    return cursor.execute(sql).fetchall()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_risk_score(user_id):\n    query = \"SELECT score FROM risk_scores WHERE user_id = '\" + user_id + \"'\"\n    return db.execute(query).fetchone()",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def find_blacklist_entry(ip):\n    return conn.execute(\"SELECT * FROM blacklist WHERE ip = '\" + ip + \"'\")",
+    "label": 1,
+    "type": "sql_injection"
+  },
+  {
+    "code": "def get_product(product_id):\n    query = \"SELECT * FROM products WHERE id = ?\"\n    return db.execute(query, (product_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_order(order_id):\n    cursor.execute(\"SELECT * FROM orders WHERE id = ?\", (order_id,))\n    return cursor.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_student(student_id):\n    q = \"SELECT * FROM students WHERE id = ?\"\n    conn.execute(q, (student_id,))\n    return conn.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_article(slug):\n    query = \"SELECT * FROM articles WHERE slug = ?\"\n    return db.execute(query, (slug,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_review(review_id):\n    return db.execute(\"SELECT * FROM reviews WHERE id = ?\", (review_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def authenticate(username, password):\n    sql = \"SELECT * FROM admins WHERE username = ? AND password = ?\"\n    return cursor.execute(sql, (username, password))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def filter_by_category(category):\n    query = \"SELECT * FROM products WHERE category = ?\"\n    db.execute(query, (category,))\n    return db.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_staff(staff_id):\n    sql = \"SELECT name, role FROM staff WHERE id = ?\"\n    return cursor.execute(sql, (staff_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_messages(keyword):\n    q = \"SELECT * FROM messages WHERE body LIKE ?\"\n    return db.execute(q, (f'%{keyword}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_tag(tag_name):\n    query = \"SELECT * FROM tags WHERE name = ?\"\n    return conn.execute(query, (tag_name,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def remove_account(account_id):\n    db.execute(\"DELETE FROM accounts WHERE id = ?\", (account_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def update_username(user_id, username):\n    sql = \"UPDATE users SET username = ? WHERE id = ?\"\n    db.execute(sql, (username, user_id))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_audit_log(log_type):\n    query = \"SELECT * FROM audit_logs WHERE type = ?\"\n    return cursor.execute(query, (log_type,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_by_phone(phone):\n    return db.execute(\"SELECT * FROM contacts WHERE phone = ?\", (phone,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_payments(user_id):\n    sql = \"SELECT * FROM payments WHERE user_id = ?\"\n    return cursor.execute(sql, (user_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_titles(search_str):\n    sql = \"SELECT * FROM books WHERE title LIKE ?\"\n    return db.execute(sql, (f'%{search_str}%',))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_replies(comment_id):\n    q = \"SELECT * FROM replies WHERE comment_id = ?\"\n    cursor.execute(q, (comment_id,))\n    return cursor.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_receipt(receipt_num):\n    return conn.execute(\"SELECT * FROM receipts WHERE number = ?\", (receipt_num,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_supplier(email):\n    sql = \"SELECT * FROM suppliers WHERE email = ?\"\n    return db.execute(sql, (email,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_shift(date):\n    query = \"SELECT * FROM shifts WHERE date = ?\"\n    return cursor.execute(query, (date,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_user_psycopg(user_id):\n    cur.execute(\"SELECT * FROM users WHERE id = %s\", (user_id,))\n    return cur.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_post_psycopg(post_id):\n    cur.execute(\"SELECT * FROM posts WHERE id = %s\", (post_id,))\n    return cur.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_psycopg(term):\n    cur.execute(\"SELECT * FROM articles WHERE title LIKE %s\", (f'%{term}%',))\n    return cur.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_order_psycopg(order_id):\n    cur.execute(\"SELECT * FROM orders WHERE id = %s\", (order_id,))\n    return cur.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def authenticate_psycopg(username, password):\n    cur.execute(\"SELECT * FROM admins WHERE username = %s AND password = %s\", (username, password))\n    return cur.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_products_psycopg(term):\n    cur.execute(\"SELECT * FROM products WHERE name LIKE %s\", (f'%{term}%',))\n    return cur.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_customer_psycopg(email):\n    cur.execute(\"SELECT * FROM customers WHERE email = %s\", (email,))\n    return cur.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def delete_session_psycopg(token):\n    cur.execute(\"DELETE FROM sessions WHERE token = %s\", (token,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def update_status_psycopg(order_id, status):\n    cur.execute(\"UPDATE orders SET status = %s WHERE id = %s\", (status, order_id))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_payments_psycopg(user_id):\n    cur.execute(\"SELECT * FROM payments WHERE user_id = %s\", (user_id,))\n    return cur.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef get_user(user_id):\n    sql = text(\"SELECT * FROM users WHERE id = :id\")\n    return db.session.execute(sql, {'id': user_id}).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef find_product(product_id):\n    result = db.session.execute(\n        text(\"SELECT * FROM products WHERE id = :id\"),\n        {'id': product_id}\n    )\n    return result.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef search_products(term):\n    sql = text(\"SELECT * FROM products WHERE name LIKE :term\")\n    return db.session.execute(sql, {'term': f'%{term}%'}).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef authenticate(username, password):\n    sql = text(\"SELECT * FROM users WHERE username = :u AND password = :p\")\n    return db.session.execute(sql, {'u': username, 'p': password}).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef get_order(order_id):\n    result = db.session.execute(\n        text(\"SELECT * FROM orders WHERE id = :order_id\"),\n        {'order_id': order_id}\n    )\n    return result.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef find_customer(email):\n    sql = text(\"SELECT * FROM customers WHERE email = :email\")\n    return db.session.execute(sql, {'email': email}).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef update_status(order_id, status):\n    sql = text(\"UPDATE orders SET status = :status WHERE id = :id\")\n    db.session.execute(sql, {'status': status, 'id': order_id})\n    db.session.commit()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "from sqlalchemy import text\n\ndef delete_user(user_id):\n    db.session.execute(\n        text(\"DELETE FROM users WHERE id = :id\"),\n        {'id': user_id}\n    )\n    db.session.commit()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_user(user_id):\n    return User.query.filter_by(id=user_id).first()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_products_by_category(category):\n    return Product.query.filter_by(category=category).all()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_users(username):\n    return User.query.filter(User.username.ilike(f'%{username}%')).all()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_order(order_id):\n    return Order.query.get(order_id)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_by_email(email):\n    return User.query.filter(User.email == email).first()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_active_users():\n    return User.query.filter(User.is_active == True).all()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_orders_by_status(status):\n    return Order.query.filter(Order.status == status).order_by(Order.created_at.desc()).all()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_products(term):\n    return Product.query.filter(Product.name.ilike(f'%{term}%')).all()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_user_orders(user_id):\n    return Order.query.filter_by(user_id=user_id).all()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_post_by_slug(slug):\n    return Post.query.filter_by(slug=slug).first_or_404()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_reviews_for_product(product_id):\n    return Review.query.filter_by(product_id=product_id).order_by(Review.created_at.desc()).all()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def authenticate(username, password_hash):\n    return User.query.filter_by(username=username, password=password_hash).first()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def delete_user(user_id):\n    user = User.query.get_or_404(user_id)\n    db.session.delete(user)\n    db.session.commit()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def update_user_role(user_id, new_role):\n    user = User.query.get_or_404(user_id)\n    user.role = new_role\n    db.session.commit()\n    return user",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_user(user_id):\n    return User.objects.get(id=user_id)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_products(category):\n    return Product.objects.filter(category=category)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_articles(term):\n    return Article.objects.filter(title__icontains=term)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_active_orders(user_id):\n    return Order.objects.filter(user_id=user_id, status='active')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_by_email(email):\n    return User.objects.filter(email=email).first()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_products(keyword):\n    return Product.objects.filter(name__icontains=keyword).order_by('name')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_comments_for_post(post_id):\n    return Comment.objects.filter(post_id=post_id).select_related('author')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def authenticate_user(username, password):\n    user = User.objects.filter(username=username).first()\n    if user and user.check_password(password):\n        return user\n    return None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def delete_expired_sessions():\n    from django.utils import timezone\n    Session.objects.filter(expires_at__lt=timezone.now()).delete()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def update_profile(user_id, bio):\n    Profile.objects.filter(user_id=user_id).update(bio=bio)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "ALLOWED_SORT_COLS = {'name', 'created_at', 'price', 'id'}\n\ndef get_users_sorted(sort_col):\n    if sort_col not in ALLOWED_SORT_COLS:\n        sort_col = 'id'\n    sql = f\"SELECT * FROM users ORDER BY {sort_col}\"\n    return db.execute(sql).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "ALLOWED_DIRECTIONS = {'ASC', 'DESC'}\nALLOWED_COLS = {'price', 'name', 'created_at'}\n\ndef list_products(order_by, direction):\n    order_by = order_by if order_by in ALLOWED_COLS else 'created_at'\n    direction = direction.upper() if direction.upper() in ALLOWED_DIRECTIONS else 'ASC'\n    return db.execute(f\"SELECT * FROM products ORDER BY {order_by} {direction}\").fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class OrderRepository:\n    def find_by_ref(self, ref):\n        sql = \"SELECT * FROM orders WHERE ref = ?\"\n        return self.db.execute(sql, (ref,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ProductRepository:\n    def find_by_barcode(self, barcode):\n        sql = \"SELECT * FROM products WHERE barcode = ?\"\n        return self.db.execute(sql, (barcode,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class InvoiceRepository:\n    def find_by_number(self, number):\n        sql = \"SELECT * FROM invoices WHERE number = ?\"\n        return self.db.execute(sql, (number,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class TicketRepository:\n    def find_by_code(self, code):\n        sql = \"SELECT * FROM tickets WHERE code = ?\"\n        return self.db.execute(sql, (code,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ReportRepository:\n    def find_by_period(self, period):\n        sql = \"SELECT * FROM reports WHERE period = ?\"\n        return self.db.execute(sql, (period,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class UserRepository:\n    def find_by_email(self, email):\n        sql = \"SELECT * FROM users WHERE email = ?\"\n        return self.db.execute(sql, (email,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class AssetRepository:\n    def find_by_tag(self, tag):\n        sql = \"SELECT * FROM assets WHERE tag = ?\"\n        return self.db.execute(sql, (tag,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class CustomerRepository:\n    def search(self, name):\n        sql = \"SELECT * FROM customers WHERE name LIKE ?\"\n        return self.db.execute(sql, (f'%{name}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class SessionRepository:\n    def get_by_token(self, token):\n        return self.db.execute(\"SELECT * FROM sessions WHERE token = ?\", (token,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_products(request):\n    term = request.args.get('q', '')\n    rows = db.execute(\"SELECT * FROM products WHERE name LIKE ?\", (f'%{term}%',))\n    return rows.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def filter_users(request):\n    role = request.args.get('role')\n    rows = db.execute(\"SELECT * FROM users WHERE role = ?\", (role,))\n    return rows.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def list_items(request):\n    category = request.args.get('category')\n    rows = db.execute(\"SELECT * FROM items WHERE category = ?\", (category,))\n    return rows.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_results(request):\n    status = request.args.get('status')\n    rows = db.execute(\"SELECT * FROM jobs WHERE status = ?\", (status,))\n    return rows.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_open_issues(request):\n    label = request.args.get('label')\n    rows = db.execute(\"SELECT * FROM issues WHERE label = ?\", (label,))\n    return rows.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_by_tag(request):\n    tag = request.form.get('tag')\n    return db.execute(\"SELECT * FROM posts WHERE tag = ?\", (tag,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def filter_by_date(request):\n    date = request.args.get('date')\n    sql = \"SELECT * FROM events WHERE event_date = ?\"\n    return cursor.execute(sql, (date,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_employees(request):\n    dept = request.args.get('department')\n    return db.execute(\"SELECT * FROM employees WHERE department = ?\", (dept,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def sign_in(email, password):\n    sql = \"SELECT * FROM members WHERE email = ? AND password = ?\"\n    return cursor.execute(sql, (email, password))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def verify_token(user_id, token):\n    sql = \"SELECT * FROM tokens WHERE user_id = ? AND token = ?\"\n    return cursor.execute(sql, (user_id, token))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def check_credentials(api_key, secret):\n    sql = \"SELECT * FROM api_clients WHERE key = ? AND secret = ?\"\n    return cursor.execute(sql, (api_key, secret))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def validate_user(username, pin):\n    sql = \"SELECT * FROM accounts WHERE username = ? AND pin = ?\"\n    return cursor.execute(sql, (username, pin))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def update_password(user_id, password):\n    sql = \"UPDATE users SET password = ? WHERE id = ?\"\n    db.execute(sql, (password, user_id))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def update_bio(user_id, bio):\n    sql = \"UPDATE profiles SET bio = ? WHERE user_id = ?\"\n    db.execute(sql, (bio, user_id))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def update_status(order_id, status):\n    sql = \"UPDATE orders SET status = ? WHERE id = ?\"\n    db.execute(sql, (status, order_id))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def update_role(user_id, role):\n    sql = \"UPDATE users SET role = ? WHERE id = ?\"\n    db.execute(sql, (role, user_id))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def remove_post(post_id):\n    db.execute(\"DELETE FROM posts WHERE id = ?\", (post_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def remove_item(item_id):\n    db.execute(\"DELETE FROM cart_items WHERE id = ?\", (item_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def remove_comment(comment_id):\n    db.execute(\"DELETE FROM comments WHERE id = ?\", (comment_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def remove_review(review_id):\n    db.execute(\"DELETE FROM reviews WHERE id = ?\", (review_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def purge_logs(log_type):\n    db.execute(\"DELETE FROM logs WHERE type = ?\", (log_type,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def delete_session(token):\n    cursor.execute(\"DELETE FROM sessions WHERE token = ?\", (token,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def create_user(username, email):\n    sql = \"INSERT INTO users (username, email) VALUES (?, ?)\"\n    db.execute(sql, (username, email))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def add_comment(post_id, content):\n    query = \"INSERT INTO comments (post_id, body) VALUES (?, ?)\"\n    cursor.execute(query, (post_id, content))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def log_event(user_id, event):\n    db.execute(\"INSERT INTO events (user_id, name) VALUES (?, ?)\", (user_id, event))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def register_device(device_id, owner):\n    sql = \"INSERT INTO devices (id, owner) VALUES (?, ?)\"\n    cursor.execute(sql, (device_id, owner))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_device_data(device_id):\n    sql = \"SELECT * FROM devices WHERE id = ?\"\n    return db.execute(sql, (device_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_subscription(sub_id):\n    return db.execute(\"SELECT * FROM subscriptions WHERE id = ?\", (sub_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_tenant_profile(tenant_name):\n    result = db.execute(\"SELECT * FROM tenants WHERE name = ?\", (tenant_name,))\n    return result.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_venue(venue_id):\n    query = \"SELECT * FROM venues WHERE id = ?\"\n    return db.execute(query, (venue_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_ticket(ticket_id):\n    sql = \"SELECT * FROM tickets WHERE id = ?\"\n    return cursor.execute(sql, (ticket_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_config(config_key):\n    q = \"SELECT value FROM config WHERE key = ?\"\n    conn.execute(q, (config_key,))\n    return conn.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_post_by_title(title):\n    query = \"SELECT * FROM posts WHERE title = ?\"\n    return db.execute(query, (title,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_notification(notif_id):\n    return db.execute(\"SELECT * FROM notifications WHERE id = ?\", (notif_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def filter_by_priority(priority):\n    query = \"SELECT * FROM issues WHERE priority = ?\"\n    db.execute(query, (priority,))\n    return db.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_contractor(contractor_id):\n    sql = \"SELECT name, rate FROM contractors WHERE id = ?\"\n    return cursor.execute(sql, (contractor_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_events(keyword):\n    q = \"SELECT * FROM events WHERE title LIKE ?\"\n    return db.execute(q, (f'%{keyword}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_department(dept_name):\n    query = \"SELECT * FROM departments WHERE name = ?\"\n    return conn.execute(query, (dept_name,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def remove_post(post_id):\n    db.execute(\"DELETE FROM posts WHERE id = ?\", (post_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_error_log(error_type):\n    query = \"SELECT * FROM error_logs WHERE type = ?\"\n    return cursor.execute(query, (error_type,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_by_alias(alias):\n    return db.execute(\"SELECT * FROM profiles WHERE alias = ?\", (alias,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_refunds(order_id):\n    sql = \"SELECT * FROM refunds WHERE order_id = ?\"\n    return cursor.execute(sql, (order_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_descriptions(search_str):\n    sql = \"SELECT * FROM items WHERE description LIKE ?\"\n    return db.execute(sql, (f'%{search_str}%',))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_attachments(message_id):\n    q = \"SELECT * FROM attachments WHERE message_id = ?\"\n    cursor.execute(q, (message_id,))\n    return cursor.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_shipment(tracking_num):\n    return conn.execute(\"SELECT * FROM shipments WHERE tracking = ?\", (tracking_num,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_vendor(name):\n    sql = \"SELECT * FROM vendors WHERE name = ?\"\n    return db.execute(sql, (name,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_availability(date):\n    query = \"SELECT * FROM availability WHERE date = ?\"\n    return cursor.execute(query, (date,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_reading(meter_id):\n    sql = \"SELECT * FROM meter_readings WHERE meter_id = ?\"\n    return db.execute(sql, (meter_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_coupon(coupon_code):\n    return db.execute(\"SELECT * FROM coupons WHERE code = ?\", (coupon_code,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_workspace(workspace_slug):\n    result = db.execute(\"SELECT * FROM workspaces WHERE slug = ?\", (workspace_slug,))\n    return result.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_campaign(campaign_id):\n    return db.execute(\"SELECT * FROM campaigns WHERE id = ?\", (campaign_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_template(template_name):\n    result = db.execute(\"SELECT * FROM templates WHERE name = ?\", (template_name,))\n    return result.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_role(role_id):\n    query = \"SELECT * FROM roles WHERE id = ?\"\n    return db.execute(query, (role_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_media(media_id):\n    sql = \"SELECT * FROM media WHERE id = ?\"\n    return cursor.execute(sql, (media_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_setting(setting_name):\n    q = \"SELECT value FROM settings WHERE name = ?\"\n    conn.execute(q, (setting_name,))\n    return conn.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_post_by_slug(slug):\n    query = \"SELECT * FROM blog_posts WHERE slug = ?\"\n    return db.execute(query, (slug,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_badge(badge_name):\n    return db.execute(\"SELECT * FROM badges WHERE name = ?\", (badge_name,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def filter_by_label(label):\n    query = \"SELECT * FROM tasks WHERE label = ?\"\n    db.execute(query, (label,))\n    return db.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_nurse(nurse_id):\n    sql = \"SELECT name, ward FROM nurses WHERE id = ?\"\n    return cursor.execute(sql, (nurse_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_products_by_desc(keyword):\n    q = \"SELECT * FROM products WHERE description LIKE ?\"\n    return db.execute(q, (f'%{keyword}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_floor(floor_number):\n    query = \"SELECT * FROM floors WHERE number = ?\"\n    return conn.execute(query, (floor_number,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_event_log(event_name):\n    query = \"SELECT * FROM event_logs WHERE name = ?\"\n    return cursor.execute(query, (event_name,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_by_card(card_number):\n    return db.execute(\"SELECT * FROM payment_methods WHERE card = ?\", (card_number,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_discounts(product_id):\n    sql = \"SELECT * FROM discounts WHERE product_id = ?\"\n    return cursor.execute(sql, (product_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_profiles(search_str):\n    sql = \"SELECT * FROM profiles WHERE bio LIKE ?\"\n    return db.execute(sql, (f'%{search_str}%',))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_likes(post_id):\n    q = \"SELECT * FROM likes WHERE post_id = ?\"\n    cursor.execute(q, (post_id,))\n    return cursor.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_warranty(serial_num):\n    return conn.execute(\"SELECT * FROM warranties WHERE serial = ?\", (serial_num,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_partner(partner_code):\n    sql = \"SELECT * FROM partners WHERE code = ?\"\n    return db.execute(sql, (partner_code,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_appointment(appt_date):\n    query = \"SELECT * FROM appointments WHERE date = ?\"\n    return cursor.execute(query, (appt_date,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_signal(channel_id):\n    sql = \"SELECT * FROM signals WHERE channel_id = ?\"\n    return db.execute(sql, (channel_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_project(project_code):\n    return db.execute(\"SELECT * FROM projects WHERE code = ?\", (project_code,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_document(doc_name):\n    result = db.execute(\"SELECT * FROM documents WHERE name = ?\", (doc_name,))\n    return result.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_promo(promo_code):\n    return db.execute(\"SELECT * FROM promotions WHERE code = ?\", (promo_code,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_theme(theme_name):\n    result = db.execute(\"SELECT * FROM themes WHERE name = ?\", (theme_name,))\n    return result.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_permission(perm_id):\n    query = \"SELECT * FROM permissions WHERE id = ?\"\n    return db.execute(query, (perm_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_feed(feed_id):\n    sql = \"SELECT * FROM feeds WHERE id = ?\"\n    return cursor.execute(sql, (feed_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_rule(rule_name):\n    q = \"SELECT * FROM rules WHERE name = ?\"\n    conn.execute(q, (rule_name,))\n    return conn.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_channel_by_name(name):\n    query = \"SELECT * FROM channels WHERE name = ?\"\n    return db.execute(query, (name,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_flag(flag_id):\n    return db.execute(\"SELECT * FROM flags WHERE id = ?\", (flag_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def filter_by_source(source):\n    query = \"SELECT * FROM leads WHERE source = ?\"\n    db.execute(query, (source,))\n    return db.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_driver(driver_id):\n    sql = \"SELECT name, license FROM drivers WHERE id = ?\"\n    return cursor.execute(sql, (driver_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_comments(keyword):\n    q = \"SELECT * FROM comments WHERE content LIKE ?\"\n    return db.execute(q, (f'%{keyword}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_zone(zone_code):\n    query = \"SELECT * FROM zones WHERE code = ?\"\n    return conn.execute(query, (zone_code,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_webhook_log(endpoint):\n    query = \"SELECT * FROM webhook_logs WHERE endpoint = ?\"\n    return cursor.execute(query, (endpoint,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_by_iban(iban):\n    return db.execute(\"SELECT * FROM bank_accounts WHERE iban = ?\", (iban,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_credits(member_id):\n    sql = \"SELECT * FROM credits WHERE member_id = ?\"\n    return cursor.execute(sql, (member_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_docs(search_str):\n    sql = \"SELECT * FROM documents WHERE title LIKE ?\"\n    return db.execute(sql, (f'%{search_str}%',))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_followers(user_id):\n    q = \"SELECT * FROM followers WHERE user_id = ?\"\n    cursor.execute(q, (user_id,))\n    return cursor.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_quote(quote_id):\n    return conn.execute(\"SELECT * FROM quotes WHERE id = ?\", (quote_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_reseller(reseller_id):\n    sql = \"SELECT * FROM resellers WHERE id = ?\"\n    return db.execute(sql, (reseller_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_task(due_date):\n    query = \"SELECT * FROM tasks WHERE due_date = ?\"\n    return cursor.execute(query, (due_date,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_trace(trace_id):\n    sql = \"SELECT * FROM traces WHERE trace_id = ?\"\n    return db.execute(sql, (trace_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_advisor(advisor_id):\n    sql = \"SELECT name, email FROM advisors WHERE id = ?\"\n    return cursor.execute(sql, (advisor_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_faqs(keyword):\n    q = \"SELECT * FROM faqs WHERE question LIKE ?\"\n    return db.execute(q, (f'%{keyword}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_branch(branch_code):\n    query = \"SELECT * FROM branches WHERE code = ?\"\n    return conn.execute(query, (branch_code,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_access_log(resource):\n    query = \"SELECT * FROM access_logs WHERE resource = ?\"\n    return cursor.execute(query, (resource,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_by_token(token):\n    return db.execute(\"SELECT * FROM api_keys WHERE token = ?\", (token,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_charges(invoice_id):\n    sql = \"SELECT * FROM charges WHERE invoice_id = ?\"\n    return cursor.execute(sql, (invoice_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_notes(search_str):\n    sql = \"SELECT * FROM notes WHERE content LIKE ?\"\n    return db.execute(sql, (f'%{search_str}%',))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_votes(poll_id):\n    q = \"SELECT * FROM votes WHERE poll_id = ?\"\n    cursor.execute(q, (poll_id,))\n    return cursor.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_contract(contract_num):\n    return conn.execute(\"SELECT * FROM contracts WHERE number = ?\", (contract_num,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_agent(license_num):\n    sql = \"SELECT * FROM agents WHERE license = ?\"\n    return db.execute(sql, (license_num,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_booking(checkin_date):\n    query = \"SELECT * FROM bookings WHERE checkin = ?\"\n    return cursor.execute(query, (checkin_date,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_telemetry(node_id):\n    sql = \"SELECT * FROM telemetry WHERE node_id = ?\"\n    return db.execute(sql, (node_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def filter_by_region(region):\n    query = \"SELECT * FROM stores WHERE region = ?\"\n    db.execute(query, (region,))\n    return db.fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_patient(patient_id):\n    sql = \"SELECT * FROM patients WHERE id = ?\"\n    return cursor.execute(sql, (patient_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_prescription(rx_id):\n    return db.execute(\"SELECT * FROM prescriptions WHERE id = ?\", (rx_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_claim(claim_number):\n    sql = \"SELECT * FROM claims WHERE number = ?\"\n    return cursor.execute(sql, (claim_number,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_policy(policy_id):\n    query = \"SELECT * FROM policies WHERE id = ?\"\n    return db.execute(query, (policy_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_property(address):\n    sql = \"SELECT * FROM properties WHERE address LIKE ?\"\n    return cursor.execute(sql, (f'%{address}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_listing(listing_id):\n    return db.execute(\"SELECT * FROM listings WHERE id = ?\", (listing_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_bid(auction_id):\n    sql = \"SELECT * FROM bids WHERE auction_id = ?\"\n    return cursor.execute(sql, (auction_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_inventory(sku):\n    query = \"SELECT * FROM inventory WHERE sku = ?\"\n    return db.execute(query, (sku,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_course(course_code):\n    sql = \"SELECT * FROM courses WHERE code = ?\"\n    return cursor.execute(sql, (course_code,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_enrollment(student_id):\n    query = \"SELECT * FROM enrollments WHERE student_id = ?\"\n    return db.execute(query, (student_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_grade(student_id, course_id):\n    sql = \"SELECT grade FROM grades WHERE student_id = ? AND course_id = ?\"\n    return cursor.execute(sql, (student_id, course_id)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_instructor(name):\n    query = \"SELECT * FROM instructors WHERE name LIKE ?\"\n    return db.execute(query, (f'%{name}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_sensor_data(sensor_id):\n    sql = \"SELECT * FROM sensor_readings WHERE sensor_id = ?\"\n    return cursor.execute(sql, (sensor_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_firmware(device_model):\n    query = \"SELECT * FROM firmware WHERE model = ?\"\n    return db.execute(query, (device_model,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_knowledge_base(query_str):\n    sql = \"SELECT * FROM kb_articles WHERE content LIKE ?\"\n    return db.execute(sql, (f'%{query_str}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_survey_response(response_id):\n    return db.execute(\"SELECT * FROM responses WHERE id = ?\", (response_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_form_submission(form_id):\n    sql = \"SELECT * FROM submissions WHERE form_id = ?\"\n    return cursor.execute(sql, (form_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_webhook(webhook_id):\n    query = \"SELECT * FROM webhooks WHERE id = ?\"\n    return db.execute(query, (webhook_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_api_log(client_id):\n    sql = \"SELECT * FROM api_logs WHERE client_id = ?\"\n    return cursor.execute(sql, (client_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_integration(service_name):\n    query = \"SELECT * FROM integrations WHERE service = ?\"\n    return db.execute(query, (service_name,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_metric(metric_name, date):\n    sql = \"SELECT value FROM metrics WHERE name = ? AND date = ?\"\n    return cursor.execute(sql, (metric_name, date)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_dashboard(user_id):\n    return db.execute(\"SELECT * FROM dashboards WHERE owner_id = ?\", (user_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_plugin(plugin_slug):\n    sql = \"SELECT * FROM plugins WHERE slug = ?\"\n    return cursor.execute(sql, (plugin_slug,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_extension(ext_name):\n    query = \"SELECT * FROM extensions WHERE name = ?\"\n    return db.execute(query, (ext_name,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_oauth_client(client_id):\n    sql = \"SELECT * FROM oauth_clients WHERE client_id = ?\"\n    return cursor.execute(sql, (client_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_refresh_token(token):\n    return db.execute(\"SELECT * FROM refresh_tokens WHERE token = ?\", (token,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_staff_by_dept(dept):\n    sql = \"SELECT * FROM staff WHERE department = ?\"\n    return cursor.execute(sql, (dept,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_membership(member_id):\n    query = \"SELECT * FROM memberships WHERE member_id = ?\"\n    return db.execute(query, (member_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_report(params):\n    start = params['start_date']\n    end = params['end_date']\n    sql = \"SELECT * FROM sales WHERE date BETWEEN ? AND ?\"\n    return cursor.execute(sql, (start, end)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_alert(alert_id):\n    return db.execute(\"SELECT * FROM alerts WHERE id = ?\", (alert_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_comment_by_author(author):\n    query = \"SELECT * FROM comments WHERE author = ?\"\n    return db.execute(query, (author,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_preference(pref_key):\n    q = \"SELECT value FROM preferences WHERE key = ?\"\n    conn.execute(q, (pref_key,))\n    return conn.fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fetch_session(session_token):\n    sql = \"SELECT * FROM sessions WHERE token = ?\"\n    return cursor.execute(sql, (session_token,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_asset(asset_id):\n    query = \"SELECT * FROM assets WHERE id = ?\"\n    return db.execute(query, (asset_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_vendor(vendor_id):\n    query = \"SELECT * FROM vendors WHERE id = ?\"\n    return db.execute(query, (vendor_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_warehouse_stock(warehouse_id):\n    sql = \"SELECT * FROM stock WHERE warehouse_id = ?\"\n    return cursor.execute(sql, (warehouse_id,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_discount_code(code):\n    return db.execute(\"SELECT * FROM discount_codes WHERE code = ?\", (code,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_chat_room(room_id):\n    sql = \"SELECT * FROM chat_rooms WHERE id = ?\"\n    return cursor.execute(sql, (room_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_file_metadata(file_id):\n    query = \"SELECT * FROM files WHERE id = ?\"\n    return db.execute(query, (file_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_label(label_id):\n    return conn.execute(\"SELECT * FROM labels WHERE id = ?\", (label_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_sprint(sprint_id):\n    sql = \"SELECT * FROM sprints WHERE id = ?\"\n    return cursor.execute(sql, (sprint_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_pipeline(pipeline_name):\n    query = \"SELECT * FROM pipelines WHERE name = ?\"\n    return db.execute(query, (pipeline_name,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_build(build_id):\n    return db.execute(\"SELECT * FROM builds WHERE id = ?\", (build_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_deployment(env):\n    sql = \"SELECT * FROM deployments WHERE environment = ?\"\n    return cursor.execute(sql, (env,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_environment(name):\n    query = \"SELECT * FROM environments WHERE name = ?\"\n    return db.execute(query, (name,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_release(version):\n    sql = \"SELECT * FROM releases WHERE version = ?\"\n    return cursor.execute(sql, (version,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_changelog(keyword):\n    q = \"SELECT * FROM changelog WHERE description LIKE ?\"\n    return db.execute(q, (f'%{keyword}%',)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_feature_flag(flag_name):\n    return db.execute(\"SELECT * FROM feature_flags WHERE name = ?\", (flag_name,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_experiment(exp_id):\n    sql = \"SELECT * FROM experiments WHERE id = ?\"\n    return cursor.execute(sql, (exp_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_variant(variant_key):\n    query = \"SELECT * FROM variants WHERE key = ?\"\n    return db.execute(query, (variant_key,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_hypothesis(h_id):\n    return conn.execute(\"SELECT * FROM hypotheses WHERE id = ?\", (h_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_cohort(cohort_name):\n    sql = \"SELECT * FROM cohorts WHERE name = ?\"\n    return cursor.execute(sql, (cohort_name,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_segment(segment_id):\n    query = \"SELECT * FROM segments WHERE id = ?\"\n    return db.execute(query, (segment_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_funnel(funnel_id):\n    return db.execute(\"SELECT * FROM funnels WHERE id = ?\", (funnel_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_conversion(source):\n    sql = \"SELECT * FROM conversions WHERE source = ?\"\n    return cursor.execute(sql, (source,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_goal(goal_name):\n    query = \"SELECT * FROM goals WHERE name = ?\"\n    return db.execute(query, (goal_name,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_milestone(milestone_id):\n    sql = \"SELECT * FROM milestones WHERE id = ?\"\n    return cursor.execute(sql, (milestone_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_roadmap_item(item_id):\n    return db.execute(\"SELECT * FROM roadmap WHERE id = ?\", (item_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_changelog_entry(entry_id):\n    query = \"SELECT * FROM changelog_entries WHERE id = ?\"\n    return db.execute(query, (entry_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_tag_by_slug(slug):\n    sql = \"SELECT * FROM tags WHERE slug = ?\"\n    return cursor.execute(sql, (slug,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_media_by_type(media_type):\n    query = \"SELECT * FROM media WHERE type = ?\"\n    return db.execute(query, (media_type,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_location(city):\n    sql = \"SELECT * FROM locations WHERE city = ?\"\n    return cursor.execute(sql, (city,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_address(user_id):\n    return db.execute(\"SELECT * FROM addresses WHERE user_id = ?\", (user_id,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def search_by_zip(zip_code):\n    sql = \"SELECT * FROM addresses WHERE zip = ?\"\n    return cursor.execute(sql, (zip_code,)).fetchall()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_country(country_code):\n    query = \"SELECT * FROM countries WHERE code = ?\"\n    return db.execute(query, (country_code,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_currency(currency_code):\n    return conn.execute(\"SELECT * FROM currencies WHERE code = ?\", (currency_code,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_language(lang_code):\n    sql = \"SELECT * FROM languages WHERE code = ?\"\n    return cursor.execute(sql, (lang_code,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_timezone(tz_name):\n    query = \"SELECT * FROM timezones WHERE name = ?\"\n    return db.execute(query, (tz_name,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_translation(key, locale):\n    sql = \"SELECT value FROM translations WHERE key = ? AND locale = ?\"\n    return cursor.execute(sql, (key, locale)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_locale_setting(locale):\n    return db.execute(\"SELECT * FROM locale_settings WHERE locale = ?\", (locale,))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def get_price_tier(tier_name):\n    query = \"SELECT * FROM price_tiers WHERE name = ?\"\n    return db.execute(query, (tier_name,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def find_bundle(bundle_id):\n    sql = \"SELECT * FROM bundles WHERE id = ?\"\n    return cursor.execute(sql, (bundle_id,)).fetchone()",
+    "label": 0,
+    "type": "safe"
+  }
+]

@@ -1,0 +1,2752 @@
+[
+  {
+    "code": "def calculate(expr):\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_code(user_input):\n    exec(user_input)\n    return 'done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def process(formula):\n    result = eval(formula)\n    return result",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def execute_script(script):\n    exec(script)\n    return 'executed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_expr(expression):\n    return eval(expression)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def dynamic_calc(user_formula):\n    answer = eval(user_formula)\n    return answer",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_user_code(code_string):\n    exec(code_string)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute(input_str):\n    val = eval(input_str)\n    return val",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def parse_condition(condition):\n    return eval(condition)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_filter(filter_expr):\n    return eval(filter_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def execute_transform(transform):\n    exec(transform)\n    return 'ok'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_template(template):\n    return eval(template)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_macro(macro_code):\n    exec(macro_code)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_rule(rule):\n    return eval(rule)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def process_query(query):\n    return eval(query)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_plugin(plugin_code):\n    exec(plugin_code)\n    return 'plugin executed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_condition(cond_str):\n    result = eval(cond_str)\n    return bool(result)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def dynamic_import(code):\n    exec(code)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_function(func_str):\n    return eval(func_str)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_metric(metric_formula):\n    return eval(metric_formula)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_dynamic(code_str):\n    compiled = compile(code_str, '<string>', 'exec')\n    exec(compiled)\n    return 'done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def calculate_api(request):\n    expr = request.json.get('expression')\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def batch_eval(expressions):\n    results = []\n    for expr in expressions:\n        results.append(eval(expr))\n    return results",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class ScriptRunner:\n    def run(self, script):\n        exec(script)\n        return 'executed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def load_config(config_str):\n    exec(config_str, globals())\n    return 'loaded'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def calculate(expr):\n    allowed = set('0123456789+-*/(). ')\n    if all(c in allowed for c in expr):\n        return eval(expr)\n    raise ValueError('Invalid expression')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute(a, b, op):\n    ops = {'+': lambda x,y: x+y, '-': lambda x,y: x-y, '*': lambda x,y: x*y}\n    if op not in ops:\n        raise ValueError('Invalid operator')\n    return ops[op](a, b)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def parse_value(val_str):\n    import ast\n    return ast.literal_eval(val_str)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_expr(expression):\n    import ast\n    tree = ast.parse(expression, mode='eval')\n    return ast.literal_eval(tree)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_operation(op, a, b):\n    operations = {'add': a+b, 'sub': a-b, 'mul': a*b, 'div': a/b}\n    return operations.get(op)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_formula(a, b, operator):\n    if operator == '+':\n        return a + b\n    elif operator == '-':\n        return a - b\n    raise ValueError('Unsupported operator')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_rule(rule_name, value):\n    rules = {'double': lambda v: v*2, 'square': lambda v: v**2, 'negate': lambda v: -v}\n    fn = rules.get(rule_name)\n    if not fn:\n        raise ValueError('Unknown rule')\n    return fn(value)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_metric(metric_name, data):\n    if metric_name == 'sum':\n        return sum(data)\n    if metric_name == 'avg':\n        return sum(data)/len(data)\n    raise ValueError('Unknown metric')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def parse_condition(field, op, value):\n    if op == 'eq':\n        return field == value\n    if op == 'gt':\n        return field > value\n    return False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_filter(filter_type, items):\n    filters = {'active': lambda x: x.active, 'recent': lambda x: x.recent}\n    fn = filters.get(filter_type)\n    return list(filter(fn, items)) if fn else items",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_condition(condition_dict):\n    field = condition_dict.get('field')\n    value = condition_dict.get('value')\n    return field == value",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_function(func_name, data):\n    allowed = {'upper': str.upper, 'lower': str.lower, 'strip': str.strip}\n    fn = allowed.get(func_name)\n    return fn(data) if fn else data",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_query(query_dict):\n    return {k: v for k, v in query_dict.items() if v is not None}",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_macro(macro_name, context):\n    macros = {'greet': lambda c: f'Hello {c[\"name\"]}', 'bye': lambda c: f'Bye {c[\"name\"]}'}\n    fn = macros.get(macro_name)\n    return fn(context) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_transform(transform_name, value):\n    transforms = {'double': lambda v: v*2, 'triple': lambda v: v*3}\n    fn = transforms.get(transform_name)\n    return fn(value) if fn else value",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def dynamic_calc(operation, x, y):\n    import operator\n    ops = {'add': operator.add, 'sub': operator.sub, 'mul': operator.mul}\n    if operation not in ops:\n        raise ValueError('Unknown operation')\n    return ops[operation](x, y)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_value(formula_type, inputs):\n    if formula_type == 'sum':\n        return sum(inputs)\n    if formula_type == 'product':\n        result = 1\n        for i in inputs:\n            result *= i\n        return result\n    raise ValueError('Unknown formula')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_validator(validator_name, value):\n    validators = {'email': lambda v: '@' in v, 'phone': lambda v: v.isdigit()}\n    fn = validators.get(validator_name)\n    return fn(value) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def parse_expression(expr_dict):\n    left = expr_dict.get('left')\n    right = expr_dict.get('right')\n    op = expr_dict.get('op')\n    if op == 'add':\n        return left + right\n    return None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def execute_script(script_name):\n    allowed_scripts = ['cleanup', 'backup', 'report']\n    if script_name not in allowed_scripts:\n        raise ValueError('Script not allowed')\n    return subprocess.run([script_name])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_dynamic(operation_name, value):\n    ops = {'double': lambda v: v*2, 'abs': abs, 'round': round}\n    fn = ops.get(operation_name)\n    if not fn:\n        raise ValueError('Unknown operation')\n    return fn(value)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def calculate_api(request):\n    data = request.json\n    a = float(data.get('a', 0))\n    b = float(data.get('b', 0))\n    op = data.get('op')\n    if op == 'add': return a + b\n    if op == 'mul': return a * b\n    raise ValueError('Invalid operation')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def batch_eval(expressions):\n    import ast\n    results = []\n    for expr in expressions:\n        results.append(ast.literal_eval(expr))\n    return results",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ScriptRunner:\n    ALLOWED = ['cleanup', 'backup', 'lint']\n    def run(self, script_name):\n        if script_name not in self.ALLOWED:\n            raise ValueError('Script not allowed')\n        return subprocess.run([script_name])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_config(config_str):\n    import json\n    config = json.loads(config_str)\n    return config",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def solve(equation):\n    return eval(equation)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_snippet(snippet):\n    exec(snippet)\n    return 'ok'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_input(user_input):\n    result = eval(user_input)\n    return result",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def execute_code(code):\n    exec(code)\n    return 'executed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def assess(expr_string):\n    return eval(expr_string)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_expression(raw_expr):\n    value = eval(raw_expr)\n    return value",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def execute_user_script(user_script):\n    exec(user_script)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_formula(formula_str):\n    val = eval(formula_str)\n    return val",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def check_condition(cond):\n    return eval(cond)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def resolve_filter(filter_str):\n    return eval(filter_str)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_transform(transform_str):\n    exec(transform_str)\n    return 'ok'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def process_template(tpl):\n    return eval(tpl)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def execute_macro(macro):\n    exec(macro)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_policy(policy):\n    return eval(policy)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def handle_query(q):\n    return eval(q)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def load_extension(ext_code):\n    exec(ext_code)\n    return 'extension loaded'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_predicate(pred_str):\n    result = eval(pred_str)\n    return bool(result)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def inject_code(code_fragment):\n    exec(code_fragment)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def resolve_function(func_expr):\n    return eval(func_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def measure_metric(metric_expr):\n    return eval(metric_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def interpret(raw):\n    return eval(raw)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def test_assertion(assertion_str):\n    return eval(assertion_str)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_patch(patch_code):\n    exec(patch_code)\n    return 'patched'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def resolve_expr(expr):\n    answer = eval(expr)\n    return answer",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def exec_batch(batch_code):\n    exec(batch_code)\n    return 'batch done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_mapping(mapping_expr):\n    return eval(mapping_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def parse_filter(filter_body):\n    return eval(filter_body)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_constraint(constraint):\n    return eval(constraint)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_task(task_script):\n    exec(task_script)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_selector(selector):\n    return eval(selector)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_bonus(bonus_formula):\n    return eval(bonus_formula)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def execute_rule(rule_code):\n    exec(rule_code)\n    return 'rule executed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_user_expr(user_expr):\n    result = eval(user_expr)\n    return result",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_threshold(threshold_expr):\n    return eval(threshold_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_transformation(transform_code):\n    exec(transform_code)\n    return 'transformed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_pricing(pricing_rule):\n    return eval(pricing_rule)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_discount(discount_expr):\n    return eval(discount_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_reward(reward_formula):\n    return eval(reward_formula)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_rank(rank_formula):\n    return eval(rank_formula)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_target(target_formula):\n    return eval(target_formula)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_tax(tax_formula):\n    return eval(tax_formula)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_binding(binding_expr):\n    return eval(binding_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def test_rule(rule_body):\n    return eval(rule_body)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_weight(weight_expr):\n    w = eval(weight_expr)\n    return w",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def check_rule(rule_expr):\n    return eval(rule_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_each(items):\n    results = []\n    for e in items:\n        results.append(eval(e))\n    return results",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def parse_expression(raw_expr):\n    return eval(raw_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def check_predicate(pred_expr):\n    return eval(pred_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def interpret_rule(rule_str):\n    return eval(rule_str)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def score_entry(score_expr):\n    return eval(score_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_value(value_expr):\n    v = eval(value_expr)\n    return v",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def validate_expression(expr):\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def calc_penalty(penalty_expr):\n    return eval(penalty_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_mapping(mapping_str):\n    return eval(mapping_str)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compile_and_run(src):\n    compiled = compile(src, '<string>', 'exec')\n    exec(compiled)\n    return 'done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def load_module_code(module_src):\n    compiled = compile(module_src, '<module>', 'exec')\n    exec(compiled)\n    return 'module loaded'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def build_and_run(source):\n    code_obj = compile(source, '<dynamic>', 'exec')\n    exec(code_obj)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compile_and_exec(source_str):\n    compiled = compile(source_str, '<input>', 'exec')\n    exec(compiled)\n    return 'ran'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compile_run(src_code):\n    bytecode = compile(src_code, '<src>', 'exec')\n    exec(bytecode)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def load_and_exec(code_text):\n    obj = compile(code_text, '<text>', 'exec')\n    exec(obj)\n    return 'ok'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def dynamic_loader(source_code):\n    bytecode = compile(source_code, '<loader>', 'exec')\n    namespace = {}\n    exec(bytecode, namespace)\n    return namespace",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def plugin_runner(plugin_src):\n    code = compile(plugin_src, '<plugin>', 'exec')\n    exec(code)\n    return 'plugin ran'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def hot_reload(new_src):\n    bytecode = compile(new_src, '<hot>', 'exec')\n    exec(bytecode, globals())\n    return 'reloaded'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def load_settings(settings_str):\n    exec(settings_str, globals())\n    return 'loaded'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def init_globals(init_code):\n    exec(init_code, globals())\n    return 'globals set'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def patch_globals(patch_str):\n    exec(patch_str, globals())\n    return 'globals patched'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def bootstrap_env(env_code):\n    exec(env_code, globals())\n    return 'env ready'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def seed_globals(seed_code):\n    exec(seed_code, globals())\n    return 'seeded'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def setup_namespace(ns_code):\n    exec(ns_code, globals())\n    return 'namespace ready'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def configure_runtime(config_code):\n    exec(config_code, globals())\n    return 'configured'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_overrides(override_code):\n    exec(override_code, globals())\n    return 'overrides applied'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def api_compute(request):\n    expr = request.json.get('formula')\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def webhook_eval(request):\n    code = request.json.get('code')\n    exec(code)\n    return 'ok'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def endpoint_eval(request):\n    expression = request.form.get('expr')\n    return eval(expression)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def rest_eval(request):\n    raw = request.data.decode()\n    return eval(raw)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def ws_handler(request):\n    payload = request.json.get('payload')\n    return eval(payload)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def api_execute(request):\n    script = request.json.get('script')\n    exec(script)\n    return 'ok'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def graphql_resolver(info, expression):\n    return eval(expression)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def rpc_handler(method, params):\n    return eval(f'{method}({params})')",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def grpc_eval(request):\n    expr = request.expression\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def event_processor(event):\n    handler_code = event.get('handler')\n    exec(handler_code)\n    return 'processed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def message_handler(msg):\n    return eval(msg['expression'])",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def queue_consumer(task):\n    exec(task['code'])\n    return 'consumed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def stream_processor(record):\n    transform = record.get('transform')\n    return eval(transform)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class CodeExecutor:\n    def execute(self, code):\n        exec(code)\n        return 'done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class RuleEngine:\n    def evaluate(self, rule_str):\n        return eval(rule_str)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class FormulaProcessor:\n    def process(self, formula):\n        exec(formula)\n        return 'processed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class ExpressionEvaluator:\n    def run(self, expr):\n        return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class PolicyEvaluator:\n    def evaluate(self, policy_code):\n        exec(policy_code)\n        return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class TransformEngine:\n    def apply(self, code):\n        exec(code)\n        return 'applied'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class ScriptRunner:\n    def run(self, script_src):\n        exec(script_src)\n        return 'script ran'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class PluginHost:\n    def load(self, plugin_code):\n        exec(plugin_code, self.__dict__)\n        return 'loaded'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class DynamicValidator:\n    def validate(self, rule_expr):\n        return bool(eval(rule_expr))",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class TemplateEngine:\n    def render(self, template_expr):\n        return eval(template_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class ConfigLoader:\n    def load(self, config_code):\n        exec(config_code, globals())\n        return 'config loaded'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "class MetricsEngine:\n    def compute(self, formula_str):\n        return eval(formula_str)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def multi_eval(expr_list):\n    out = []\n    for e in expr_list:\n        out.append(eval(e))\n    return out",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_expression_chain(exprs):\n    return [eval(e) for e in exprs]",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_sequence(seq):\n    return list(map(eval, seq))",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def map_expressions(expr_map):\n    return {k: eval(v) for k, v in expr_map.items()}",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_all(exprs):\n    out = {}\n    for k, v in exprs.items():\n        out[k] = eval(v)\n    return out",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def exec_expr_list(expr_list):\n    return [eval(x) for x in expr_list]",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def batch_execute(scripts):\n    results = []\n    for s in scripts:\n        exec(s)\n        results.append('done')\n    return results",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def pipeline_eval(stages):\n    results = []\n    for stage in stages:\n        results.append(eval(stage['expression']))\n    return results",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def parallel_eval(expr_dict):\n    return {name: eval(expr) for name, expr in expr_dict.items()}",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def call_function(func_name, arg):\n    return eval(f'{func_name}({arg})')",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def dynamic_call(obj, method, args):\n    return eval(f'{obj}.{method}({args})')",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_formula(name, val):\n    expr = 'compute_' + name + '(' + str(val) + ')'\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_with_context(expr, ctx):\n    for k, v in ctx.items():\n        locals()[k] = v\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def template_render(template, variables):\n    for k, v in variables.items():\n        template = template.replace('{' + k + '}', str(v))\n    return eval(template)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_hook(hook_code):\n    exec(hook_code)\n    return 'hook ran'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_routine(routine_code):\n    exec(routine_code)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_fix(fix_code):\n    exec(fix_code)\n    return 'fix applied'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_initializer(init_code):\n    exec(init_code)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_finalizer(finalizer_code):\n    exec(finalizer_code)\n    return 'finalized'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_teardown(teardown_code):\n    exec(teardown_code)\n    return 'torn down'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_setup(setup_code):\n    exec(setup_code)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_loader(loader_code):\n    exec(loader_code)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_command(command_code):\n    exec(command_code)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_update(update_code):\n    exec(update_code)\n    return 'updated'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_step(step_code):\n    exec(step_code)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_hotfix(hotfix_code):\n    exec(hotfix_code)\n    return 'hotfix applied'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_scheduler(sched_code):\n    exec(sched_code)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def exec_workflow(workflow_code):\n    exec(workflow_code)\n    return 'workflow done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_pipeline(pipeline_code):\n    exec(pipeline_code)\n    return 'pipeline done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_job(job_code):\n    exec(job_code)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_callback(callback_src):\n    exec(callback_src)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_listener(listener_src):\n    exec(listener_src)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def exec_procedure(procedure):\n    exec(procedure)\n    return True",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def fire_event(event_code):\n    exec(event_code)\n    return 'event fired'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def dispatch_event(event_script):\n    exec(event_script)\n    return 'dispatched'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def emit_event(event_handler_code):\n    exec(event_handler_code)\n    return 'emitted'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def trigger_action(action_code):\n    exec(action_code)\n    return 'action triggered'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_migration(migration_code):\n    exec(migration_code)\n    return 'migrated'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_transform(transform_code):\n    exec(transform_code)\n    return 'ok'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def ml_feature_transform(transform_expr, data):\n    return eval(transform_expr)(data)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def scoring_model(score_expr, record):\n    return eval(score_expr, {'record': record})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def custom_aggregator(agg_expr, values):\n    return eval(agg_expr, {'values': values})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def dsl_runner(dsl_code):\n    exec(dsl_code)\n    return 'dsl ran'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def notebook_cell_exec(cell_src):\n    exec(cell_src, globals())\n    return 'cell executed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def report_formula(formula, context):\n    return eval(formula, context)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def config_eval(config_expr):\n    return eval(config_expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def assertion_runner(assertion_code):\n    exec(assertion_code)\n    return 'assertions ran'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def field_mapper(field_expr, row):\n    return eval(field_expr, {'row': row})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def etl_transform(transform_expr, df):\n    return eval(transform_expr, {'df': df})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def alert_condition(condition_str, metrics):\n    return eval(condition_str, {'metrics': metrics})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def access_control(policy_str, user):\n    return eval(policy_str, {'user': user.__dict__})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def billing_compute(formula, amounts):\n    return eval(formula, {'amounts': amounts})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def data_filter(filter_expr, dataset):\n    return list(filter(lambda x: eval(filter_expr, {'x': x}), dataset))",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def parse_query(query_str):\n    return eval(f'db.query({query_str})')",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def dynamic_sort(sort_expr, items):\n    return sorted(items, key=lambda x: eval(sort_expr, {'x': x}))",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_test_case(test_code):\n    exec(test_code)\n    return 'test ran'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_business_rule(rule_expr, context):\n    return bool(eval(rule_expr, context))",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_discount_rule(rule_str, cart):\n    return eval(rule_str, {'cart': cart})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_kpi(kpi_formula, data):\n    return eval(kpi_formula, data)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_audit_check(audit_code):\n    exec(audit_code)\n    return 'audit complete'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_expression_safely(expr_str):\n    # Comment says safe but isn't\n    allowed_chars = set('0123456789+-*/()., abcdefghijklmnopqrstuvwxyz')\n    return eval(expr_str)  # BUG: allowlist check missing, proceeds to eval",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def safe_eval(expr):\n    # Attempt to restrict builtins — still exploitable\n    return eval(expr, {'__builtins__': {}}, {})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def sandboxed_exec(code):\n    safe_globals = {'__builtins__': None}\n    exec(code, safe_globals)\n    return 'ran'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def restricted_eval(expr):\n    import ast\n    ast.parse(expr)  # parse check only, then eval\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def length_checked_eval(expr):\n    if len(expr) > 200:\n        raise ValueError('Too long')\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_score(formula):\n    score = eval(formula)\n    return max(0, min(100, score))",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_rule_set(rules, record):\n    return all(eval(rule) for rule in rules)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_field(field_expr, row):\n    local_vars = {'row': row}\n    return eval(field_expr, {'__builtins__': {}}, local_vars)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_user_query(query):\n    results = eval(query, {'db': db})\n    return results",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def process_event(event_expr):\n    return eval(event_expr, globals(), locals())",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_config_value(config_str):\n    val = eval(config_str)\n    if not isinstance(val, (int, float, str, bool)):\n        raise TypeError('Invalid config type')\n    return val",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def try_eval(expr):\n    try:\n        return eval(expr)\n    except Exception:\n        return None",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def timed_eval(expr, timeout=5):\n    import signal\n    def handler(s, f): raise TimeoutError()\n    signal.signal(signal.SIGALRM, handler)\n    signal.alarm(timeout)\n    try:\n        return eval(expr)\n    finally:\n        signal.alarm(0)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def logged_eval(expr, logger):\n    logger.info(f'Evaluating: {expr}')\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def cached_eval(expr, cache):\n    if expr in cache:\n        return cache[expr]\n    result = eval(expr)\n    cache[expr] = result\n    return result",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def rate_limited_eval(expr, rate_limiter):\n    rate_limiter.check()\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def authed_eval(expr, user):\n    if not user.is_authenticated:\n        raise PermissionError('Not authenticated')\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def admin_only_eval(expr, user):\n    if not user.is_admin:\n        raise PermissionError('Admins only')\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_with_timeout(expr):\n    import concurrent.futures\n    with concurrent.futures.ThreadPoolExecutor() as ex:\n        future = ex.submit(eval, expr)\n        return future.result(timeout=2)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def sanitize_and_eval(expr):\n    expr = expr.replace('import', '').replace('exec', '')\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def regex_guarded_eval(expr):\n    import re\n    if re.search(r'import|exec|open|os|sys', expr):\n        raise ValueError('Dangerous expression')\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def length_and_type_eval(expr):\n    if len(expr) > 100:\n        raise ValueError('Expression too long')\n    if not isinstance(expr, str):\n        raise TypeError('Must be string')\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def hash_checked_eval(expr, expected_hash):\n    import hashlib\n    if hashlib.sha256(expr.encode()).hexdigest() != expected_hash:\n        raise ValueError('Hash mismatch')\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def schema_eval(expr, schema):\n    import jsonschema\n    jsonschema.validate({'expr': expr}, schema)\n    return eval(expr)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def parse_and_eval(expr):\n    import ast\n    tree = ast.parse(expr, mode='eval')\n    return eval(compile(tree, '<expr>', 'eval'))",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_in_thread(expr):\n    import threading\n    result = []\n    def worker(): result.append(eval(expr))\n    t = threading.Thread(target=worker)\n    t.start(); t.join(timeout=3)\n    return result[0] if result else None",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def conditional_eval(expr, condition):\n    if condition:\n        return eval(expr)\n    return None",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def multi_step_eval(exprs):\n    context = {}\n    for name, expr in exprs.items():\n        context[name] = eval(expr, context)\n    return context",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def safe_formula(formula, variables):\n    return eval(formula, {'__builtins__': None}, variables)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def exec_with_clean_namespace(code):\n    ns = {}\n    exec(code, ns)\n    return ns",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_condition(condition_str, ctx):\n    return eval(condition_str, ctx)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_policy(policy_expr, user_attrs):\n    return bool(eval(policy_expr, user_attrs))",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_derived_field(expr, row_dict):\n    return eval(expr, {'__builtins__': {}}, row_dict)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_scoring_rule(rule_expr, candidate):\n    env = {'candidate': candidate, 'math': __import__('math')}\n    return eval(rule_expr, env)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_migration_script(script):\n    exec(script, {'db': db_connection})\n    return 'migration done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def process_webhook(body):\n    import json\n    data = json.loads(body)\n    return eval(data['expression'])",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_custom_metric(metric_code, stats):\n    return eval(metric_code, {'stats': stats, '__builtins__': {}})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_expression_with_vars(expr, **kwargs):\n    return eval(expr, kwargs)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_automation(script_text):\n    compiled = compile(script_text, '<automation>', 'exec')\n    sandbox = {'allowed_funcs': allowed_funcs}\n    exec(compiled, sandbox)\n    return sandbox.get('result')",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_filter_expr(expr, items):\n    return [item for item in items if eval(expr, {'item': item})]\n",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def transform_record(transform_expr, record):\n    return eval(transform_expr, {}, {'record': record})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_agg(agg_expr, data):\n    import math, statistics\n    return eval(agg_expr, {'math': math, 'statistics': statistics, 'data': data})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_jinja_like(template, ctx):\n    import re\n    result = template\n    for match in re.finditer(r'\\{\\{(.+?)\\}\\}', template):\n        val = eval(match.group(1).strip(), ctx)\n        result = result.replace(match.group(0), str(val))\n    return result",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def formula_engine(formula, namespace):\n    namespace.update({'__builtins__': {}})\n    return eval(formula, namespace)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_notebook_cell(cell_source):\n    output = {}\n    exec(cell_source, {'__builtins__': __builtins__}, output)\n    return output",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_alert_rule(rule_str, metric_values):\n    return eval(rule_str, metric_values)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def process_formula(formula_str, row):\n    try:\n        return eval(formula_str, {'row': row})\n    except ZeroDivisionError:\n        return 0",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def user_defined_filter(filter_code, dataset):\n    filtered = []\n    for item in dataset:\n        if eval(filter_code, {'item': item}):\n            filtered.append(item)\n    return filtered",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def dynamic_query(query_expr, model):\n    return model.objects.filter(eval(query_expr))",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def load_plugin(plugin_code, plugin_name):\n    module_dict = {'__name__': plugin_name, '__builtins__': __builtins__}\n    exec(plugin_code, module_dict)\n    return module_dict",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_user_hook(hook_src, context):\n    local_ns = {'context': context}\n    exec(hook_src, {'__builtins__': {}}, local_ns)\n    return local_ns.get('result')",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_pricing_formula(formula, order):\n    return eval(formula, {'order': order, 'len': len, 'sum': sum})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def execute_transformation(code, source_data):\n    result_ns = {'data': source_data, 'result': None}\n    exec(code, result_ns)\n    return result_ns['result']",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_report_script(script, db_conn):\n    context = {'db': db_conn, 'pd': __import__('pandas')}\n    exec(script, context)\n    return context.get('output')",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_business_logic(logic_code, transaction):\n    sandbox = {'transaction': transaction, '__builtins__': None}\n    exec(logic_code, sandbox)\n    return sandbox.get('result', False)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_expression_list(exprs, shared_ctx):\n    results = {}\n    for name, expr in exprs.items():\n        results[name] = eval(expr, shared_ctx)\n        shared_ctx.update(results)\n    return results",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_ci_step(step_code):\n    exec(step_code)\n    return 'step done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_data_mask(mask_expr, value):\n    return eval(mask_expr, {'value': value})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def render_widget(widget_code):\n    exec(widget_code)\n    return 'widget rendered'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_gdpr_rule(rule_expr, data):\n    return eval(rule_expr, {'data': data})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_data_quality_check(check_code, df):\n    exec(check_code, {'df': df, 'pd': __import__('pandas')})\n    return 'check done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_feature_flag(flag_expr, user):\n    return bool(eval(flag_expr, {'user': user.__dict__}))",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_recommendation(score_expr, item_features):\n    return eval(score_expr, item_features)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_canary_test(test_code, service):\n    exec(test_code, {'service': service})\n    return 'canary done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_experiment_condition(condition_str, user_segment):\n    return eval(condition_str, {'segment': user_segment})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def execute_data_pipeline(pipeline_code, spark_session):\n    exec(pipeline_code, {'spark': spark_session})\n    return 'pipeline executed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_scheduled_job(job_code, scheduler):\n    exec(job_code, {'scheduler': scheduler})\n    return 'job scheduled'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def process_llm_output(code_str):\n    exec(code_str)\n    return 'executed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_segment_rule(rule_str, user_properties):\n    return eval(rule_str, user_properties)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_ab_test_variant(variant_code, experiment):\n    exec(variant_code, {'experiment': experiment})\n    return 'variant applied'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_custom_report(report_code, data_context):\n    exec(report_code, data_context)\n    return data_context.get('report')",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_smart_contract(contract_expr, state):\n    return eval(contract_expr, {'state': state})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def process_config_override(override_code):\n    exec(override_code, globals())\n    return 'override applied'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_backfill(backfill_code, db):\n    exec(backfill_code, {'db': db})\n    return 'backfill done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_rbac_rule(rule_str, principal):\n    return eval(rule_str, {'principal': principal.__dict__})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def compute_dynamic_price(price_code, market_data):\n    exec(price_code, {'market': market_data})\n    return market_data.get('price')",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_health_check(check_code, services):\n    exec(check_code, {'services': services})\n    return 'health checked'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_consent_rule(rule_expr, consent_data):\n    return eval(rule_expr, {'consent': consent_data})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_cleanup_script(script):\n    exec(script)\n    return 'cleanup done'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_recommendation_filter(filter_expr, items):\n    return [item for item in items if eval(filter_expr, {'item': item.__dict__})]\n",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def process_user_formula(formula, user_data):\n    allowed_vars = {k: v for k, v in user_data.items() if isinstance(v, (int, float))}\n    return eval(formula, allowed_vars)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def execute_deployment_script(deploy_code):\n    exec(deploy_code)\n    return 'deployed'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_schema_migration(migration_src):\n    compiled = compile(migration_src, '<migration>', 'exec')\n    exec(compiled, {'db': db, 'models': models})\n    return 'schema migrated'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_dynamic_acl(acl_expr, resource, actor):\n    return eval(acl_expr, {'resource': resource, 'actor': actor})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_integration_test(test_src, client):\n    exec(test_src, {'client': client, 'assert': assert_helper})\n    return 'integration test ran'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_routing_rule(rule_str, request_attrs):\n    return eval(rule_str, request_attrs)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def apply_caching_rule(cache_expr, key_attrs):\n    return eval(cache_expr, key_attrs)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_compliance_check(check_code, audit_trail):\n    exec(check_code, {'audit': audit_trail})\n    return 'compliance checked'",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_geo_fence(fence_expr, location):\n    return eval(fence_expr, {'lat': location['lat'], 'lon': location['lon']})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_churn_model(model_expr, user_metrics):\n    return eval(model_expr, user_metrics)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_custom_validator(validator_code, data):\n    result_ns = {'data': data, 'errors': []}\n    exec(validator_code, result_ns)\n    return result_ns['errors']",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def evaluate_sla_rule(sla_expr, metrics):\n    return eval(sla_expr, metrics)",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def run_etl_transformation(transform_code, spark_df):\n    ns = {'df': spark_df, 'pyspark': __import__('pyspark')}\n    exec(transform_code, ns)\n    return ns.get('result_df')",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def eval_tax_rule(rule_expr, transaction):\n    return eval(rule_expr, {'transaction': transaction.__dict__})",
+    "label": 1,
+    "type": "insecure_eval"
+  },
+  {
+    "code": "def interpret(value_str):\n    import ast\n    return ast.literal_eval(value_str)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def parse_expression(expr_str):\n    import ast\n    return ast.literal_eval(expr_str)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_user_expr(value_str):\n    import ast\n    return ast.literal_eval(value_str)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def validate_expression(value_str):\n    import ast\n    try:\n        return ast.literal_eval(value_str)\n    except (ValueError, SyntaxError):\n        raise ValueError('Invalid expression')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def multi_eval(expr_list):\n    import ast\n    return [ast.literal_eval(e) for e in expr_list]",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_expression_chain(expr_list):\n    import ast\n    return [ast.literal_eval(e) for e in expr_list]",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_each(data_list):\n    import ast\n    return [ast.literal_eval(item) for item in data_list]",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def exec_expr_list(values):\n    import ast\n    return [ast.literal_eval(v) for v in values]",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_sequence(values):\n    import ast\n    return list(map(ast.literal_eval, values))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_all(name_val_map):\n    import ast\n    return {k: ast.literal_eval(v) for k, v in name_val_map.items()}",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def rest_eval(request):\n    data = request.json\n    val_str = data.get('value')\n    import ast\n    return ast.literal_eval(val_str)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def execute_user_script(script_name):\n    allowed = {'report': generate_report, 'export': export_data}\n    fn = allowed.get(script_name)\n    if not fn:\n        raise ValueError('Unknown script')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_transform(transform_name, value):\n    transforms = {'upper': str.upper, 'lower': str.lower, 'title': str.title}\n    fn = transforms.get(transform_name)\n    return fn(value) if fn else value",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_policy(policy_name, user):\n    policies = {'admin': lambda u: u.role == 'admin', 'owner': lambda u: u.is_owner}\n    fn = policies.get(policy_name)\n    return fn(user) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def execute_macro(macro_name, data):\n    macros = {'double': lambda d: d * 2, 'negate': lambda d: -d}\n    fn = macros.get(macro_name)\n    return fn(data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_hook(hook_name, payload):\n    hooks = {'pre_save': pre_save_hook, 'post_save': post_save_hook}\n    fn = hooks.get(hook_name)\n    return fn(payload) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_routine(routine_name):\n    routines = {'daily': run_daily, 'weekly': run_weekly, 'monthly': run_monthly}\n    fn = routines.get(routine_name)\n    if not fn:\n        raise ValueError('Unknown routine')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_trigger(trigger_name, event):\n    triggers = {'on_create': handle_create, 'on_delete': handle_delete}\n    fn = triggers.get(trigger_name)\n    return fn(event) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_transformation(transform_name, dataset):\n    transforms = {'normalize': normalize_data, 'flatten': flatten_data}\n    fn = transforms.get(transform_name)\n    return fn(dataset) if fn else dataset",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def exec_workflow(workflow_name):\n    workflows = {'onboard': onboard_workflow, 'offboard': offboard_workflow}\n    fn = workflows.get(workflow_name)\n    if not fn:\n        raise ValueError('Workflow not found')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_callback(callback_name, data):\n    callbacks = {'format': format_callback, 'validate': validate_callback}\n    fn = callbacks.get(callback_name)\n    return fn(data) if fn else data",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_scheduler(schedule_type):\n    schedules = {'hourly': run_hourly, 'daily': run_daily}\n    fn = schedules.get(schedule_type)\n    if not fn:\n        raise ValueError('Unknown schedule')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_job(job_name):\n    jobs = {'import': import_job, 'export': export_job, 'sync': sync_job}\n    fn = jobs.get(job_name)\n    if not fn:\n        raise ValueError('Unknown job')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_pipeline(pipeline_name, data):\n    pipelines = {'etl': etl_pipeline, 'ml': ml_pipeline}\n    fn = pipelines.get(pipeline_name)\n    return fn(data) if fn else data",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_listener(event_name, data):\n    listeners = {'on_login': handle_login, 'on_logout': handle_logout}\n    fn = listeners.get(event_name)\n    return fn(data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_loader(loader_name, path):\n    loaders = {'csv': load_csv, 'json': load_json, 'xml': load_xml}\n    fn = loaders.get(loader_name)\n    if not fn:\n        raise ValueError('Unknown loader')\n    return fn(path)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def fire_event(event_name, payload):\n    handlers = {'created': on_created, 'deleted': on_deleted}\n    fn = handlers.get(event_name)\n    return fn(payload) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def dispatch_event(event_type, data):\n    dispatchers = {'email': send_email, 'sms': send_sms, 'push': send_push}\n    fn = dispatchers.get(event_type)\n    return fn(data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def emit_event(event_name, data):\n    emitters = {'log': log_event, 'notify': notify_event}\n    fn = emitters.get(event_name)\n    return fn(data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def trigger_action(action_name, context):\n    actions = {'send_email': send_email_action, 'log': log_action}\n    fn = actions.get(action_name)\n    return fn(context) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_step(step_name, payload):\n    steps = {'validate': validate_step, 'transform': transform_step, 'load': load_step}\n    fn = steps.get(step_name)\n    return fn(payload) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def webhook_eval(request):\n    data = request.json\n    action = data.get('action')\n    allowed = {'ping': ping_handler, 'notify': notify_handler}\n    fn = allowed.get(action)\n    return fn(data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def api_execute(request):\n    data = request.json\n    action = data.get('action')\n    allowed = {'create': create_record, 'delete': delete_record}\n    fn = allowed.get(action)\n    return fn(data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def ws_handler(request):\n    data = request.json\n    action = data.get('action')\n    allowed = {'subscribe': subscribe_handler, 'unsubscribe': unsubscribe_handler}\n    fn = allowed.get(action)\n    return fn(data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_fix(fix_name, record):\n    fixes = {'trim_name': lambda r: r.name.strip(), 'lowercase_email': lambda r: r.email.lower()}\n    fn = fixes.get(fix_name)\n    return fn(record) if fn else record",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_patch(patch_name, obj):\n    patches = {'lowercase_name': lambda o: setattr(o, 'name', o.name.lower())}\n    fn = patches.get(patch_name)\n    if fn: fn(obj)\n    return obj",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_hotfix(hotfix_name, obj):\n    hotfixes = {'reset_flag': lambda o: setattr(o, 'flag', False)}\n    fn = hotfixes.get(hotfix_name)\n    if fn: fn(obj)\n    return obj",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_update(update_name, record):\n    updates = {'activate': lambda r: setattr(r, 'active', True), 'deactivate': lambda r: setattr(r, 'active', False)}\n    fn = updates.get(update_name)\n    if fn: fn(record)\n    return record",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def interpret_rule(rule_name, data):\n    rules = {'is_positive': lambda d: d > 0, 'is_negative': lambda d: d < 0}\n    fn = rules.get(rule_name)\n    return fn(data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def check_rule(rule_name, value):\n    rules = {'positive': lambda v: v > 0, 'non_empty': lambda v: bool(v)}\n    fn = rules.get(rule_name)\n    return fn(value) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def test_rule(rule_name, value):\n    rules = {'gt_zero': lambda v: v > 0, 'not_none': lambda v: v is not None}\n    fn = rules.get(rule_name)\n    return fn(value) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def execute_rule(rule_name, record):\n    rules = {'require_email': lambda r: bool(r.email), 'require_name': lambda r: bool(r.name)}\n    fn = rules.get(rule_name)\n    return fn(record) if fn else True",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_predicate(field, predicate_name, value):\n    predicates = {'contains': lambda f, v: v in f, 'startswith': lambda f, v: f.startswith(v)}\n    fn = predicates.get(predicate_name)\n    return fn(field, value) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def check_predicate(pred_name, value):\n    preds = {'is_even': lambda v: v % 2 == 0, 'is_odd': lambda v: v % 2 != 0}\n    fn = preds.get(pred_name)\n    return fn(value) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def resolve_filter(filter_name, items):\n    filters = {'active': lambda x: x.is_active, 'archived': lambda x: x.is_archived}\n    fn = filters.get(filter_name)\n    return [i for i in items if fn(i)] if fn else items",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_selector(selector_name, items):\n    selectors = {'first': lambda x: x[0], 'last': lambda x: x[-1]}\n    fn = selectors.get(selector_name)\n    return fn(items) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_binding(binding_name, data):\n    bindings = {'to_str': str, 'to_int': int, 'to_float': float}\n    fn = bindings.get(binding_name)\n    return fn(data) if fn else data",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def resolve_function(func_name, data):\n    funcs = {'strip': str.strip, 'upper': str.upper, 'lower': str.lower}\n    fn = funcs.get(func_name)\n    return fn(data) if fn else data",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def score_entry(score_type, values):\n    if score_type == 'max': return max(values)\n    if score_type == 'min': return min(values)\n    raise ValueError('Unknown score type')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_input(a, b, op):\n    import operator\n    ops = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv}\n    if op not in ops:\n        raise ValueError('Invalid op')\n    return ops[op](a, b)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compile_and_run(operation, a, b):\n    import operator\n    ops = {'add': operator.add, 'sub': operator.sub, 'mul': operator.mul}\n    if operation not in ops:\n        raise ValueError('Unknown operation')\n    return ops[operation](a, b)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_expression(op, x, y):\n    if op == 'add': return x + y\n    if op == 'sub': return x - y\n    if op == 'mul': return x * y\n    raise ValueError('Unsupported op')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compile_and_exec(operation, values):\n    ops = {'sum': sum, 'max': max, 'min': min}\n    fn = ops.get(operation)\n    if not fn:\n        raise ValueError('Unknown operation')\n    return fn(values)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compile_run(operation, values):\n    ops = {'sum': sum, 'sorted': sorted}\n    fn = ops.get(operation)\n    if not fn:\n        raise ValueError('Unknown operation')\n    return fn(values)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def measure_metric(metric_name, values):\n    if metric_name == 'max': return max(values)\n    if metric_name == 'min': return min(values)\n    if metric_name == 'sum': return sum(values)\n    raise ValueError('Unknown metric')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_score(score_type, values):\n    if score_type == 'total': return sum(values)\n    if score_type == 'average': return sum(values) / len(values)\n    raise ValueError('Unknown score type')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ExpressionEvaluator:\n    def run(self, op, a, b):\n        import operator\n        ops = {'add': operator.add, 'sub': operator.sub}\n        if op not in ops:\n            raise ValueError('Unknown op')\n        return ops[op](a, b)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def api_compute(request):\n    data = request.json\n    a = float(data.get('a', 0))\n    b = float(data.get('b', 0))\n    op = data.get('op')\n    ops = {'add': lambda x,y: x+y, 'sub': lambda x,y: x-y, 'mul': lambda x,y: x*y}\n    fn = ops.get(op)\n    if not fn:\n        raise ValueError('Invalid op')\n    return fn(a, b)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_value(value_type, a, b):\n    if value_type == 'sum': return a + b\n    if value_type == 'diff': return a - b\n    if value_type == 'product': return a * b\n    raise ValueError('Unknown value type')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_bonus(base, rate):\n    return base * rate",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_pricing(base_price, discount_pct):\n    return base_price * (1 - discount_pct / 100)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_discount(base_price, discount):\n    return max(0, base_price - discount)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_reward(points, multiplier):\n    return points * multiplier",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_rank(score, max_score):\n    return round((score / max_score) * 100)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_threshold(value, threshold):\n    return value >= threshold",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_tax(amount, rate):\n    return amount * rate",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_target(actual, target):\n    return actual >= target",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_weight(base, factor):\n    return base * factor",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def calc_penalty(base, rate):\n    return base * rate",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def rate_entry(base, rate):\n    return base * rate",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_constraint(a, b, constraint):\n    if constraint == 'lte': return a <= b\n    if constraint == 'gte': return a >= b\n    return False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def test_assertion(field, expected):\n    return field == expected",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def assess(value, threshold):\n    return value > threshold",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def resolve_expr(op, a, b):\n    if op == 'add': return a + b\n    if op == 'sub': return a - b\n    raise ValueError('Unknown op')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_mapping(key, mapping_dict):\n    return mapping_dict.get(key)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_mapping(key, value_map):\n    return value_map.get(key)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def handle_query(query_dict):\n    return {k: v for k, v in query_dict.items() if v is not None}",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def endpoint_eval(request):\n    data = request.json\n    a = int(data.get('a', 0))\n    b = int(data.get('b', 0))\n    return a + b",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def map_expressions(name_func_map, data):\n    results = {}\n    for k, fn in name_func_map.items():\n        results[k] = fn(data)\n    return results",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_settings(settings_str):\n    import json\n    return json.loads(settings_str)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def init_globals(config_str):\n    import json\n    config = json.loads(config_str)\n    return config",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def patch_globals(config_json):\n    import json\n    return json.loads(config_json)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def setup_namespace(config_json):\n    import json\n    return json.loads(config_json)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def seed_globals(config_json):\n    import json\n    return json.loads(config_json)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def bootstrap_env(env_name):\n    import json\n    configs = {'dev': 'dev_config.json', 'prod': 'prod_config.json'}\n    path = configs.get(env_name)\n    if not path:\n        raise ValueError('Unknown environment')\n    with open(path) as f:\n        return json.load(f)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def parse_filter(filter_dict):\n    field = filter_dict.get('field')\n    value = filter_dict.get('value')\n    return {'field': field, 'value': value}",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_extension(ext_name):\n    allowed_exts = ['csv', 'json', 'xml']\n    if ext_name not in allowed_exts:\n        raise ValueError('Extension not supported')\n    return importlib.import_module(f'parsers.{ext_name}')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def inject_code(module_name):\n    allowed = ['analytics', 'logger', 'metrics']\n    if module_name not in allowed:\n        raise ValueError('Module not allowed')\n    return importlib.import_module(module_name)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_module_code(module_name):\n    allowed = ['analytics', 'reporting', 'export']\n    if module_name not in allowed:\n        raise ValueError('Module not allowed')\n    return importlib.import_module(module_name)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_and_exec(module_name):\n    allowed = ['auth', 'billing', 'notifications']\n    if module_name not in allowed:\n        raise ValueError('Module not allowed')\n    return importlib.import_module(module_name)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_snippet(snippet_name):\n    allowed = ['init', 'cleanup', 'reset']\n    if snippet_name not in allowed:\n        raise ValueError('Snippet not allowed')\n    return subprocess.run([snippet_name])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_task(task_name):\n    allowed_tasks = ['sync', 'index', 'purge']\n    if task_name not in allowed_tasks:\n        raise ValueError('Task not allowed')\n    return subprocess.run([task_name])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_command(command_name):\n    allowed = ['status', 'ping', 'healthcheck']\n    if command_name not in allowed:\n        raise ValueError('Command not allowed')\n    return subprocess.run([command_name], capture_output=True)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def exec_procedure(procedure_name):\n    allowed = ['init_db', 'seed_db', 'migrate_db']\n    if procedure_name not in allowed:\n        raise ValueError('Procedure not allowed')\n    return subprocess.run([procedure_name])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def batch_execute(task_names):\n    allowed = {'sync', 'clean', 'backup'}\n    results = []\n    for name in task_names:\n        if name not in allowed:\n            raise ValueError(f'Task {name} not allowed')\n        results.append(subprocess.run([name]))\n    return results",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_migration(migration_name):\n    allowed = ['v1_to_v2', 'v2_to_v3']\n    if migration_name not in allowed:\n        raise ValueError('Migration not found')\n    return run_migration(migration_name)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def exec_batch(batch_name):\n    batches = {'import': run_import_batch, 'export': run_export_batch}\n    fn = batches.get(batch_name)\n    if not fn:\n        raise ValueError('Unknown batch')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class CodeExecutor:\n    ALLOWED = ['backup', 'cleanup', 'report']\n    def execute(self, task_name):\n        if task_name not in self.ALLOWED:\n            raise ValueError('Task not allowed')\n        return subprocess.run([task_name])",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class RuleEngine:\n    def evaluate(self, rule_name, context):\n        rules = {'is_admin': lambda c: c.get('role') == 'admin'}\n        fn = rules.get(rule_name)\n        return fn(context) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class FormulaProcessor:\n    def process(self, formula_name, a, b):\n        ops = {'add': a+b, 'sub': a-b, 'mul': a*b}\n        if formula_name not in ops:\n            raise ValueError('Unknown formula')\n        return ops[formula_name]",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class PolicyEvaluator:\n    def evaluate(self, policy_name, user):\n        policies = {'is_admin': lambda u: u.role == 'admin', 'is_active': lambda u: u.active}\n        fn = policies.get(policy_name)\n        return fn(user) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class TransformEngine:\n    def apply(self, transform_name, data):\n        transforms = {'normalize': normalize, 'denormalize': denormalize}\n        fn = transforms.get(transform_name)\n        return fn(data) if fn else data",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class ScriptRunner:\n    ALLOWED_SCRIPTS = {'report': generate_report, 'export': export_data, 'sync': sync_data}\n    def run(self, script_name):\n        fn = self.ALLOWED_SCRIPTS.get(script_name)\n        if not fn:\n            raise ValueError('Script not permitted')\n        return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class MetricsEngine:\n    def compute(self, metric_name, values):\n        ops = {'sum': sum, 'max': max, 'min': min, 'avg': lambda v: sum(v)/len(v)}\n        fn = ops.get(metric_name)\n        if not fn:\n            raise ValueError('Unknown metric')\n        return fn(values)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class DynamicValidator:\n    def validate(self, rule_name, value):\n        rules = {'positive': lambda v: v > 0, 'non_empty': lambda v: bool(v), 'is_int': lambda v: isinstance(v, int)}\n        fn = rules.get(rule_name)\n        return fn(value) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class BillingEngine:\n    def apply_rule(self, rule_name, amount, rate):\n        rules = {'tax': lambda a, r: a * r, 'discount': lambda a, r: a * (1 - r), 'penalty': lambda a, r: a + a * r}\n        fn = rules.get(rule_name)\n        if not fn:\n            raise ValueError('Unknown billing rule')\n        return fn(amount, rate)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "class AccessControl:\n    def check(self, policy_name, user_role, required_role):\n        policies = {'exact': lambda u, r: u == r, 'any': lambda u, r: True, 'none': lambda u, r: False}\n        fn = policies.get(policy_name)\n        return fn(user_role, required_role) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def solve(equation):\n    allowed = set('0123456789+-*/(). ')\n    if not all(c in allowed for c in equation):\n        raise ValueError('Invalid characters in equation')\n    return eval(equation)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_formula(formula_name, inputs):\n    if formula_name == 'sum':\n        return sum(inputs)\n    if formula_name == 'avg':\n        return sum(inputs) / len(inputs)\n    raise ValueError('Unknown formula')",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def check_condition(field, operator, value):\n    if operator == 'eq': return field == value\n    if operator == 'neq': return field != value\n    if operator == 'gt': return field > value\n    return False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_template(template_name, context):\n    import string\n    templates = {'hello': 'Hello, $name!', 'bye': 'Goodbye, $name!'}\n    tpl = templates.get(template_name)\n    if not tpl:\n        raise ValueError('Unknown template')\n    return string.Template(tpl).substitute(context)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def execute_code(action, context):\n    actions = {'greet': lambda c: f'Hello {c}', 'bye': lambda c: f'Bye {c}'}\n    fn = actions.get(action)\n    return fn(context) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_initializer(init_name):\n    initializers = {'db': init_db, 'cache': init_cache, 'queue': init_queue}\n    fn = initializers.get(init_name)\n    if not fn:\n        raise ValueError('Unknown initializer')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_finalizer(finalizer_name):\n    finalizers = {'flush': flush_data, 'close': close_connections}\n    fn = finalizers.get(finalizer_name)\n    return fn() if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_setup(setup_name):\n    setups = {'db': setup_db, 'cache': setup_cache}\n    fn = setups.get(setup_name)\n    if not fn:\n        raise ValueError('Unknown setup')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_teardown(teardown_name):\n    teardowns = {'db': teardown_db, 'cache': teardown_cache}\n    fn = teardowns.get(teardown_name)\n    return fn() if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def build_and_run(operation_name, data):\n    ops = {'sort': sorted, 'reverse': lambda d: list(reversed(d))}\n    fn = ops.get(operation_name)\n    return fn(data) if fn else data",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def ml_feature_transform(transform_name, data):\n    transforms = {'log': lambda x: math.log(x + 1), 'sqrt': math.sqrt, 'identity': lambda x: x}\n    fn = transforms.get(transform_name)\n    if not fn:\n        raise ValueError('Unknown transform')\n    return fn(data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def scoring_model(model_name, features):\n    models = {'linear': linear_score, 'tree': tree_score, 'ensemble': ensemble_score}\n    fn = models.get(model_name)\n    if not fn:\n        raise ValueError('Unknown model')\n    return fn(features)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def custom_aggregator(agg_name, values):\n    aggs = {'mean': statistics.mean, 'median': statistics.median, 'stdev': statistics.stdev}\n    fn = aggs.get(agg_name)\n    if not fn:\n        raise ValueError('Unknown aggregation')\n    return fn(values)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def dsl_runner(dsl_name, context):\n    runners = {'filter': run_filter_dsl, 'map': run_map_dsl, 'reduce': run_reduce_dsl}\n    fn = runners.get(dsl_name)\n    if not fn:\n        raise ValueError('Unknown DSL')\n    return fn(context)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def report_formula(formula_name, data):\n    formulas = {'total': lambda d: sum(d.values()), 'average': lambda d: sum(d.values()) / len(d), 'max': lambda d: max(d.values())}\n    fn = formulas.get(formula_name)\n    if not fn:\n        raise ValueError('Unknown formula')\n    return fn(data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def config_loader(config_name):\n    import json\n    allowed = {'app', 'database', 'cache', 'queue'}\n    if config_name not in allowed:\n        raise ValueError('Config not permitted')\n    with open(f'configs/{config_name}.json') as f:\n        return json.load(f)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def assertion_runner(assertion_name, value, expected):\n    assertions = {'equals': lambda v, e: v == e, 'contains': lambda v, e: e in v, 'gt': lambda v, e: v > e}\n    fn = assertions.get(assertion_name)\n    if not fn:\n        raise ValueError('Unknown assertion')\n    return fn(value, expected)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def field_mapper(field_name, row):\n    allowed_fields = {'name', 'email', 'age', 'status'}\n    if field_name not in allowed_fields:\n        raise ValueError('Field not permitted')\n    return row.get(field_name)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def etl_transform(transform_name, df):\n    transforms = {'drop_nulls': lambda d: d.dropna(), 'normalize': lambda d: (d - d.mean()) / d.std(), 'fillna': lambda d: d.fillna(0)}\n    fn = transforms.get(transform_name)\n    if not fn:\n        raise ValueError('Unknown transform')\n    return fn(df)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def alert_condition(condition_name, metrics):\n    conditions = {'cpu_high': lambda m: m['cpu'] > 90, 'memory_low': lambda m: m['memory'] < 10, 'latency_high': lambda m: m['latency'] > 1000}\n    fn = conditions.get(condition_name)\n    return fn(metrics) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def access_control(policy_name, user_role):\n    policies = {'admin_only': lambda r: r == 'admin', 'staff_or_above': lambda r: r in ('staff', 'admin'), 'public': lambda r: True}\n    fn = policies.get(policy_name)\n    return fn(user_role) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def billing_compute(rule_name, amount, rate):\n    rules = {'flat_tax': lambda a, r: a * r, 'tiered': lambda a, r: a * r if a < 1000 else a * r * 0.9, 'exempt': lambda a, r: 0}\n    fn = rules.get(rule_name)\n    if not fn:\n        raise ValueError('Unknown billing rule')\n    return fn(amount, rate)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def data_filter(filter_name, dataset):\n    filters = {'active': lambda x: x.get('status') == 'active', 'premium': lambda x: x.get('tier') == 'premium'}\n    fn = filters.get(filter_name)\n    return [x for x in dataset if fn(x)] if fn else dataset",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def dynamic_sort(sort_field, items):\n    allowed_fields = {'name', 'date', 'amount', 'status'}\n    if sort_field not in allowed_fields:\n        raise ValueError('Sort field not permitted')\n    return sorted(items, key=lambda x: x.get(sort_field, ''))",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_test_case(test_name):\n    test_cases = {'smoke': run_smoke_tests, 'integration': run_integration_tests, 'unit': run_unit_tests}\n    fn = test_cases.get(test_name)\n    if not fn:\n        raise ValueError('Unknown test suite')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_business_rule(rule_name, order):\n    rules = {'min_order': lambda o: o['total'] >= 10, 'max_items': lambda o: len(o['items']) <= 50, 'verified_user': lambda o: o['user']['verified']}\n    fn = rules.get(rule_name)\n    return fn(order) if fn else True",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_discount_rule(rule_name, cart_total):\n    rules = {'vip': lambda t: t * 0.2, 'seasonal': lambda t: t * 0.1, 'bulk': lambda t: t * 0.15 if t > 500 else 0}\n    fn = rules.get(rule_name)\n    return fn(cart_total) if fn else 0",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_kpi(kpi_name, data):\n    kpis = {'revenue': lambda d: sum(d['sales']), 'churn': lambda d: d['churned'] / d['total'], 'arpu': lambda d: d['revenue'] / d['users']}\n    fn = kpis.get(kpi_name)\n    if not fn:\n        raise ValueError('Unknown KPI')\n    return fn(data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_audit_check(check_name, record):\n    checks = {'has_owner': lambda r: bool(r.get('owner_id')), 'is_complete': lambda r: all(r.get(f) for f in ('name', 'email', 'role')), 'not_deleted': lambda r: not r.get('deleted')}\n    fn = checks.get(check_name)\n    return fn(record) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def graphql_resolver(info, operation_name, **kwargs):\n    resolvers = {'getUser': get_user_resolver, 'listOrders': list_orders_resolver, 'createItem': create_item_resolver}\n    fn = resolvers.get(operation_name)\n    if not fn:\n        raise ValueError('Unknown operation')\n    return fn(info, **kwargs)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def rpc_handler(method, params):\n    handlers = {'ping': ping_handler, 'echo': echo_handler, 'status': status_handler}\n    fn = handlers.get(method)\n    if not fn:\n        raise ValueError('Unknown RPC method')\n    return fn(**params)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def event_processor(event_type, event_data):\n    processors = {'user.created': handle_user_created, 'order.placed': handle_order_placed, 'payment.failed': handle_payment_failed}\n    fn = processors.get(event_type)\n    return fn(event_data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def message_handler(msg_type, payload):\n    handlers = {'chat': handle_chat, 'notification': handle_notification, 'system': handle_system}\n    fn = handlers.get(msg_type)\n    return fn(payload) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def queue_consumer(task_type, task_data):\n    consumers = {'email': process_email_task, 'sms': process_sms_task, 'push': process_push_task}\n    fn = consumers.get(task_type)\n    if not fn:\n        raise ValueError('Unknown task type')\n    return fn(task_data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def stream_processor(stream_type, record):\n    processors = {'sales': process_sales_record, 'events': process_event_record, 'logs': process_log_record}\n    fn = processors.get(stream_type)\n    return fn(record) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def notebook_cell_exec(cell_type, cell_data):\n    handlers = {'markdown': render_markdown, 'sql': run_sql_query, 'chart': render_chart}\n    fn = handlers.get(cell_type)\n    if not fn:\n        raise ValueError('Unsupported cell type')\n    return fn(cell_data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def hot_reload(component_name):\n    allowed = {'router', 'middleware', 'handler'}\n    if component_name not in allowed:\n        raise ValueError('Component not allowed for hot reload')\n    return reload_component(component_name)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def plugin_runner(plugin_name, context):\n    plugins = {'auth_plugin': auth_plugin.run, 'cache_plugin': cache_plugin.run, 'metrics_plugin': metrics_plugin.run}\n    fn = plugins.get(plugin_name)\n    if not fn:\n        raise ValueError('Unknown plugin')\n    return fn(context)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def dynamic_loader(module_name, config):\n    allowed_modules = {'payments': payments_module, 'notifications': notifications_module, 'analytics': analytics_module}\n    module = allowed_modules.get(module_name)\n    if not module:\n        raise ValueError('Module not permitted')\n    return module.initialize(config)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def configure_runtime(config_name, config_data):\n    import json, jsonschema\n    schema = load_config_schema(config_name)\n    jsonschema.validate(config_data, schema)\n    return apply_validated_config(config_name, config_data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_score(score_name, components):\n    scorers = {'weighted': lambda c: sum(v * w for v, w in c), 'sum': lambda c: sum(v for v, _ in c), 'max': lambda c: max(v for v, _ in c)}\n    fn = scorers.get(score_name)\n    if not fn:\n        raise ValueError('Unknown scorer')\n    return fn(components)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_rule_set(rule_names, record):\n    rules = {'has_email': lambda r: bool(r.get('email')), 'is_active': lambda r: r.get('status') == 'active', 'has_verified': lambda r: r.get('verified', False)}\n    return all(rules[name](record) for name in rule_names if name in rules)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_user_query(query_type, filters, model):\n    allowed_filters = {'status', 'created_after', 'user_id', 'is_active'}\n    safe_filters = {k: v for k, v in filters.items() if k in allowed_filters}\n    return model.objects.filter(**safe_filters)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_event(event_type, payload):\n    handlers = {'user.signup': handle_signup, 'order.placed': handle_order, 'payment.received': handle_payment}\n    fn = handlers.get(event_type)\n    return fn(payload) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_config_value(config_name, config_store):\n    allowed = {'max_retries', 'timeout', 'batch_size', 'debug_mode'}\n    if config_name not in allowed:\n        raise KeyError('Config key not permitted')\n    return config_store[config_name]",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def logged_operation(op_name, a, b, logger):\n    ops = {'add': lambda x, y: x + y, 'sub': lambda x, y: x - y, 'mul': lambda x, y: x * y}\n    fn = ops.get(op_name)\n    if not fn:\n        raise ValueError('Unknown operation')\n    result = fn(a, b)\n    logger.info(f'Op {op_name}({a}, {b}) = {result}')\n    return result",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def rate_limited_operation(op_name, data, rate_limiter):\n    rate_limiter.check()\n    ops = {'serialize': serialize_data, 'deserialize': deserialize_data, 'validate': validate_data}\n    fn = ops.get(op_name)\n    if not fn:\n        raise ValueError('Unknown op')\n    return fn(data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def authed_operation(op_name, data, user):\n    if not user.is_authenticated:\n        raise PermissionError('Not authenticated')\n    ops = {'read': read_record, 'update': update_record}\n    fn = ops.get(op_name)\n    return fn(data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def admin_only_operation(op_name, target, user):\n    if not user.is_admin:\n        raise PermissionError('Admins only')\n    ops = {'ban_user': ban_user, 'delete_post': delete_post, 'reset_password': reset_password}\n    fn = ops.get(op_name)\n    return fn(target) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def sanitize_and_compute(op_name, a, b):\n    if not isinstance(a, (int, float)) or not isinstance(b, (int, float)):\n        raise TypeError('Inputs must be numeric')\n    ops = {'add': a + b, 'sub': a - b, 'mul': a * b, 'div': a / b if b != 0 else None}\n    if op_name not in ops:\n        raise ValueError('Unknown op')\n    return ops[op_name]",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def multi_step_operation(steps, data):\n    step_fns = {'validate': validate_step, 'transform': transform_step, 'load': load_step, 'index': index_step}\n    result = data\n    for step in steps:\n        fn = step_fns.get(step)\n        if not fn:\n            raise ValueError(f'Unknown step: {step}')\n        result = fn(result)\n    return result",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_condition(condition_name, field_value, threshold):\n    conditions = {'gt': lambda v, t: v > t, 'lt': lambda v, t: v < t, 'eq': lambda v, t: v == t, 'gte': lambda v, t: v >= t, 'lte': lambda v, t: v <= t}\n    fn = conditions.get(condition_name)\n    return fn(field_value, threshold) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_policy(policy_name, user_role, resource):\n    policies = {'read_own': lambda r, res: res.owner_id == r, 'admin_write': lambda r, res: r == 'admin', 'public_read': lambda r, res: True}\n    fn = policies.get(policy_name)\n    return fn(user_role, resource) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_derived_field(field_name, record):\n    derivations = {'full_name': lambda r: f'{r[\"first\"]} {r[\"last\"]}', 'age_group': lambda r: 'senior' if r['age'] >= 65 else 'adult'}\n    fn = derivations.get(field_name)\n    if not fn:\n        raise ValueError('Unknown derived field')\n    return fn(record)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_scoring_rule(rule_name, score, threshold):\n    rules = {'pass_fail': lambda s, t: 'pass' if s >= t else 'fail', 'percentile': lambda s, t: round(s / t * 100), 'grade': lambda s, t: 'A' if s >= t * 0.9 else 'B'}\n    fn = rules.get(rule_name)\n    if not fn:\n        raise ValueError('Unknown scoring rule')\n    return fn(score, threshold)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_migration_script(migration_name, db_conn):\n    allowed = {'add_index', 'drop_column', 'create_table', 'rename_field'}\n    if migration_name not in allowed:\n        raise ValueError('Migration not permitted')\n    return run_named_migration(migration_name, db_conn)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_webhook(body_json, secret):\n    import json, hmac, hashlib\n    if not hmac.compare_digest(compute_sig(body_json, secret), expected_sig):\n        raise ValueError('Invalid signature')\n    data = json.loads(body_json)\n    action = data.get('action')\n    handlers = {'push': handle_push, 'pr': handle_pr}\n    fn = handlers.get(action)\n    return fn(data) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_custom_metric(metric_name, values):\n    metrics = {'p50': lambda v: sorted(v)[len(v)//2], 'p95': lambda v: sorted(v)[int(len(v)*0.95)], 'mean': lambda v: sum(v)/len(v)}\n    fn = metrics.get(metric_name)\n    if not fn:\n        raise ValueError('Unknown metric')\n    return fn(values)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_expression_with_vars(expr_name, **kwargs):\n    expressions = {'revenue': lambda **k: k['price'] * k['quantity'], 'margin': lambda **k: (k['revenue'] - k['cost']) / k['revenue']}\n    fn = expressions.get(expr_name)\n    if not fn:\n        raise ValueError('Unknown expression')\n    return fn(**kwargs)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_automation(task_name, context):\n    automations = {'send_welcome_email': send_welcome_email, 'create_default_settings': create_default_settings, 'log_signup': log_signup}\n    fn = automations.get(task_name)\n    if not fn:\n        raise ValueError('Unknown automation task')\n    return fn(context)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def transform_record(transform_name, record):\n    transforms = {'to_lowercase': lambda r: {k: v.lower() if isinstance(v, str) else v for k, v in r.items()}, 'strip_nulls': lambda r: {k: v for k, v in r.items() if v is not None}}\n    fn = transforms.get(transform_name)\n    return fn(record) if fn else record",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_agg(agg_name, data):\n    import statistics\n    aggs = {'mean': statistics.mean, 'median': statistics.median, 'stdev': statistics.stdev, 'variance': statistics.variance}\n    fn = aggs.get(agg_name)\n    if not fn:\n        raise ValueError('Unknown aggregation')\n    return fn(data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def render_template(template_name, context):\n    from jinja2 import Environment, BaseLoader, select_autoescape\n    env = Environment(loader=BaseLoader(), autoescape=select_autoescape())\n    templates = {'invoice': INVOICE_TEMPLATE, 'receipt': RECEIPT_TEMPLATE, 'welcome': WELCOME_TEMPLATE}\n    tpl_str = templates.get(template_name)\n    if not tpl_str:\n        raise ValueError('Unknown template')\n    return env.from_string(tpl_str).render(context)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_formula(formula_name, record):\n    formulas = {'net_salary': lambda r: r['gross'] - r['tax'] - r['deductions'], 'overtime': lambda r: (r['hours'] - 40) * r['rate'] * 1.5 if r['hours'] > 40 else 0}\n    fn = formulas.get(formula_name)\n    if not fn:\n        raise ValueError('Unknown formula')\n    return fn(record)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_notebook_cell(cell_type, cell_input):\n    cell_handlers = {'markdown': render_markdown_cell, 'sql': execute_safe_sql, 'chart': render_chart_cell}\n    fn = cell_handlers.get(cell_type)\n    if not fn:\n        raise ValueError('Unsupported cell type')\n    return fn(cell_input)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_alert_rule(rule_name, metric_values):\n    rules = {'cpu_critical': lambda m: m.get('cpu_pct', 0) > 95, 'memory_low': lambda m: m.get('free_mem_mb', 100) < 50, 'error_rate_high': lambda m: m.get('error_rate', 0) > 0.05}\n    fn = rules.get(rule_name)\n    return fn(metric_values) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_formula(formula_name, row):\n    formulas = {'total_cost': lambda r: r['unit_price'] * r['quantity'], 'discount_amount': lambda r: r['subtotal'] * r['discount_pct'] / 100, 'tax_amount': lambda r: r['subtotal'] * r['tax_rate']}\n    fn = formulas.get(formula_name)\n    if not fn:\n        raise ValueError('Unknown formula')\n    return fn(row)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def user_defined_filter(filter_name, dataset):\n    filters = {'in_stock': lambda x: x.get('stock', 0) > 0, 'discounted': lambda x: x.get('discount', 0) > 0, 'featured': lambda x: x.get('featured', False)}\n    fn = filters.get(filter_name)\n    return [item for item in dataset if fn(item)] if fn else dataset",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def dynamic_query(filter_name, filter_value, model):\n    allowed_filter_fields = {'status', 'user_id', 'created_date', 'category'}\n    if filter_name not in allowed_filter_fields:\n        raise ValueError('Filter field not permitted')\n    return model.objects.filter(**{filter_name: filter_value})",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def load_plugin(plugin_name):\n    registered_plugins = {'auth': AuthPlugin, 'cache': CachePlugin, 'metrics': MetricsPlugin}\n    cls = registered_plugins.get(plugin_name)\n    if not cls:\n        raise ValueError('Plugin not registered')\n    return cls()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_user_hook(hook_name, context):\n    hooks = {'pre_save': pre_save_hook, 'post_save': post_save_hook, 'on_error': error_hook}\n    fn = hooks.get(hook_name)\n    return fn(context) if fn else None",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_pricing_formula(formula_name, order):\n    formulas = {'subtotal': lambda o: sum(i['price'] * i['qty'] for i in o['items']), 'shipping': lambda o: 5.99 if o['total'] < 50 else 0, 'grand_total': lambda o: o['subtotal'] + o['tax'] + o['shipping']}\n    fn = formulas.get(formula_name)\n    if not fn:\n        raise ValueError('Unknown pricing formula')\n    return fn(order)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def execute_transformation(transform_name, source_data):\n    transforms = {'normalize_phone': lambda d: re.sub(r'[^\\d]', '', d['phone']), 'capitalize_name': lambda d: d['name'].title(), 'mask_email': lambda d: d['email'][:2] + '***' + d['email'][d['email'].index('@'):]}\n    fn = transforms.get(transform_name)\n    return fn(source_data) if fn else source_data",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_report_script(report_name, db_conn):\n    reports = {'monthly_revenue': monthly_revenue_report, 'user_activity': user_activity_report, 'churn_analysis': churn_analysis_report}\n    fn = reports.get(report_name)\n    if not fn:\n        raise ValueError('Unknown report')\n    return fn(db_conn)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_business_logic(rule_name, order):\n    rules = {'free_shipping': lambda o: o['total'] > 100, 'apply_vip_discount': lambda o: o['user']['tier'] == 'vip', 'requires_signature': lambda o: o['total'] > 500}\n    fn = rules.get(rule_name)\n    return fn(order) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_rego_policy(policy_name, principal, resource):\n    policies = {'can_read': lambda p, r: p.role in r.read_roles, 'can_write': lambda p, r: p.role in r.write_roles, 'is_owner': lambda p, r: r.owner_id == p.id}\n    fn = policies.get(policy_name)\n    return fn(principal, resource) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_spark_job(job_name, spark, input_path, output_path):\n    jobs = {'word_count': run_word_count_job, 'dedup': run_dedup_job, 'aggregate': run_aggregation_job}\n    fn = jobs.get(job_name)\n    if not fn:\n        raise ValueError('Unknown Spark job')\n    return fn(spark, input_path, output_path)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_currency_formula(formula_name, amount, from_currency, to_currency, rates):\n    formulas = {'convert': lambda a, f, t, r: a * r.get(t, 1) / r.get(f, 1), 'to_usd': lambda a, f, t, r: a / r.get(f, 1)}\n    fn = formulas.get(formula_name)\n    if not fn:\n        raise ValueError('Unknown formula')\n    return fn(amount, from_currency, to_currency, rates)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_authorization_policy(policy_name, user_claims, required_scope):\n    policies = {'scope_check': lambda c, s: s in c.get('scopes', []), 'role_check': lambda c, s: c.get('role') == s, 'owner_check': lambda c, s: c.get('sub') == s}\n    fn = policies.get(policy_name)\n    return fn(user_claims, required_scope) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_db_seed(seed_name, db_session):\n    seeders = {'users': seed_users, 'products': seed_products, 'categories': seed_categories}\n    fn = seeders.get(seed_name)\n    if not fn:\n        raise ValueError('Unknown seeder')\n    return fn(db_session)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_search_query(query_type, search_term, index):\n    allowed_types = {'full_text': index.search, 'exact': index.exact_match, 'prefix': index.prefix_search}\n    fn = allowed_types.get(query_type)\n    if not fn:\n        raise ValueError('Unknown query type')\n    return fn(search_term)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_rate_limit_rule(rule_name, request_count, limit):\n    rules = {'hard_limit': lambda c, l: c > l, 'soft_limit': lambda c, l: c > l * 0.9, 'burst': lambda c, l: c > l * 2}\n    fn = rules.get(rule_name)\n    return fn(request_count, limit) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_model_prediction(model_name, features):\n    import joblib\n    allowed_models = {'churn', 'fraud', 'recommendation'}\n    if model_name not in allowed_models:\n        raise ValueError('Model not permitted')\n    model = joblib.load(f'models/{model_name}.pkl')\n    return model.predict([features])[0]",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_incident_playbook(playbook_name, incident):\n    playbooks = {'sev1_response': sev1_response_playbook, 'data_breach': data_breach_playbook, 'service_down': service_down_playbook}\n    fn = playbooks.get(playbook_name)\n    if not fn:\n        raise ValueError('Unknown playbook')\n    return fn(incident)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_data_retention_rule(rule_name, record_age_days):\n    rules = {'keep_forever': lambda a: False, 'one_year': lambda a: a > 365, 'ninety_days': lambda a: a > 90, 'thirty_days': lambda a: a > 30}\n    fn = rules.get(rule_name)\n    return fn(record_age_days) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_onboarding_script(script_name, user, db_session):\n    scripts = {'create_profile': create_user_profile, 'send_welcome': send_welcome_email, 'init_settings': initialize_user_settings}\n    fn = scripts.get(script_name)\n    if not fn:\n        raise ValueError('Unknown onboarding step')\n    return fn(user, db_session)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_quota_rule(rule_name, current_usage, quota_limit):\n    rules = {'hard_block': lambda u, l: u >= l, 'warn_80': lambda u, l: u >= l * 0.8, 'warn_90': lambda u, l: u >= l * 0.9}\n    fn = rules.get(rule_name)\n    return fn(current_usage, quota_limit) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_data_export(format_name, dataset):\n    import csv, json as json_module\n    io = __import__('io')\n    exporters = {'json': lambda d: json_module.dumps(d, indent=2), 'csv': lambda d: export_to_csv(d)}\n    fn = exporters.get(format_name)\n    if not fn:\n        raise ValueError('Unsupported export format')\n    return fn(dataset)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_ml_hyperparams(search_strategy, param_bounds):\n    strategies = {'grid': grid_search, 'random': random_search, 'bayesian': bayesian_optimization}\n    fn = strategies.get(search_strategy)\n    if not fn:\n        raise ValueError('Unknown search strategy')\n    return fn(param_bounds)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_provisioning_script(resource_type, config):\n    import json\n    allowed_resources = {'ec2', 'rds', 's3', 'lambda'}\n    if resource_type not in allowed_resources:\n        raise ValueError('Resource type not permitted')\n    return provision_resource(resource_type, config)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_ci_step(step_name, pipeline_context):\n    steps = {'test': run_tests, 'lint': run_linter, 'build': run_build, 'deploy': run_deployment}\n    fn = steps.get(step_name)\n    if not fn:\n        raise ValueError('Unknown CI step')\n    return fn(pipeline_context)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_data_mask(mask_name, value):\n    masks = {'email': lambda v: v[:2] + '***@' + v.split('@')[-1], 'phone': lambda v: '***-***-' + v[-4:], 'ssn': lambda v: '***-**-' + v[-4:]}\n    fn = masks.get(mask_name)\n    return fn(value) if fn else value",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def render_widget(widget_name, data):\n    widgets = {'bar_chart': render_bar_chart, 'line_chart': render_line_chart, 'table': render_table_widget}\n    fn = widgets.get(widget_name)\n    if not fn:\n        raise ValueError('Unknown widget')\n    return fn(data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_gdpr_rule(rule_name, record):\n    rules = {'has_consent': lambda r: r.get('gdpr_consent', False), 'can_delete': lambda r: r.get('deletion_requested', False), 'is_anonymized': lambda r: r.get('anonymized', False)}\n    fn = rules.get(rule_name)\n    return fn(record) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_data_quality_check(check_name, df):\n    checks = {'no_nulls': lambda d: not d.isnull().values.any(), 'unique_ids': lambda d: d['id'].nunique() == len(d), 'positive_amounts': lambda d: (d['amount'] >= 0).all()}\n    fn = checks.get(check_name)\n    if not fn:\n        raise ValueError('Unknown data quality check')\n    return fn(df)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_feature_flag(flag_name, user):\n    flags = {'new_ui': lambda u: u.get('beta_tester', False), 'dark_mode': lambda u: u.get('preferences', {}).get('theme') == 'dark', 'ai_features': lambda u: u.get('plan') == 'enterprise'}\n    fn = flags.get(flag_name)\n    return fn(user) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_recommendation_score(strategy_name, user, item):\n    strategies = {'collaborative': collaborative_score, 'content_based': content_based_score, 'hybrid': hybrid_score}\n    fn = strategies.get(strategy_name)\n    if not fn:\n        raise ValueError('Unknown strategy')\n    return fn(user, item)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_canary_test(check_name, service_url):\n    checks = {'ping': check_ping, 'health': check_health_endpoint, 'latency': check_latency}\n    fn = checks.get(check_name)\n    if not fn:\n        raise ValueError('Unknown canary check')\n    return fn(service_url)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_experiment_condition(segment_name, user):\n    segments = {'power_user': lambda u: u.get('session_count', 0) > 50, 'new_user': lambda u: u.get('days_since_signup', 999) <= 7, 'premium': lambda u: u.get('plan') == 'premium'}\n    fn = segments.get(segment_name)\n    return fn(user) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def execute_data_pipeline(pipeline_name, input_path, output_path):\n    pipelines = {'raw_to_bronze': raw_to_bronze_pipeline, 'bronze_to_silver': bronze_to_silver_pipeline, 'silver_to_gold': silver_to_gold_pipeline}\n    fn = pipelines.get(pipeline_name)\n    if not fn:\n        raise ValueError('Unknown pipeline')\n    return fn(input_path, output_path)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_scheduled_job(job_name):\n    jobs = {'daily_rollup': daily_rollup_job, 'weekly_report': weekly_report_job, 'monthly_cleanup': monthly_cleanup_job}\n    fn = jobs.get(job_name)\n    if not fn:\n        raise ValueError('Unknown scheduled job')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_llm_output(action_name, action_params):\n    allowed_actions = {'send_email': send_email_action, 'create_ticket': create_ticket_action, 'lookup_user': lookup_user_action}\n    fn = allowed_actions.get(action_name)\n    if not fn:\n        raise ValueError('LLM requested unknown action')\n    return fn(**action_params)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_segment_rule(segment_name, user_profile):\n    segments = {'high_value': lambda u: u.get('lifetime_value', 0) > 1000, 'at_risk': lambda u: u.get('days_inactive', 0) > 30, 'engaged': lambda u: u.get('session_count', 0) > 10}\n    fn = segments.get(segment_name)\n    return fn(user_profile) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_ab_test_variant(variant_name, user, context):\n    variants = {'control': control_variant, 'treatment_a': treatment_a_variant, 'treatment_b': treatment_b_variant}\n    fn = variants.get(variant_name)\n    if not fn:\n        raise ValueError('Unknown A/B variant')\n    return fn(user, context)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_custom_report(report_name, date_range, db_session):\n    report_fns = {'sales_summary': sales_summary_report, 'user_cohort': user_cohort_report, 'inventory_status': inventory_status_report}\n    fn = report_fns.get(report_name)\n    if not fn:\n        raise ValueError('Unknown report')\n    return fn(date_range, db_session)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_smart_contract(rule_name, transaction, state):\n    rules = {'sufficient_funds': lambda tx, s: s['balance'] >= tx['amount'], 'not_expired': lambda tx, s: tx['expiry'] > time.time(), 'valid_recipient': lambda tx, s: tx['recipient'] in s['allowed_recipients']}\n    fn = rules.get(rule_name)\n    return fn(transaction, state) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_config_override(config_key, config_value, allowed_overrides):\n    if config_key not in allowed_overrides:\n        raise ValueError('Config key not permitted for override')\n    config = load_current_config()\n    config[config_key] = config_value\n    return save_config(config)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_backfill(backfill_name, date_range, db_session):\n    backfills = {'user_metrics': backfill_user_metrics, 'order_totals': backfill_order_totals, 'event_counts': backfill_event_counts}\n    fn = backfills.get(backfill_name)\n    if not fn:\n        raise ValueError('Unknown backfill')\n    return fn(date_range, db_session)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_rbac_rule(role, permission, resource_type):\n    permissions = {\n        'admin': {'read', 'write', 'delete'},\n        'editor': {'read', 'write'},\n        'viewer': {'read'}\n    }\n    allowed = permissions.get(role, set())\n    return permission in allowed",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compute_dynamic_price(pricing_strategy, base_price, demand_factor):\n    strategies = {'surge': lambda p, d: p * d, 'flat': lambda p, d: p, 'capped_surge': lambda p, d: min(p * d, p * 3)}\n    fn = strategies.get(pricing_strategy)\n    if not fn:\n        raise ValueError('Unknown pricing strategy')\n    return fn(base_price, demand_factor)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_health_check(check_name):\n    checks = {'db': check_db_health, 'cache': check_cache_health, 'queue': check_queue_health, 'storage': check_storage_health}\n    fn = checks.get(check_name)\n    if not fn:\n        raise ValueError('Unknown health check')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_consent_rule(rule_name, user_consent):\n    rules = {'marketing': lambda c: c.get('marketing_consent', False), 'analytics': lambda c: c.get('analytics_consent', False), 'third_party': lambda c: c.get('third_party_consent', False)}\n    fn = rules.get(rule_name)\n    return fn(user_consent) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_cleanup_script(cleanup_name):\n    cleaners = {'expired_sessions': cleanup_expired_sessions, 'soft_deleted': cleanup_soft_deleted_records, 'temp_files': cleanup_temp_files}\n    fn = cleaners.get(cleanup_name)\n    if not fn:\n        raise ValueError('Unknown cleanup task')\n    return fn()",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_recommendation_filter(filter_name, items, user):\n    filters = {'in_stock': lambda i, u: i.get('stock', 0) > 0, 'user_category': lambda i, u: i.get('category') in u.get('preferred_categories', []), 'not_purchased': lambda i, u: i.get('id') not in u.get('purchase_history', [])}\n    fn = filters.get(filter_name)\n    return [item for item in items if fn(item, user)] if fn else items",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_user_formula(formula_name, user_data):\n    formulas = {'monthly_spend': lambda d: sum(d.get('transactions', [])), 'avg_order': lambda d: sum(d.get('orders', [])) / len(d.get('orders', [1])), 'loyalty_score': lambda d: d.get('points', 0) * d.get('tier_multiplier', 1)}\n    fn = formulas.get(formula_name)\n    if not fn:\n        raise ValueError('Unknown formula')\n    return fn(user_data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def execute_deployment_script(deploy_target, config):\n    targets = {'staging': deploy_to_staging, 'production': deploy_to_production, 'canary': deploy_to_canary}\n    fn = targets.get(deploy_target)\n    if not fn:\n        raise ValueError('Unknown deployment target')\n    return fn(config)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_schema_migration(migration_name, db_engine):\n    from alembic import command, config as alembic_config\n    allowed = {'head', 'downgrade_1', 'upgrade_v2'}\n    if migration_name not in allowed:\n        raise ValueError('Migration not permitted')\n    cfg = alembic_config.Config('alembic.ini')\n    return run_named_alembic_migration(cfg, migration_name)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_dynamic_acl(acl_name, user_role, resource_owner_id, user_id):\n    acls = {'owner_or_admin': lambda r, o, u: u == o or r == 'admin', 'admin_only': lambda r, o, u: r == 'admin', 'any_authenticated': lambda r, o, u: True}\n    fn = acls.get(acl_name)\n    return fn(user_role, resource_owner_id, user_id) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_integration_test(test_name, client):\n    tests = {'auth_flow': test_auth_flow, 'payment_flow': test_payment_flow, 'onboarding_flow': test_onboarding_flow}\n    fn = tests.get(test_name)\n    if not fn:\n        raise ValueError('Unknown integration test')\n    return fn(client)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_routing_rule(rule_name, request):\n    rules = {'mobile_redirect': lambda r: r.headers.get('User-Agent', '').startswith('Mobile'), 'geo_block': lambda r: r.remote_addr in BLOCKED_IPS, 'maintenance_mode': lambda r: MAINTENANCE_MODE}\n    fn = rules.get(rule_name)\n    return fn(request) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_caching_rule(strategy_name, response, request):\n    strategies = {'no_cache': lambda res, req: set_no_cache_headers(res), 'short_ttl': lambda res, req: set_cache_ttl(res, 60), 'long_ttl': lambda res, req: set_cache_ttl(res, 3600)}\n    fn = strategies.get(strategy_name)\n    return fn(response, request) if fn else response",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_compliance_check(check_name, record, audit_logger):\n    checks = {'pci_dss': check_pci_dss_compliance, 'hipaa': check_hipaa_compliance, 'gdpr': check_gdpr_compliance}\n    fn = checks.get(check_name)\n    if not fn:\n        raise ValueError('Unknown compliance check')\n    result = fn(record)\n    audit_logger.log(check_name, result)\n    return result",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_geo_fence(fence_name, lat, lon):\n    fences = {'us_only': lambda la, lo: 24 <= la <= 49 and -125 <= lo <= -66, 'eu_only': lambda la, lo: 35 <= la <= 71 and -10 <= lo <= 40}\n    fn = fences.get(fence_name)\n    return fn(lat, lon) if fn else True",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_churn_model(model_name, user_features):\n    models = {'logistic': logistic_churn_model, 'gradient_boost': gb_churn_model, 'ensemble': ensemble_churn_model}\n    fn = models.get(model_name)\n    if not fn:\n        raise ValueError('Unknown churn model')\n    return fn(user_features)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_custom_validator(validator_name, data):\n    validators = {'email': validate_email, 'phone': validate_phone, 'postal_code': validate_postal_code}\n    fn = validators.get(validator_name)\n    if not fn:\n        raise ValueError('Unknown validator')\n    return fn(data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_sla_rule(sla_name, response_time_ms, error_rate):\n    slas = {'gold': lambda rt, er: rt < 100 and er < 0.001, 'silver': lambda rt, er: rt < 500 and er < 0.01, 'bronze': lambda rt, er: rt < 2000 and er < 0.05}\n    fn = slas.get(sla_name)\n    return fn(response_time_ms, error_rate) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_etl_transformation(transform_name, df):\n    transforms = {'drop_duplicates': lambda d: d.drop_duplicates(), 'sort_by_date': lambda d: d.sort_values('date'), 'filter_active': lambda d: d[d['status'] == 'active']}\n    fn = transforms.get(transform_name)\n    if not fn:\n        raise ValueError('Unknown ETL transform')\n    return fn(df)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def eval_tax_rule(rule_name, amount, jurisdiction):\n    rules = {'us_sales': lambda a, j: a * US_TAX_RATES.get(j, 0), 'eu_vat': lambda a, j: a * EU_VAT_RATES.get(j, 0), 'zero_rated': lambda a, j: 0}\n    fn = rules.get(rule_name)\n    if not fn:\n        raise ValueError('Unknown tax rule')\n    return fn(amount, jurisdiction)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def process_audit_script(audit_type, records, audit_store):\n    auditors = {'access': audit_access_log, 'change': audit_change_log, 'compliance': audit_compliance_events}\n    fn = auditors.get(audit_type)\n    if not fn:\n        raise ValueError('Unknown audit type')\n    return fn(records, audit_store)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_normalization(norm_name, value, min_val, max_val):\n    norms = {'min_max': lambda v, lo, hi: (v - lo) / (hi - lo) if hi != lo else 0, 'clamp': lambda v, lo, hi: max(lo, min(hi, v)), 'z_score': lambda v, lo, hi: (v - lo) / hi if hi != 0 else 0}\n    fn = norms.get(norm_name)\n    if not fn:\n        raise ValueError('Unknown normalization')\n    return fn(value, min_val, max_val)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_fraud_rule(rule_name, transaction):\n    rules = {'velocity': lambda tx: tx.get('attempts', 0) > 5, 'high_amount': lambda tx: tx.get('amount', 0) > 10000, 'unusual_location': lambda tx: tx.get('country') not in tx.get('user_countries', [])}\n    fn = rules.get(rule_name)\n    return fn(transaction) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def compile_model_expr(model_name, input_data):\n    import joblib\n    allowed = {'sentiment', 'intent', 'entity_extractor'}\n    if model_name not in allowed:\n        raise ValueError('Model not permitted')\n    model = joblib.load(f'models/{model_name}.pkl')\n    return model.predict([input_data])[0]",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_user_defined_function(fn_name, *args):\n    registered_fns = {'calculate_discount': calculate_discount, 'format_address': format_address, 'validate_coupon': validate_coupon}\n    fn = registered_fns.get(fn_name)\n    if not fn:\n        raise ValueError('Function not registered')\n    return fn(*args)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_stream_aggregation(agg_name, window_data):\n    aggs = {'count': lambda d: len(d), 'sum_revenue': lambda d: sum(x['revenue'] for x in d), 'avg_latency': lambda d: sum(x['latency'] for x in d) / len(d) if d else 0}\n    fn = aggs.get(agg_name)\n    if not fn:\n        raise ValueError('Unknown aggregation')\n    return fn(window_data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_consent_rule(rule_name, user):\n    rules = {'can_email': lambda u: u.consents.get('email', False), 'can_sms': lambda u: u.consents.get('sms', False), 'can_track': lambda u: u.consents.get('analytics', False)}\n    fn = rules.get(rule_name)\n    return fn(user) if fn else False",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_rollback_script(rollback_name, db_session):\n    rollbacks = {'undo_migration': undo_last_migration, 'restore_backup': restore_from_backup, 'revert_config': revert_config_change}\n    fn = rollbacks.get(rollback_name)\n    if not fn:\n        raise ValueError('Unknown rollback')\n    return fn(db_session)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_rate_limit(strategy_name, client_id, request_store):\n    strategies = {'fixed_window': fixed_window_limit, 'sliding_window': sliding_window_limit, 'token_bucket': token_bucket_limit}\n    fn = strategies.get(strategy_name)\n    if not fn:\n        raise ValueError('Unknown rate limit strategy')\n    return fn(client_id, request_store)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_feature_pipeline(feature_name, raw_data):\n    features = {'age_bucket': compute_age_bucket, 'income_percentile': compute_income_percentile, 'activity_score': compute_activity_score}\n    fn = features.get(feature_name)\n    if not fn:\n        raise ValueError('Unknown feature')\n    return fn(raw_data)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_output_filter(filter_name, response_data, user):\n    filters = {'redact_pii': redact_pii_fields, 'hide_internal': remove_internal_fields, 'apply_permissions': apply_field_permissions}\n    fn = filters.get(filter_name)\n    return fn(response_data, user) if fn else response_data",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_scheduled_maintenance(task_name, db_session):\n    maintenance_tasks = {'vacuum_db': vacuum_database, 'rotate_logs': rotate_log_files, 'clear_cache': clear_application_cache, 'update_stats': update_table_statistics}\n    fn = maintenance_tasks.get(task_name)\n    if not fn:\n        raise ValueError('Unknown maintenance task')\n    return fn(db_session)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def evaluate_pricing_tier(tier_name, usage_amount):\n    tiers = {'free': lambda u: 0, 'starter': lambda u: 9.99 if u <= 1000 else 9.99 + (u - 1000) * 0.001, 'pro': lambda u: 49.99 if u <= 10000 else 49.99 + (u - 10000) * 0.0005}\n    fn = tiers.get(tier_name)\n    if not fn:\n        raise ValueError('Unknown pricing tier')\n    return fn(usage_amount)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def run_data_anonymization(method_name, record):\n    methods = {'pseudonymize': pseudonymize_record, 'generalize': generalize_record, 'suppress': suppress_sensitive_fields}\n    fn = methods.get(method_name)\n    if not fn:\n        raise ValueError('Unknown anonymization method')\n    return fn(record)",
+    "label": 0,
+    "type": "safe"
+  },
+  {
+    "code": "def apply_content_policy(policy_name, content):\n    policies = {'profanity': check_profanity, 'spam': check_spam, 'hate_speech': check_hate_speech}\n    fn = policies.get(policy_name)\n    if not fn:\n        raise ValueError('Unknown content policy')\n    return fn(content)",
+    "label": 0,
+    "type": "safe"
+  }
+]
