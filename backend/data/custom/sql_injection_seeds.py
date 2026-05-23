@@ -127,14 +127,51 @@ sql_injection = [
 
     # NEW: safe class method
     {"code": "class UserRepository:\n    def find_by_email(self, email):\n        sql = \"SELECT * FROM users WHERE email = ?\"\n        return self.db.execute(sql, (email,)).fetchone()", "label": 0, "type": "safe"},
+
+    # ── SAFE: static literal SQL (no user input, no dynamic query) ──
+    {"code": "def list_products():\n    cursor.execute(\"SELECT * FROM products\")\n    return cursor.fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def list_users():\n    cursor.execute(\"SELECT id, name FROM users\")\n    return cursor.fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def list_orders():\n    db.execute(\"SELECT * FROM orders\")\n    return db.fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def count_products():\n    cursor.execute(\"SELECT COUNT(*) FROM products\")\n    return cursor.fetchone()[0]", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def get_active_products():\n    return conn.execute(\"SELECT * FROM products WHERE active = 1\").fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def list_categories():\n    cursor.execute(\"SELECT * FROM categories ORDER BY name\")\n    return cursor.fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def fetch_all_posts():\n    db.execute(\"SELECT * FROM posts\")\n    return db.fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def list_inventory():\n    cursor.execute(\"SELECT sku, quantity FROM inventory\")\n    return cursor.fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def get_default_settings():\n    return db.execute(\"SELECT * FROM settings WHERE is_default = 1\").fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def list_employees():\n    conn.execute(\"SELECT id, name, department FROM employees\")\n    return conn.fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def purge_expired_sessions():\n    cursor.execute(\"DELETE FROM sessions WHERE expires_at < NOW()\")\n    return cursor.rowcount", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def seed_admin_role():\n    db.execute(\"INSERT INTO roles (name) VALUES ('admin')\")\n    return db.commit()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "class ProductRepository:\n    def list_all(self):\n        self.db.execute(\"SELECT * FROM products\")\n        return self.db.fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def refresh_materialized_view():\n    cursor.execute(\"REFRESH MATERIALIZED VIEW sales_summary\")\n    return None", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def list_audit_logs():\n    query = \"SELECT * FROM audit_logs ORDER BY created_at DESC\"\n    cursor.execute(query)\n    return cursor.fetchall()", "label": 0, "type": "safe_static_sql"},
+
+    {"code": "def get_schema_version():\n    return cursor.execute(\"SELECT version FROM schema_migrations\").fetchone()", "label": 0, "type": "safe_static_sql"},
 ]
 
+# NOTE: sql_injection.json in git has ~550 rows (expanded dataset).
+# Do not overwrite it from this seeds-only list. Use train_phase1.py
+# merge_static_sql_examples() to append new rows safely.
 script_dir = os.path.dirname(os.path.abspath(__file__))
-save_path = os.path.join(script_dir, 'sql_injection.json')
+save_path = os.path.join(script_dir, 'sql_injection_seeds_only.json')
 with open(save_path, 'w') as f:
     json.dump(sql_injection, f, indent=2)
 
-print(f"Saved: {save_path}")
+print(f"Saved seeds-only file: {save_path}")
+print("(Full sql_injection.json is updated by train_phase1.py merge)")
 print(f"Total:      {len(sql_injection)}")
 print(f"Vulnerable: {sum(1 for e in sql_injection if e['label'] == 1)}")
 print(f"Safe:       {sum(1 for e in sql_injection if e['label'] == 0)}")

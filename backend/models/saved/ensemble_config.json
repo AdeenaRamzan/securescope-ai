@@ -1,8 +1,8 @@
 {
-  "version": "v3_ensemble_phase1",
-  "description": "Phase 1 ANN gate \u2014 ensemble of ANN + XGBoost + LightGBM",
+  "version": "v3_ensemble_phase1_r2",
+  "description": "Phase 1 ensemble \u2014 retrained with static safe SQL synthetic examples",
   "deployment": {
-    "threshold": 0.39,
+    "threshold": 0.4,
     "voting": "soft_average",
     "ann_uses_scaled_features": true,
     "tree_models_use_raw_features": true
@@ -42,32 +42,31 @@
   },
   "training_data": {
     "synthetic": {
-      "rows": 2750,
-      "description": "Hand-crafted OWASP-aligned examples, 5 vulnerability types"
+      "rows": 2766,
+      "description": "Hand-crafted OWASP-aligned + static safe SQL examples"
     },
     "real": {
       "rows": 14248,
-      "source": "PyCode Vul \u2014 real GitHub functions from Django, Flask, Airflow etc",
+      "source": "PyCode Vul train",
       "citation": "Karim et al. 2025, IEEE"
     },
-    "combined_after_cleaning": 16926
+    "combined_after_cleaning": 16955
   },
   "evaluation": {
-    "test_set": "PyCode Vul holdout \u2014 3,563 real functions, never seen in training",
+    "test_set": "PyCode Vul holdout",
     "test_rows": 3563,
     "safe_rows": 1962,
     "vulnerable_rows": 1601,
     "metrics": {
-      "accuracy": 0.734,
-      "precision": 0.68,
+      "accuracy": 0.726,
+      "precision": 0.669,
       "recall": 0.773,
-      "f1": 0.723
+      "f1": 0.717
     }
   },
   "known_limitations": [
     "Features are hand-crafted regex + AST patterns",
-    "Model learns code complexity as proxy for vulnerability",
-    "Recall ceiling ~0.77 due to feature representation limits",
+    "Static literal SQL may still resemble DB-heavy vulnerable code",
     "Phase 2 BiLSTM on token sequences designed to address this"
   ],
   "next_phase": "Phase 2 \u2014 BiLSTM on tokenized code sequences"

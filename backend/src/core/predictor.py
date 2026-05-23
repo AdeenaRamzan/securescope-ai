@@ -1,0 +1,101 @@
+# backend/src/core/predictor.py
+# Purpose: Load all 3 models + scaler at startup
+#          Run ensemble prediction on extracted features
+#          Return structured result for FastAPI
+
+import json
+import numpy as np
+import joblib
+import tensorflow as tf
+from pathlib import Path
+from typing import Dict
+
+from src.core.feature_extractor import extract_features, FEATURE_NAMES
+
+
+# ── Paths ─────────────────────────────────────────
+MODELS_DIR = Path(__file__).resolve().parents[2] / "models" / "saved"
+
+
+# ── Load everything once at startup ──────────────
+print("Loading models...")
+
+try:
+    ANN_MODEL   = tf.keras.models.load_model(MODELS_DIR / "ann_v3_tuned.keras")
+    XGB_MODEL   = joblib.load(MODELS_DIR / "xgb_v3.pkl")
+    LGB_MODEL   = joblib.load(MODELS_DIR / "lgb_v3.pkl")
+    SCALER      = joblib.load(MODELS_DIR / "scaler_v3.pkl")
+
+    with open(MODELS_DIR / "ensemble_config.json") as f:
+        CONFIG = json.load(f)
+
+    THRESHOLD = CONFIG["deployment"]["threshold"]
+    print(f"All models loaded. Threshold: {THRESHOLD}")
+
+except Exception as e:
+    raise RuntimeError(f"Failed to load models: {e}")
+
+
+# ── Risk level helper ─────────────────────────────
+def get_risk_level(confidence: float, is_vulnerable: bool) -> str:
+    if not is_vulnerable:
+        if confidence < 0.3:
+            return "SAFE"
+        return "INCONCLUSIVE"
+    if confidence >= 0.80:
+        return "HIGH"
+    if confidence >= 0.60:
+        return "MEDIUM"
+    return "LOW"
+
+
+# ── Main prediction function ──────────────────────
+def predict(code: str) -> Dict:
+    """
+    Takes raw Python code string.
+    Returns prediction dict with all details.
+    """
+
+    # Step 1 — Extract 22 features
+    features = extract_features(code)
+    features_array = np.array(features).reshape(1, -1)
+
+    # Step 2 — Scale for ANN (ANN needs scaled input)
+    features_scaled = SCALER.transform(features_array)
+
+    # Step 3 — Get probability from each model
+    ann_prob = float(
+        ANN_MODEL.predict(features_scaled, verbose=0)[0][0]
+    )
+    xgb_prob = float(
+        XGB_MODEL.predict_proba(features_array)[0][1]
+    )
+    lgb_prob = float(
+        LGB_MODEL.predict_proba(features_array)[0][1]
+    )
+
+    # Step 4 — Soft voting ensemble
+    ensemble_prob = (ann_prob + xgb_prob + lgb_prob) / 3
+
+    # Step 5 — Apply threshold
+    is_vulnerable = ensemble_prob >= THRESHOLD
+
+    # Step 6 — Build result
+    result = {
+        "is_vulnerable":  bool(is_vulnerable),
+        "confidence":     round(ensemble_prob, 4),
+        "risk_level":     get_risk_level(ensemble_prob, is_vulnerable),
+        "threshold_used": THRESHOLD,
+        "model_version":  CONFIG["version"],
+        "model_probs": {
+            "ann":      round(ann_prob, 4),
+            "xgboost":  round(xgb_prob, 4),
+            "lightgbm": round(lgb_prob, 4)
+        },
+        "features_fired": [
+            name for name, val in zip(FEATURE_NAMES, features)
+            if val > 0
+        ]
+    }
+
+    return result
