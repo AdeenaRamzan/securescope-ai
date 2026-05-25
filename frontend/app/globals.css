@@ -1,0 +1,173 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #0a0a0f;
+  --foreground: #e2e2e8;
+  --card: rgba(255, 255, 255, 0.03);
+  --card-foreground: #e2e2e8;
+  --popover: #0a0a0f;
+  --popover-foreground: #e2e2e8;
+  --primary: #00ff88;
+  --primary-foreground: #0a0a0f;
+  --secondary: #00d4ff;
+  --secondary-foreground: #0a0a0f;
+  --muted: #16161e;
+  --muted-foreground: #6b6b7b;
+  --accent: #00d4ff;
+  --accent-foreground: #0a0a0f;
+  --destructive: #ff4444;
+  --destructive-foreground: #fecaca;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.06);
+  --ring: #00ff88;
+  --chart-1: #00ff88;
+  --chart-2: #00d4ff;
+  --chart-3: #ff4444;
+  --chart-4: #ff9900;
+  --chart-5: #ffcc00;
+  --radius: 0.625rem;
+  --sidebar: #0e0e14;
+  --sidebar-foreground: #e2e2e8;
+  --sidebar-primary: #00ff88;
+  --sidebar-primary-foreground: #0a0a0f;
+  --sidebar-accent: #16161e;
+  --sidebar-accent-foreground: #e2e2e8;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #00ff88;
+}
+
+@theme inline {
+  --font-sans: 'Inter', 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Dot grid pattern */
+.dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Glow effects */
+.glow-green {
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), 0 0 60px rgba(0, 255, 136, 0.05);
+}
+
+.glow-green-sm {
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+}
+
+.glow-red {
+  box-shadow: 0 0 20px rgba(255, 68, 68, 0.15), 0 0 60px rgba(255, 68, 68, 0.05);
+}
+
+.glow-orange {
+  box-shadow: 0 0 20px rgba(255, 153, 0, 0.15), 0 0 60px rgba(255, 153, 0, 0.05);
+}
+
+.glow-yellow {
+  box-shadow: 0 0 20px rgba(255, 204, 0, 0.15), 0 0 60px rgba(255, 204, 0, 0.05);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.15), 0 0 60px rgba(0, 212, 255, 0.05);
+}
+
+/* Scan button gradient */
+.scan-gradient {
+  background: linear-gradient(135deg, #00ff88, #00d4ff);
+}
+
+.scan-gradient:hover {
+  background: linear-gradient(135deg, #00ff99, #00e0ff);
+}
+
+/* Code textarea custom scrollbar */
+.code-textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.code-textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.code-textarea::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.code-textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Confidence bar animation */
+@keyframes fill-bar {
+  from {
+    width: 0%;
+  }
+}
+
+.animate-fill-bar {
+  animation: fill-bar 0.8s ease-out forwards;
+}
+
+/* Pulse glow for risk badge */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
