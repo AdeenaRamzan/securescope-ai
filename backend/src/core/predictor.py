@@ -30,6 +30,8 @@ try:
         CONFIG = json.load(f)
 
     THRESHOLD = CONFIG["deployment"]["threshold"]
+# Override threshold to reduce false positives on simple code
+    THRESHOLD = max(THRESHOLD, 0.55)
     print(f"All models loaded. Threshold: {THRESHOLD}")
 
 except Exception as e:
@@ -39,12 +41,12 @@ except Exception as e:
 # ── Risk level helper ─────────────────────────────
 def get_risk_level(confidence: float, is_vulnerable: bool) -> str:
     if not is_vulnerable:
-        if confidence < 0.3:
+        if confidence < 0.45:
             return "SAFE"
         return "INCONCLUSIVE"
-    if confidence >= 0.80:
+    if confidence >= 0.85:
         return "HIGH"
-    if confidence >= 0.60:
+    if confidence >= 0.65:
         return "MEDIUM"
     return "LOW"
 
