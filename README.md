@@ -32,22 +32,24 @@ SecureScope AI scans Python functions for security vulnerabilities before they r
 
 ## Architecture
 
-Python Code Input
-↓
-Feature Extractor (22 features — Regex + AST)
-↓
-Ensemble Classifier
-├── ANN (TensorFlow/Keras)
-├── XGBoost
-└── LightGBM
-↓
-Soft Voting (average probabilities)
-↓
-Risk Level: HIGH / MEDIUM / LOW / SAFE / INCONCLUSIVE
-↓
-FastAPI REST endpoint → React Frontend
+```mermaid
+flowchart TD
+    A[Python Code Input] --> B[Feature Extractor<br/>22 Features: Regex + AST]
 
----
+    B --> C[ANN<br/>TensorFlow/Keras]
+    B --> D[XGBoost]
+    B --> E[LightGBM]
+
+    C --> F[Soft Voting<br/>Average Probabilities]
+    D --> F
+    E --> F
+
+    F --> G[Risk Level<br/>HIGH / MEDIUM / LOW / SAFE / INCONCLUSIVE]
+
+    G --> H[FastAPI REST API]
+    H --> I[React Frontend]
+```
+
 
 ## Model Performance
 
