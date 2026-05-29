@@ -212,7 +212,7 @@ Key areas demonstrated:
 ### Clone Repository
 
 ```bash id="7j4m9n"
-git clone https://github.com/AdeenaRamzan93/securescope-ai
+git clone https://github.com/AdeenaRamzan/securescope-ai
 
 cd securescope-ai
 ```

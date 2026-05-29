@@ -82,7 +82,38 @@ def predict(code: str) -> Dict:
     # Step 5 — Apply threshold
     is_vulnerable = ensemble_prob >= THRESHOLD
 
-    # Step 6 — Build result
+# Step 6 — Check specific vulnerability features
+    specific_vuln_features = [
+        features[0],   # f1_sql_concat
+        features[1],   # f2_hardcoded_secret
+        features[2],   # f3_eval_exec
+        features[3],   # f4_path_traversal
+        features[4],   # f5_cmd_injection
+        features[10],  # f11_ast_dangerous_calls
+        features[11],  # f12_ast_hardcoded_assign
+    ]
+
+    no_specific_features = all(f == 0 for f in specific_vuln_features)
+
+    # If no specific vulnerability pattern fired → force SAFE
+    if no_specific_features:
+        return {
+            "is_vulnerable":  False,
+            "confidence":     round(ensemble_prob, 4),
+            "risk_level":     "SAFE",
+            "threshold_used": THRESHOLD,
+            "model_version":  CONFIG["version"],
+            "model_probs": {
+                "ann":      round(ann_prob, 4),
+                "xgboost":  round(xgb_prob, 4),
+                "lightgbm": round(lgb_prob, 4)
+            },
+            "features_fired": []
+        }
+
+    # Step 7 — Apply threshold and build result
+    is_vulnerable = ensemble_prob >= THRESHOLD
+
     result = {
         "is_vulnerable":  bool(is_vulnerable),
         "confidence":     round(ensemble_prob, 4),
