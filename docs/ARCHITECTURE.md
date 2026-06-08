@@ -64,36 +64,23 @@ hand-crafted features
 - Patterns ANN cannot capture
 
 **Architecture:**
-Python code
-↓
-Tokenizer (custom vocabulary)
-↓
-Embedding layer (learned representations)
-↓
-BiLSTM layer 1 (forward + backward)
-↓
-BiLSTM layer 2 (forward + backward)
-↓
-Dense + Dropout
-↓
-Binary output (vulnerable/safe)**Architecture:**
 
 ```mermaid
 flowchart TD
-    A[Python code]
-    B[Tokenizer (custom vocabulary)]
-    C[Embedding layer (learned representations)]
-    D[BiLSTM layer 1 (forward + backward)]
-    E[BiLSTM layer 2 (forward + backward)]
-    F[Dense + Dropout]
-    G[Binary output (vulnerable/safe)]
+    A["🐍 Python Code"] --> B["Tokenizer\n(custom vocabulary)"]
+    B --> C["Embedding Layer\n(learned representations)"]
+    C --> D["BiLSTM Layer 1\n(forward + backward)"]
+    D --> E["BiLSTM Layer 2\n(forward + backward)"]
+    E --> F["Dense + Dropout"]
+    F --> G["🎯 Binary Output\n(vulnerable / safe)"]
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
+    style A fill:#1e3a5f,color:#e0f0ff,stroke:#4a9eff
+    style B fill:#1a3050,color:#b0d4f1,stroke:#3a7abf
+    style C fill:#1a3050,color:#b0d4f1,stroke:#3a7abf
+    style D fill:#0f2d4a,color:#7ec8e3,stroke:#2a6090
+    style E fill:#0f2d4a,color:#7ec8e3,stroke:#2a6090
+    style F fill:#1a3050,color:#b0d4f1,stroke:#3a7abf
+    style G fill:#0d4f3c,color:#a8f0d4,stroke:#1aa870
 ```
 
 **Training:** Google Colab GPU (T4)
@@ -110,30 +97,34 @@ with actionable fix suggestions
 
 ```mermaid
 flowchart TD
-    A[Vulnerability detected by Phase 1/2]
-    B[RAG retrieval (FAISS + OWASP docs)]
-    C[Context: relevant OWASP guidelines]
-    D[Phi-3-mini (structured prompt)]
-    E[Structured output]
+    A["⚠️ Vulnerability detected\nby Phase 1 / 2"] --> B["RAG Retrieval\n(FAISS + OWASP docs)"]
+    B --> C["Context:\nRelevant OWASP Guidelines"]
+    C --> D["Phi-3-mini\n(structured prompt)"]
+    D --> E["📋 Structured Output"]
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+    E --> F["Vulnerability Type\nConfirmed"]
+    E --> G["What the Bad\nCode Does"]
+    E --> H["How Attacker\nExploits It"]
+    E --> I["Specific Fix with\nCode Example"]
+
+    style A fill:#4a1a1a,color:#ffb3b3,stroke:#cc4444
+    style B fill:#2d2040,color:#c9b8f0,stroke:#7a5cbf
+    style C fill:#2d2040,color:#c9b8f0,stroke:#7a5cbf
+    style D fill:#1a2d40,color:#b8d8f0,stroke:#4a8abf
+    style E fill:#1a3d2a,color:#a8f0c8,stroke:#2a9060
+    style F fill:#0d2d1e,color:#7adcaa,stroke:#1a7a50
+    style G fill:#0d2d1e,color:#7adcaa,stroke:#1a7a50
+    style H fill:#0d2d1e,color:#7adcaa,stroke:#1a7a50
+    style I fill:#0d2d1e,color:#7adcaa,stroke:#1a7a50
 ```
 
-**Structured output:**
-
-- Vulnerability type confirmed
-- What the bad code does
-- How attacker exploits it
-- Specific fix with code example
-
 **Template-constrained output:**
+```
 VULNERABILITY: {type}
 EXPLANATION:   {what_bad_code_does}
 RISK:          {attack_scenario}
 FIX:           {code_fix}
+```
 
 ---
 
@@ -165,26 +156,27 @@ Tool 4: post_comment(pr_url, report)
 
 ```mermaid
 flowchart TD
-    A[TRIGGER: PR opened on monitored repository]
-    B[REASON: New PR detected. Fetch changed files.]
-    C[ACT: fetch_pr_files(pr_url)]
-    D[REASON: 3 Python files changed. Scan each one.]
-    E[ACT: scan_code(file1), scan_code(file2)...]
-    F[REASON: File 2 flagged HIGH. Get explanation.]
-    G[ACT: explain_vulnerability(sql_injection, code)]
-    H[REASON: Explanation ready. Post report to PR.]
-    I[ACT: post_comment(pr_url, full_report)]
-    J[DONE: PR commented with vulnerability report]
+    T["🔔 TRIGGER\nPR opened on monitored repository"]
+    T --> R1["🧠 REASON\n'New PR detected. Fetch changed files.'"]
+    R1 --> A1["⚙️ ACT\nfetch_pr_files(pr_url)"]
+    A1 --> R2["🧠 REASON\n'3 Python files changed. Scan each one.'"]
+    R2 --> A2["⚙️ ACT\nscan_code(file1), scan_code(file2)..."]
+    A2 --> R3["🧠 REASON\n'File 2 flagged HIGH. Get explanation.'"]
+    R3 --> A3["⚙️ ACT\nexplain_vulnerability('sql_injection', code)"]
+    A3 --> R4["🧠 REASON\n'Explanation ready. Post report to PR.'"]
+    R4 --> A4["⚙️ ACT\npost_comment(pr_url, full_report)"]
+    A4 --> D["✅ DONE\nPR commented with vulnerability report"]
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
-    G --> H
-    H --> I
-    I --> J
+    style T fill:#2a1040,color:#d4a8f0,stroke:#8040c0
+    style R1 fill:#1a2d40,color:#a8c8f0,stroke:#4070b0
+    style R2 fill:#1a2d40,color:#a8c8f0,stroke:#4070b0
+    style R3 fill:#1a2d40,color:#a8c8f0,stroke:#4070b0
+    style R4 fill:#1a2d40,color:#a8c8f0,stroke:#4070b0
+    style A1 fill:#0d3020,color:#80e8a8,stroke:#20a060
+    style A2 fill:#0d3020,color:#80e8a8,stroke:#20a060
+    style A3 fill:#0d3020,color:#80e8a8,stroke:#20a060
+    style A4 fill:#0d3020,color:#80e8a8,stroke:#20a060
+    style D fill:#1a3d10,color:#b0f080,stroke:#50a020
 ```
 
 ---
@@ -198,18 +190,28 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[User pastes code]
+    U["👤 User pastes code"] --> P1
+    U --> P2
+    U --> P3
 
-    A --> B[Phase 1 ANN]
-    A --> C[Phase 2 BiLSTM]
-    A --> D[Phase 3 CodeBERT]
+    P1["Phase 1\nANN"]
+    P2["Phase 2\nBiLSTM"]
+    P3["Phase 3\nCodeBERT"]
 
-    B --> E[Weighted voting → final prediction]
-    C --> E
-    D --> E
+    P1 --> V["⚖️ Weighted Voting\n→ final prediction"]
+    P2 --> V
+    P3 --> V
 
-    E --> F[LLM explanation generated]
-    F --> G[Full report returned (~300ms)]
+    V --> L["💬 LLM Explanation\ngenerated"]
+    L --> R["📄 Full Report Returned\n(~300ms)"]
+
+    style U fill:#1e3a5f,color:#e0f0ff,stroke:#4a9eff
+    style P1 fill:#2d1a40,color:#d4b0f0,stroke:#8050c0
+    style P2 fill:#2d1a40,color:#d4b0f0,stroke:#8050c0
+    style P3 fill:#2d1a40,color:#d4b0f0,stroke:#8050c0
+    style V fill:#1a2d40,color:#a8c8f0,stroke:#4080c0
+    style L fill:#0d2d1e,color:#7adcaa,stroke:#1a7a50
+    style R fill:#1a3d10,color:#b0f080,stroke:#50a020
 ```
 
 ### Mode 2 — GitHub PR Bot Scan
@@ -219,20 +221,23 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[PR file detected]
-    B[Phase 1 ANN (5ms)]
-    C[SAFE → skip file, move to next]
-    D[FLAGGED → Phase 2 BiLSTM (50ms)]
-    E[SAFE → false positive, skip]
-    F[CONFIRMED → Phase 3 explanation (200ms)]
-    G[Post comment on specific line]
+    PR["📂 PR file detected"] --> ANN["Phase 1\nANN (5ms)"]
 
-    A --> B
-    B --> C
-    B --> D
-    D --> E
-    D --> F
-    F --> G
+    ANN -->|SAFE| SK["⏭️ Skip file\nmove to next"]
+    ANN -->|FLAGGED| BI["Phase 2\nBiLSTM (50ms)"]
+
+    BI -->|SAFE| FP["✅ False positive\nskip"]
+    BI -->|CONFIRMED| EX["Phase 3\nExplanation (200ms)"]
+
+    EX --> CM["💬 Post comment\non specific line"]
+
+    style PR fill:#1e3a5f,color:#e0f0ff,stroke:#4a9eff
+    style ANN fill:#2d1a40,color:#d4b0f0,stroke:#8050c0
+    style SK fill:#2d2d2d,color:#888888,stroke:#555555
+    style BI fill:#2d1a40,color:#d4b0f0,stroke:#8050c0
+    style FP fill:#2d2d2d,color:#888888,stroke:#555555
+    style EX fill:#1a2d40,color:#a8c8f0,stroke:#4080c0
+    style CM fill:#1a3d10,color:#b0f080,stroke:#50a020
 ```
 
 **Why cascade for PR bot:**
