@@ -90,12 +90,16 @@ with actionable fix suggestions
 
 **Architecture:**
 Vulnerability detected by Phase 1/2
+
 ↓
 RAG retrieval (FAISS + OWASP docs)
+
 ↓
 Context: relevant OWASP guidelines
+
 ↓
 Phi-3-mini (structured prompt)
+
 ↓
 Structured output:
 
