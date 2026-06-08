@@ -90,9 +90,7 @@ with actionable fix suggestions
 
 **Architecture:**
 Vulnerability detected by Phase 1/2
-
 ↓
-
 RAG retrieval (FAISS + OWASP docs)
 
 ↓
