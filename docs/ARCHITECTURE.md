@@ -76,7 +76,25 @@ BiLSTM layer 2 (forward + backward)
 ↓
 Dense + Dropout
 ↓
-Binary output (vulnerable/safe)
+Binary output (vulnerable/safe)**Architecture:**
+
+```mermaid
+flowchart TD
+    A[Python code]
+    B[Tokenizer (custom vocabulary)]
+    C[Embedding layer (learned representations)]
+    D[BiLSTM layer 1 (forward + backward)]
+    E[BiLSTM layer 2 (forward + backward)]
+    F[Dense + Dropout]
+    G[Binary output (vulnerable/safe)]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+```
 
 **Training:** Google Colab GPU (T4)
 **Dataset:** Same PyCode Vul + synthetic combined
@@ -89,21 +107,22 @@ Binary output (vulnerable/safe)
 with actionable fix suggestions
 
 **Architecture:**
-Vulnerability detected by Phase 1/2
-↓
-RAG retrieval (FAISS + OWASP docs)
 
-↓
+```mermaid
+flowchart TD
+    A[Vulnerability detected by Phase 1/2]
+    B[RAG retrieval (FAISS + OWASP docs)]
+    C[Context: relevant OWASP guidelines]
+    D[Phi-3-mini (structured prompt)]
+    E[Structured output]
 
-Context: relevant OWASP guidelines
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```
 
-↓
-
-Phi-3-mini (structured prompt)
-
-↓
-
-Structured output:
+**Structured output:**
 
 - Vulnerability type confirmed
 - What the bad code does
@@ -143,21 +162,30 @@ Tool 4: post_comment(pr_url, report)
 ```
 
 **Agent reasoning loop (ReAct pattern):**
-TRIGGER: PR opened on monitored repository
-↓
-REASON: "New PR detected. Fetch changed files."
-ACT:    fetch_pr_files(pr_url)
-↓
-REASON: "3 Python files changed. Scan each one."
-ACT:    scan_code(file1), scan_code(file2)...
-↓
-REASON: "File 2 flagged HIGH. Get explanation."
-ACT:    explain_vulnerability("sql_injection", code)
-↓
-REASON: "Explanation ready. Post report to PR."
-ACT:    post_comment(pr_url, full_report)
-↓
-DONE: PR commented with vulnerability report
+
+```mermaid
+flowchart TD
+    A[TRIGGER: PR opened on monitored repository]
+    B[REASON: New PR detected. Fetch changed files.]
+    C[ACT: fetch_pr_files(pr_url)]
+    D[REASON: 3 Python files changed. Scan each one.]
+    E[ACT: scan_code(file1), scan_code(file2)...]
+    F[REASON: File 2 flagged HIGH. Get explanation.]
+    G[ACT: explain_vulnerability(sql_injection, code)]
+    H[REASON: Explanation ready. Post report to PR.]
+    I[ACT: post_comment(pr_url, full_report)]
+    J[DONE: PR commented with vulnerability report]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+```
 
 ---
 
@@ -168,36 +196,44 @@ DONE: PR commented with vulnerability report
 **Priority:** Maximum accuracy
 **All models run in parallel:**
 
-User pastes code
-↓
-Phase 1 ANN  ──┐
-Phase 2 BiLSTM ├── run simultaneously
-Phase 3 CodeBERT┘
-↓
-Weighted voting → final prediction
-↓
-LLM explanation generated
-↓
-Full report returned (~300ms)
+```mermaid
+flowchart TD
+    A[User pastes code]
+
+    A --> B[Phase 1 ANN]
+    A --> C[Phase 2 BiLSTM]
+    A --> D[Phase 3 CodeBERT]
+
+    B --> E[Weighted voting → final prediction]
+    C --> E
+    D --> E
+
+    E --> F[LLM explanation generated]
+    F --> G[Full report returned (~300ms)]
+```
 
 ### Mode 2 — GitHub PR Bot Scan
 **Used by:** Automated agent scanning many files
 **Priority:** Speed + practical throughput
 **Cascade architecture:**
 
-PR file detected
-↓
-Phase 1 ANN (5ms)
-↓
-SAFE → skip file, move to next
-↓
-FLAGGED → Phase 2 BiLSTM (50ms)
-↓
-SAFE → false positive, skip
-↓
-CONFIRMED → Phase 3 explanation (200ms)
-↓
-Post comment on specific line
+```mermaid
+flowchart TD
+    A[PR file detected]
+    B[Phase 1 ANN (5ms)]
+    C[SAFE → skip file, move to next]
+    D[FLAGGED → Phase 2 BiLSTM (50ms)]
+    E[SAFE → false positive, skip]
+    F[CONFIRMED → Phase 3 explanation (200ms)]
+    G[Post comment on specific line]
+
+    A --> B
+    B --> C
+    B --> D
+    D --> E
+    D --> F
+    F --> G
+```
 
 **Why cascade for PR bot:**
 Scanning 100 files × 300ms = 30 seconds (too slow)
