@@ -87,6 +87,8 @@ flowchart TD
 
 Evaluated on **3,563 real held-out Python functions** from the PyCode Vul dataset.
 
+### Phase 1 — Ensemble Features
+
 | Metric    | Score     |
 | --------- | --------- |
 | Accuracy  | **73.4%** |
@@ -94,6 +96,21 @@ Evaluated on **3,563 real held-out Python functions** from the PyCode Vul datase
 | Recall    | 0.773     |
 | F1 Score  | **0.723** |
 | Threshold | 0.39      |
+
+### Phase 2 — Binary BiLSTM Sequence
+
+| Metric    | Score      |
+| --------- | ---------- |
+| Accuracy  | **95.6%**  |
+| Precision | 0.954      |
+| Recall    | 0.947      |
+| F1 Score  | **0.9505** |
+| Threshold | 0.50       |
+
+| Comparison | F1 Score |
+| ---------- | -------- |
+| Phase 1    | 0.723    |
+| Phase 2    | **0.9505** |
 
 > Performance metrics reflect real-world GitHub code rather than synthetic-only benchmarks.
 
@@ -144,7 +161,7 @@ SecureScope extracts 22 static-analysis features from each Python function.
 
 | Layer                 | Technologies                        |
 | --------------------- | ----------------------------------- |
-| ML Models             | TensorFlow/Keras, XGBoost, LightGBM |
+| ML Models             | TensorFlow/Keras, XGBoost, LightGBM, PyTorch BiLSTM |
 | Feature Extraction    | Python AST, Regex                   |
 | Backend API           | FastAPI, Uvicorn, Pydantic          |
 | Frontend              | React, Next.js, Tailwind CSS        |
@@ -191,8 +208,8 @@ Key areas demonstrated:
 ## Known Limitations
 
 * Limited to 5 vulnerability categories
-* Feature engineering ceiling around ~77% F1
-* No sequence-based semantic understanding yet
+* Phase 1 feature engineering ceiling around ~77% F1 (Phase 2 BiLSTM addresses this)
+* BiLSTM covers binary safe/vulnerable classification only (no per-vulnerability labels yet)
 * HuggingFace free tier cold starts may delay first response
 
 ---
@@ -200,7 +217,7 @@ Key areas demonstrated:
 ## Roadmap
 
 * [x] Phase 1 — Ensemble ML + Feature Engineering
-* [ ] Phase 2 — BiLSTM Token Sequence Analysis
+* [x] Phase 2 — BiLSTM Token Sequence Analysis
 * [ ] Phase 3 — RAG + LLM Vulnerability Explanations
 * [ ] Phase 4 — GitHub PR Review Bot
 * [ ] Phase 5 — Multi-language Support

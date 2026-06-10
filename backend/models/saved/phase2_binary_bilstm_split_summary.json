@@ -1,0 +1,22 @@
+{
+  "cleaning": {
+    "removed_train_test_overlap": 92,
+    "removed_duplicate_train_code": 41
+  },
+  "train_pool_after_combining": 16793,
+  "train_split": 14274,
+  "validation_split": 2519,
+  "holdout_test": 3563,
+  "train_distribution": {
+    "0": 6618,
+    "1": 7656
+  },
+  "validation_distribution": {
+    "0": 1168,
+    "1": 1351
+  },
+  "holdout_distribution": {
+    "0": 1962,
+    "1": 1601
+  }
+}

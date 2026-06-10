@@ -10,6 +10,7 @@ from typing import Optional
 import time
 
 from src.core.predictor import predict
+from src.core.bilstm_binary_predictor import predict_bilstm_binary
 
 
 # ── App setup ─────────────────────────────────────
@@ -57,12 +58,25 @@ class ScanResponse(BaseModel):
     scan_time_ms:   float
 
 
+class BiLSTMScanResponse(BaseModel):
+    is_vulnerable:  bool
+    confidence:     float
+    risk_level:     str
+    threshold_used: float
+    model_version:  str
+    model_name:     str
+    model_probs:    dict
+    sequence:       dict
+    scan_time_ms:   float
+
+
 # ── Health check endpoint ─────────────────────────
 @app.get("/health")
 def health_check():
     return {
         "status":  "healthy",
         "model":   "v3_ensemble",
+        "phase2":  "binary_bilstm",
         "version": "1.0.0"
     }
 
@@ -112,6 +126,45 @@ def scan_code(request: ScanRequest):
         )
 
 
+@app.post("/scan/bilstm", response_model=BiLSTMScanResponse)
+def scan_code_bilstm(request: ScanRequest):
+    """
+    Scan Python code with the Phase 2 binary BiLSTM.
+
+    This model reads raw token sequences and returns a binary
+    safe/vulnerable prediction.
+    """
+
+    if request.language.lower() != "python":
+        raise HTTPException(
+            status_code=400,
+            detail="Only Python is supported"
+        )
+
+    try:
+        start = time.time()
+        result = predict_bilstm_binary(request.code)
+        elapsed = round((time.time() - start) * 1000, 2)
+
+        return BiLSTMScanResponse(
+            is_vulnerable  = result["is_vulnerable"],
+            confidence     = result["confidence"],
+            risk_level     = result["risk_level"],
+            threshold_used = result["threshold_used"],
+            model_version  = result["model_version"],
+            model_name     = result["model_name"],
+            model_probs    = result["model_probs"],
+            sequence       = result["sequence"],
+            scan_time_ms   = elapsed
+        )
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"BiLSTM prediction failed: {str(e)}"
+        )
+
+
 # ── Root endpoint ─────────────────────────────────
 @app.get("/")
 def root():
@@ -120,16 +173,18 @@ def root():
         "version":     "1.0.0",
         "docs":        "/docs",
         "health":      "/health",
-        "scan":        "POST /scan"
+        "scan":        "POST /scan",
+        "scan_bilstm": "POST /scan/bilstm",
     }
 
 # ── Startup warmup ────────────────────────────────
 @app.on_event("startup")
 async def warmup():
     """
-    Run a dummy prediction at startup so first
-    real request is not slow due to TF warmup
+    Run dummy predictions at startup so first
+    real request is not slow due to model warmup
     """
     dummy_code = "def hello():\n    return 'world'"
     predict(dummy_code)
+    predict_bilstm_binary(dummy_code)
     print("Model warmup complete — API ready")

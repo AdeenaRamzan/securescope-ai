@@ -1,5 +1,6 @@
 # Core ML
 tensorflow
+torch
 scikit-learn
 pandas
 numpy

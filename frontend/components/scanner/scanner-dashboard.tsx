@@ -5,23 +5,34 @@ import { ScannerHeader } from "./header"
 import { CodeInput } from "./code-input"
 import { ScanButton } from "./scan-button"
 import { ScanResults, type ScanResult } from "./scan-results"
+import { BiLSTMScanResults, type BiLSTMScanResult } from "./bilstm-scan-results"
 import { ErrorDisplay } from "./error-display"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+const API_BASE = "https://adeenaramzan93-securescope-ai-api.hf.space"
+
+type ScannerMode = "ensemble" | "bilstm"
 
 export function ScannerDashboard() {
   const [code, setCode] = useState("")
+  const [mode, setMode] = useState<ScannerMode>("ensemble")
   const [loading, setLoading] = useState(false)
-  const [result, setResult] = useState<ScanResult | null>(null)
+  const [ensembleResult, setEnsembleResult] = useState<ScanResult | null>(null)
+  const [bilstmResult, setBilstmResult] = useState<BiLSTMScanResult | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const handleScan = useCallback(async () => {
     if (!code.trim()) return
 
     setLoading(true)
-    setResult(null)
+    setEnsembleResult(null)
+    setBilstmResult(null)
     setError(null)
 
+    const endpoint = mode === "ensemble" ? "/scan" : "/scan/bilstm"
+
     try {
-      const response = await fetch("https://adeenaramzan93-securescope-ai-api.hf.space/scan", {
+      const response = await fetch(`${API_BASE}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code }),
@@ -31,8 +42,13 @@ export function ScannerDashboard() {
         throw new Error(`Server responded with ${response.status}`)
       }
 
-      const data: ScanResult = await response.json()
-      setResult(data)
+      const data = await response.json()
+
+      if (mode === "ensemble") {
+        setEnsembleResult(data as ScanResult)
+      } else {
+        setBilstmResult(data as BiLSTMScanResult)
+      }
     } catch (err) {
       setError(
         err instanceof Error
@@ -42,7 +58,9 @@ export function ScannerDashboard() {
     } finally {
       setLoading(false)
     }
-  }, [code])
+  }, [code, mode])
+
+  const hasResult = ensembleResult !== null || bilstmResult !== null
 
   return (
     <main className="dot-grid flex min-h-screen items-start justify-center px-4 py-12 sm:px-6 lg:px-8">
@@ -51,6 +69,18 @@ export function ScannerDashboard() {
           <ScannerHeader />
 
           <section className="flex flex-col gap-4" aria-label="Code scanner">
+            <div className="flex justify-center">
+              <Tabs
+                value={mode}
+                onValueChange={(value) => setMode(value as ScannerMode)}
+              >
+                <TabsList>
+                  <TabsTrigger value="ensemble">Ensemble Features</TabsTrigger>
+                  <TabsTrigger value="bilstm">BiLSTM Sequence</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+
             <CodeInput code={code} onChange={setCode} disabled={loading} />
             <ScanButton
               onClick={handleScan}
@@ -65,18 +95,22 @@ export function ScannerDashboard() {
             </section>
           )}
 
-          {result && (
+          {hasResult && (
             <section
               aria-label="Scan results"
               className="rounded-lg border border-border bg-card p-5"
             >
-              <ScanResults result={result} />
+              {ensembleResult && <ScanResults result={ensembleResult} />}
+              {bilstmResult && <BiLSTMScanResults result={bilstmResult} />}
             </section>
           )}
 
           <footer className="flex items-center justify-center pb-4">
             <p className="text-xs text-muted-foreground/50">
-              SecureScope AI v1.0 &mdash; Ensemble vulnerability detection
+              SecureScope AI v1.0 &mdash;{" "}
+              {mode === "ensemble"
+                ? "Ensemble vulnerability detection"
+                : "BiLSTM sequence analysis"}
             </p>
           </footer>
         </div>

@@ -52,7 +52,7 @@ Phase 2 addresses this directly.
 
 ---
 
-### Phase 2 — BiLSTM Sequence Analyzer (IN PROGRESS 🔄)
+### Phase 2 — BiLSTM Sequence Analyzer (COMPLETE ✅)
 **Purpose:** Learn sequential code patterns without
 hand-crafted features
 
@@ -85,7 +85,16 @@ flowchart TD
 
 **Training:** Google Colab GPU (T4)
 **Dataset:** Same PyCode Vul + synthetic combined
-**Target:** Recall > 0.82
+**Holdout:** PyCode Vul test only (3,563 functions)
+
+**Results on 3,563 real held-out functions:**
+- Accuracy:  95.6%
+- Precision: 0.954
+- Recall:    0.947
+- F1:        0.9505
+- Threshold: 0.50
+
+**API Endpoint:** `POST /scan/bilstm`
 
 ---
 
@@ -271,7 +280,7 @@ Total: ~3 seconds for 100 files
 | Phase | Model | Recall | F1 | Notes |
 |-------|-------|--------|-----|-------|
 | 1 | ANN Ensemble | 0.773 | 0.722 | Real holdout |
-| 2 | BiLSTM | TBD | TBD | Target >0.82 |
+| 2 | BiLSTM | 0.947 | 0.9505 | +31.6% F1 vs Phase 1 |
 | 3 | CodeBERT | TBD | TBD | Target >0.87 |
 
 ---
@@ -295,9 +304,9 @@ Generic complexity features dominate importance
 Cannot detect obfuscated patterns:
 getattr(os, 'sys'+'tem')(cmd) → not 
 
-Phase 2 (planned):
-BiLSTM still less accurate than transformers
-Included for learning progression
+Phase 2:
+BiLSTM achieves 0.9505 F1 on real holdout — major improvement over Phase 1
+Still less accurate than transformers for production use
 CodeBERT replacement planned for Phase 3
 
 Dataset:

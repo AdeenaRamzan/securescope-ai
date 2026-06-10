@@ -1,0 +1,19 @@
+{
+  "holdout_accuracy": 0.9556553466180185,
+  "holdout_precision": 0.9540591567023285,
+  "holdout_recall": 0.9469081823860087,
+  "holdout_f1": 0.9504702194357367,
+  "holdout_roc_auc": 0.9824563330385379,
+  "phase1_f1": 0.722,
+  "absolute_f1_improvement": 0.22847021943573675,
+  "relative_f1_improvement_percent": 31.644074714090962,
+  "best_validation_f1": 0.9640498899486427,
+  "real_validation_f1": 0.9518,
+  "validation_holdout_f1_gap": 0.013579670512905984,
+  "confusion_matrix": {
+    "true_safe_pred_safe": 1889,
+    "true_safe_pred_vulnerable": 73,
+    "true_vulnerable_pred_safe": 85,
+    "true_vulnerable_pred_vulnerable": 1516
+  }
+}
