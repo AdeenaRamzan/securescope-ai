@@ -55,31 +55,50 @@ Developers can paste Python code and instantly receive:
 ```mermaid id="m68g8q"
 flowchart TD
 
-    A["Python Code Input"] --> B["Feature Extractor<br/>22 Features (Regex + AST)"]
+    A["Python Code Input"]
 
-    B --> C["ANN<br/>TensorFlow / Keras"]
+    A --> B["Phase 1 Feature Extraction<br/>22 Static Features"]
+
+    B --> C["ANN"]
     B --> D["XGBoost"]
     B --> E["LightGBM"]
 
-    C --> F["Soft Voting<br/>Average Prediction Probabilities"]
+    C --> F["Phase 1 Ensemble Score"]
     D --> F
     E --> F
 
-    F --> G["Risk Classification<br/>HIGH / MEDIUM / LOW / SAFE / INCONCLUSIVE"]
+    A --> G["Phase 2 Tokenization"]
 
-    G --> H["FastAPI REST API"]
-    H --> I["React Frontend"]
+    G --> H["BiLSTM Sequence Model"]
+
+    F --> I["Cascade Decision Engine"]
+    H --> I
+
+    I --> J["Risk Classification<br/>SAFE / MEDIUM / HIGH"]
+
+    J --> K["FastAPI Backend"]
+
+    K --> L["Next.js Frontend"]
 
     style A fill:#1e1e2f,color:#fff,stroke:#00b4d8,stroke-width:2px
     style B fill:#252541,color:#fff,stroke:#7b2cbf,stroke-width:2px
-    style C fill:#1b4332,color:#fff,stroke:#2d6a4f,stroke-width:2px
-    style D fill:#3c096c,color:#fff,stroke:#5a189a,stroke-width:2px
-    style E fill:#5f0f40,color:#fff,stroke:#9a031e,stroke-width:2px
+
+    style C fill:#1b4332,color:#fff
+    style D fill:#3c096c,color:#fff
+    style E fill:#5f0f40,color:#fff
+
     style F fill:#14213d,color:#fff,stroke:#fca311,stroke-width:2px
-    style G fill:#2b2d42,color:#fff,stroke:#ef233c,stroke-width:2px
-    style H fill:#264653,color:#fff,stroke:#2a9d8f,stroke-width:2px
-    style I fill:#22223b,color:#fff,stroke:#4ea8de,stroke-width:2px
+
+    style G fill:#1d3557,color:#fff
+    style H fill:#457b9d,color:#fff,stroke:#90e0ef,stroke-width:2px
+
+    style I fill:#2b2d42,color:#fff,stroke:#ef233c,stroke-width:2px
+
+    style J fill:#264653,color:#fff
+    style K fill:#2a9d8f,color:#fff
+    style L fill:#22223b,color:#fff
 ```
+
 
 ---
 
