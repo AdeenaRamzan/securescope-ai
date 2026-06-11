@@ -6,6 +6,8 @@ export interface BiLSTMScanResult {
   is_vulnerable: boolean
   confidence: number
   risk_level: "HIGH" | "MEDIUM" | "LOW" | "SAFE" | "INCONCLUSIVE"
+  phase1_confidence: number
+  phase2_confidence: number
   threshold_used: number
   model_version: string
   model_name: string
@@ -16,6 +18,7 @@ export interface BiLSTMScanResult {
     max_len: number
     vocab_size: number
   }
+  features_fired: string[]
   scan_time_ms: number
 }
 

@@ -5,37 +5,36 @@ import { ScannerHeader } from "./header"
 import { CodeInput } from "./code-input"
 import { ScanButton } from "./scan-button"
 import { ScanResults, type ScanResult } from "./scan-results"
-import { BiLSTMScanResults, type BiLSTMScanResult } from "./bilstm-scan-results"
 import { ErrorDisplay } from "./error-display"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ModelSelector, type ScanMode } from "./model-selector"
 
-const API_BASE = "https://adeenaramzan93-securescope-ai-api.hf.space"
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000"
 
-type ScannerMode = "ensemble" | "bilstm"
+const endpoints: Record<ScanMode, string> = {
+  ensemble: "/scan",
+  bilstm: "/scan/bilstm",
+  cascade: "/scan/deep",
+}
 
 export function ScannerDashboard() {
   const [code, setCode] = useState("")
-  const [mode, setMode] = useState<ScannerMode>("ensemble")
+  const [mode, setMode] = useState<ScanMode>("ensemble")
   const [loading, setLoading] = useState(false)
-  const [ensembleResult, setEnsembleResult] = useState<ScanResult | null>(null)
-  const [bilstmResult, setBilstmResult] = useState<BiLSTMScanResult | null>(null)
+  const [result, setResult] = useState<ScanResult | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const handleScan = useCallback(async () => {
     if (!code.trim()) return
 
     setLoading(true)
-    setEnsembleResult(null)
-    setBilstmResult(null)
+    setResult(null)
     setError(null)
 
-    const endpoint = mode === "ensemble" ? "/scan" : "/scan/bilstm"
-
     try {
-      const response = await fetch(`${API_BASE}${endpoint}`, {
+      const response = await fetch(`${API_BASE}${endpoints[mode]}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code, language: "python" }),
       })
 
       if (!response.ok) {
@@ -43,12 +42,7 @@ export function ScannerDashboard() {
       }
 
       const data = await response.json()
-
-      if (mode === "ensemble") {
-        setEnsembleResult(data as ScanResult)
-      } else {
-        setBilstmResult(data as BiLSTMScanResult)
-      }
+      setResult(data as ScanResult)
     } catch (err) {
       setError(
         err instanceof Error
@@ -60,28 +54,29 @@ export function ScannerDashboard() {
     }
   }, [code, mode])
 
-  const hasResult = ensembleResult !== null || bilstmResult !== null
+  const handleClear = useCallback(() => {
+    setCode("")
+    setResult(null)
+    setError(null)
+  }, [])
 
   return (
-    <main className="dot-grid flex min-h-screen items-start justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-2xl">
+    <main className="dot-grid flex min-h-screen items-start justify-center px-4 py-10 sm:px-6 lg:px-8">
+      <div className="w-full max-w-4xl">
         <div className="flex flex-col gap-8">
-          <ScannerHeader />
+          <ScannerHeader mode={mode} />
+
+          <section className="glass rounded-lg p-4" aria-label="Model selection">
+            <ModelSelector selectedMode={mode} onModeChange={setMode} />
+          </section>
 
           <section className="flex flex-col gap-4" aria-label="Code scanner">
-            <div className="flex justify-center">
-              <Tabs
-                value={mode}
-                onValueChange={(value) => setMode(value as ScannerMode)}
-              >
-                <TabsList>
-                  <TabsTrigger value="ensemble">Ensemble Features</TabsTrigger>
-                  <TabsTrigger value="bilstm">BiLSTM Sequence</TabsTrigger>
-                </TabsList>
-              </Tabs>
-            </div>
-
-            <CodeInput code={code} onChange={setCode} disabled={loading} />
+            <CodeInput
+              code={code}
+              onChange={setCode}
+              onClear={handleClear}
+              disabled={loading}
+            />
             <ScanButton
               onClick={handleScan}
               loading={loading}
@@ -95,22 +90,18 @@ export function ScannerDashboard() {
             </section>
           )}
 
-          {hasResult && (
+          {result && (
             <section
               aria-label="Scan results"
-              className="rounded-lg border border-border bg-card p-5"
+              className="glass rounded-lg p-6"
             >
-              {ensembleResult && <ScanResults result={ensembleResult} />}
-              {bilstmResult && <BiLSTMScanResults result={bilstmResult} />}
+              <ScanResults result={result} mode={mode} />
             </section>
           )}
 
           <footer className="flex items-center justify-center pb-4">
             <p className="text-xs text-muted-foreground/50">
-              SecureScope AI v1.0 &mdash;{" "}
-              {mode === "ensemble"
-                ? "Ensemble vulnerability detection"
-                : "BiLSTM sequence analysis"}
+              SecureScope AI v1.0 &mdash; Multi-mode vulnerability analysis
             </p>
           </footer>
         </div>

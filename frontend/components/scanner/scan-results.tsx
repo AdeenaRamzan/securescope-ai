@@ -1,20 +1,29 @@
 "use client"
 
-import { ShieldAlert, ShieldCheck, ShieldQuestion } from "lucide-react"
+import { Activity, GitBranch, ShieldAlert, ShieldCheck, ShieldQuestion } from "lucide-react"
+import type { ScanMode } from "./model-selector"
 
 export interface ScanResult {
   is_vulnerable: boolean
   confidence: number
   risk_level: "HIGH" | "MEDIUM" | "LOW" | "SAFE" | "INCONCLUSIVE"
-  model_probs: {
-    ann: number
-    xgboost: number
-    lightgbm: number
+  phase1_confidence?: number
+  phase2_confidence?: number
+  model_probs?: {
+    ann?: number
+    xgboost?: number
+    lightgbm?: number
+    bilstm?: number
   }
-  features_fired: string[]
+  features_fired?: string[]
   scan_time_ms: number
   model_version: string
-  threshold_used: number
+  threshold_used?: number
+  model_name?: string
+  sequence?: {
+    max_len: number
+    vocab_size: number
+  }
 }
 
 const riskConfig: Record<
@@ -55,95 +64,183 @@ const riskConfig: Record<
 
 interface ScanResultsProps {
   result: ScanResult
+  mode: ScanMode
 }
 
-export function ScanResults({ result }: ScanResultsProps) {
+const modeLabels: Record<ScanMode, string> = {
+  ensemble: "Ensemble Features",
+  bilstm: "BiLSTM Sequence",
+  cascade: "Cascade P1+P2",
+}
+
+const modelBreakdown = [
+  { name: "ANN", key: "ann" },
+  { name: "XGBoost", key: "xgboost" },
+  { name: "LightGBM", key: "lightgbm" },
+  { name: "BiLSTM", key: "bilstm" },
+] as const
+
+function formatPercent(value?: number) {
+  if (typeof value !== "number") return "N/A"
+  return `${(value * 100).toFixed(1)}%`
+}
+
+function clampPercent(value?: number) {
+  if (typeof value !== "number") return 0
+  return Math.max(0, Math.min(100, value * 100))
+}
+
+export function ScanResults({ result, mode }: ScanResultsProps) {
   const config = riskConfig[result.risk_level]
   const RiskIcon = config.icon
+  const phase1 = result.phase1_confidence
+  const phase2 = result.phase2_confidence
+  const featuresFired = result.features_fired ?? []
+  const modelRows = modelBreakdown.filter(
+    (model) => typeof result.model_probs?.[model.key] === "number"
+  )
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* Risk Badge */}
+    <div className="flex flex-col gap-5 animate-slide-in-bottom">
       <div className="flex justify-center">
         <div
-          className={`${config.bgColor} ${config.glow} animate-pulse-glow flex items-center gap-3 rounded-xl border px-6 py-3`}
+          className={`${config.bgColor} ${config.glow} animate-pulse-glow flex items-center gap-4 rounded-2xl border px-8 py-4 shadow-lg`}
         >
-          <RiskIcon className={`h-6 w-6 ${config.color}`} />
-          <span className={`text-xl font-bold ${config.color}`}>
-            {result.risk_level}
-          </span>
+          <RiskIcon className={`h-8 w-8 ${config.color}`} />
+          <div className="flex flex-col items-start">
+            <span className={`text-3xl font-bold ${config.color}`}>
+              {result.risk_level}
+            </span>
+            <span className="mt-0.5 text-xs text-muted-foreground">
+              {result.is_vulnerable ? "Vulnerability Detected" : "No Vulnerability"}
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Confidence Bar */}
-      <div className="rounded-lg border border-border bg-card p-4">
-        <div className="mb-2 flex items-center justify-between">
-          <span className="text-sm text-muted-foreground">Confidence</span>
-          <span className="text-sm font-semibold text-foreground">
-            {(result.confidence * 100).toFixed(1)}%
-          </span>
-        </div>
-        <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+      <div className="grid gap-4 md:grid-cols-[220px_1fr]">
+        <div className="glass flex flex-col items-center justify-center rounded-lg p-5">
           <div
-            className="animate-fill-bar h-full rounded-full"
+            className="relative flex h-36 w-36 items-center justify-center rounded-full"
             style={{
-              width: `${result.confidence * 100}%`,
-              background: "linear-gradient(90deg, #00ff88, #00d4ff)",
+              background: `conic-gradient(var(--primary) ${clampPercent(result.confidence)}%, rgba(255,255,255,0.08) 0)`,
             }}
-          />
+          >
+            <div className="absolute inset-3 rounded-full bg-background" />
+            <div className="relative text-center">
+              <div className="text-3xl font-bold text-primary">
+                {formatPercent(result.confidence)}
+              </div>
+              <div className="mt-1 text-[10px] uppercase tracking-wider text-muted-foreground">
+                Confidence
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="glass rounded-lg p-4">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <GitBranch className="h-4 w-4 text-secondary" />
+              <span className="text-sm font-semibold text-foreground">
+                Model Breakdown
+              </span>
+            </div>
+            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+              {modeLabels[mode]}
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              { label: "Phase 1 Confidence", value: phase1 },
+              { label: "Phase 2 Confidence", value: phase2 },
+              { label: "Combined Confidence", value: result.confidence },
+            ].map((item) => (
+              <div key={item.label}>
+                <div className="mb-1.5 flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground">{item.label}</span>
+                  <span className="text-xs font-semibold text-foreground">
+                    {formatPercent(item.value)}
+                  </span>
+                </div>
+                <div className="h-2 overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="animate-fill-bar h-full rounded-full bg-gradient-to-r from-primary to-secondary"
+                    style={{ width: `${clampPercent(item.value)}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Model Probabilities */}
-      <div className="grid grid-cols-3 gap-3">
-        {(
-          [
-            { name: "ANN", key: "ann" },
-            { name: "XGBoost", key: "xgboost" },
-            { name: "LightGBM", key: "lightgbm" },
-          ] as const
-        ).map((model) => (
+      {modelRows.length > 0 && (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {modelRows.map((model) => (
+            <div
+              key={model.key}
+              className="glass flex flex-col items-center gap-2 rounded-lg p-3 transition-smooth hover:border-primary/50"
+            >
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                {model.name}
+              </span>
+              <div className="text-2xl font-bold text-foreground">
+                {formatPercent(result.model_probs?.[model.key])}
+              </div>
+              <div className="h-1 w-full overflow-hidden rounded-full bg-muted">
+                <div
+                  className="h-full bg-gradient-to-r from-primary to-secondary"
+                  style={{ width: `${clampPercent(result.model_probs?.[model.key])}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="grid gap-3 sm:grid-cols-3">
+        {[
+          { label: "Pipeline", value: modeLabels[mode] },
+          { label: "Scan Time", value: `${result.scan_time_ms.toFixed(0)}ms` },
+          { label: "Model", value: result.model_version },
+        ].map((item) => (
           <div
-            key={model.key}
-            className="flex flex-col items-center gap-1 rounded-lg border border-border bg-card p-3"
+            key={item.label}
+            className="glass flex flex-col gap-1 rounded-lg p-3"
           >
-            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
-              {model.name}
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              {item.label}
             </span>
-            <span className="text-lg font-bold text-foreground">
-              {(result.model_probs[model.key] * 100).toFixed(1)}%
-            </span>
+            <span className="truncate text-sm font-semibold text-foreground">{item.value}</span>
           </div>
         ))}
       </div>
 
-      {/* Features Fired */}
-      {result.features_fired.length > 0 && (
-        <div className="rounded-lg border border-border bg-card p-4">
-          <p className="mb-2.5 text-xs font-medium text-muted-foreground uppercase tracking-wider">
-            Features Detected
+      <div className="glass rounded-lg p-4">
+        <div className="mb-3 flex items-center gap-2">
+          <Activity className="h-4 w-4 text-secondary" />
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Security Insights
           </p>
-          <div className="flex flex-wrap gap-1.5">
-            {result.features_fired.map((feature) => (
+        </div>
+        {featuresFired.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {featuresFired.map((feature) => (
               <span
                 key={feature}
-                className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[11px] font-medium text-primary"
+                className="animate-fade-scale-in rounded-full bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-smooth hover:bg-primary/20"
               >
                 {feature}
               </span>
             ))}
           </div>
-        </div>
-      )}
-
-      {/* Footer */}
-      <div className="flex items-center justify-between border-t border-border pt-3">
-        <span className="text-xs text-muted-foreground">
-          Scan time: {result.scan_time_ms.toFixed(0)}ms
-        </span>
-        <span className="text-xs text-muted-foreground">
-          Model: {result.model_version}
-        </span>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            No handcrafted feature indicators were returned for this scan.
+          </p>
+        )}
       </div>
     </div>
   )
