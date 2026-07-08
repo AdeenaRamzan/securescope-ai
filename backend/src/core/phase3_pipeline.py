@@ -483,6 +483,18 @@ def _call_has_shell_true(node: ast.Call) -> bool:
     )
 
 
+def _subprocess_list_has_dynamic_arg(node: ast.AST) -> bool:
+    if not isinstance(node, (ast.List, ast.Tuple)):
+        return False
+
+    for element in node.elts[1:]:
+        if isinstance(element, ast.Constant) and isinstance(element.value, str):
+            continue
+        return True
+
+    return False
+
+
 def _detect_cmd_injection_flow(code: str) -> bool:
     try:
         tree = ast.parse(code)
@@ -533,10 +545,11 @@ def _detect_cmd_injection_flow(code: str) -> bool:
         if func_name in {"system", "popen"}:
             shell_true = True
 
-        if not shell_true:
-            continue
-
         for arg in node.args:
+            if not shell_true and _subprocess_list_has_dynamic_arg(arg):
+                return True
+            if not shell_true:
+                continue
             if _expr_has_formatted_value(arg) or _expr_has_concat(arg):
                 return True
             if isinstance(arg, ast.Name) and arg.id in unsafe_command_vars:
