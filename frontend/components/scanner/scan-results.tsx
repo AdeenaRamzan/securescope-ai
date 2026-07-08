@@ -97,9 +97,18 @@ function clampPercent(value?: number) {
   return Math.max(0, Math.min(100, value * 100))
 }
 
+function formatVulnerabilityType(value?: string) {
+  if (!value || value === "unknown") return "Unknown"
+  return value
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ")
+}
+
 export function ScanResults({ result, mode }: ScanResultsProps) {
   const config = riskConfig[result.risk_level]
   const RiskIcon = config.icon
+  const isDeepScan = mode === "deep"
   const phase1 = result.phase1_confidence
   const phase2 = result.phase2_confidence
   const featuresFired = result.features_fired ?? []
@@ -107,6 +116,44 @@ export function ScanResults({ result, mode }: ScanResultsProps) {
   const modelRows = modelBreakdown.filter(
     (model) => typeof result.model_probs?.[model.key] === "number"
   )
+  const breakdownRows = isDeepScan
+    ? [
+        {
+          label: "CodeBERT Confidence",
+          value: result.confidence,
+          display: formatPercent(result.confidence),
+        },
+        {
+          label: "Vulnerability Type",
+          display: formatVulnerabilityType(result.vulnerability_type),
+        },
+        {
+          label: "RAG Analysis",
+          display:
+            result.danger || result.fix || result.owasp_ref
+              ? "Generated"
+              : result.is_vulnerable
+                ? "Not returned"
+                : "Not needed",
+        },
+      ]
+    : [
+        {
+          label: "Phase 1 Confidence",
+          value: phase1,
+          display: formatPercent(phase1),
+        },
+        {
+          label: "Phase 2 Confidence",
+          value: phase2,
+          display: formatPercent(phase2),
+        },
+        {
+          label: "Combined Confidence",
+          value: result.confidence,
+          display: formatPercent(result.confidence),
+        },
+      ]
 
   return (
     <div className="flex flex-col gap-5 animate-slide-in-bottom">
@@ -160,24 +207,22 @@ export function ScanResults({ result, mode }: ScanResultsProps) {
           </div>
 
           <div className="space-y-3">
-            {[
-              { label: "Phase 1 Confidence", value: phase1 },
-              { label: "Phase 2 Confidence", value: phase2 },
-              { label: "Combined Confidence", value: result.confidence },
-            ].map((item) => (
+            {breakdownRows.map((item) => (
               <div key={item.label}>
                 <div className="mb-1.5 flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">{item.label}</span>
                   <span className="text-xs font-semibold text-foreground">
-                    {formatPercent(item.value)}
+                    {item.display}
                   </span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-muted">
-                  <div
-                    className="animate-fill-bar h-full rounded-full bg-gradient-to-r from-primary to-secondary"
-                    style={{ width: `${clampPercent(item.value)}%` }}
-                  />
-                </div>
+                {typeof item.value === "number" && (
+                  <div className="h-2 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="animate-fill-bar h-full rounded-full bg-gradient-to-r from-primary to-secondary"
+                      style={{ width: `${clampPercent(item.value)}%` }}
+                    />
+                  </div>
+                )}
               </div>
             ))}
           </div>
