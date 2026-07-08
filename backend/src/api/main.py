@@ -26,25 +26,7 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    dummy_code = "def hello():\n    return 'world'"
-    
-    # Warm up Phase 1 + 2
-    predict(dummy_code)
-    predict_bilstm(dummy_code)
-    logger.info("Phase 1/2 warmup complete")
-    
-    # Warm up Phase 3 at startup not on first request
-    err = phase3_load_error()
-    if err:
-        logger.warning("Phase 3 unavailable: %s", err)
-    else:
-        try:
-            logger.info("Loading Phase 3 models...")
-            scan_deep_phase3(dummy_code)
-            logger.info("Phase 3 warmup complete")
-        except Exception as e:
-            logger.warning("Phase 3 warmup failed: %s", e)
-    
+    logger.info("API startup complete")
     yield
 # ── App setup ─────────────────────────────────────
 app = FastAPI(

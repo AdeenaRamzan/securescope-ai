@@ -105,45 +105,90 @@ def load_phase3_resources() -> None:
     """
     global _load_error
 
+    LOGGER.info("Entering load_phase3_resources")
+
     if _resources:
         return
 
     start = time.perf_counter()
     try:
+        LOGGER.info("Importing faiss")
         import faiss
+        LOGGER.info("Imported faiss")
+
+        LOGGER.info("Importing torch")
         import torch
+        LOGGER.info("Imported torch")
+
+        LOGGER.info("Importing Groq")
         from groq import Groq
+        LOGGER.info("Imported Groq")
+
+        LOGGER.info("Importing SentenceTransformer")
         from sentence_transformers import SentenceTransformer
+        LOGGER.info("Imported SentenceTransformer")
+
+        LOGGER.info("Importing transformers AutoModelForSequenceClassification and AutoTokenizer")
         from transformers import AutoModelForSequenceClassification, AutoTokenizer
+        LOGGER.info("Imported transformers AutoModelForSequenceClassification and AutoTokenizer")
 
         groq_api_key = os.getenv("GROQ_API_KEY")
         if not groq_api_key:
             raise RuntimeError("GROQ_API_KEY is not set.")
 
-        LOGGER.info("Loading Phase 3 CodeBERT tokenizer/model")
-        LOGGER.info("CodeBERT tokenizer path: %s", CODEBERT_DIR)
-        tokenizer = AutoTokenizer.from_pretrained(
-            CODEBERT_DIR,
-            local_files_only=True,
-        )
-        LOGGER.info("CodeBERT model path: %s", CODEBERT_DIR)
-        model = AutoModelForSequenceClassification.from_pretrained(
-            CODEBERT_DIR,
-            num_labels=2,
-            local_files_only=True,
-        )
-        LOGGER.info("CodeBERT config num_labels: %s", model.config.num_labels)
-        LOGGER.info("CodeBERT config id2label: %s", model.config.id2label)
-        LOGGER.info("CodeBERT config label2id: %s", model.config.label2id)
+        try:
+            LOGGER.info("Loading CodeBERT tokenizer")
+            LOGGER.info("CodeBERT tokenizer path: %s", CODEBERT_DIR)
+            tokenizer = AutoTokenizer.from_pretrained(
+                CODEBERT_DIR,
+                local_files_only=True,
+            )
+            LOGGER.info("Loaded CodeBERT tokenizer")
+        except Exception:
+            LOGGER.exception("Failed loading CodeBERT tokenizer")
+            raise
 
-        model.eval()
+        try:
+            LOGGER.info("Loading CodeBERT model")
+            LOGGER.info("CodeBERT model path: %s", CODEBERT_DIR)
+            model = AutoModelForSequenceClassification.from_pretrained(
+                CODEBERT_DIR,
+                num_labels=2,
+                local_files_only=True,
+            )
+            LOGGER.info("CodeBERT config num_labels: %s", model.config.num_labels)
+            LOGGER.info("CodeBERT config id2label: %s", model.config.id2label)
+            LOGGER.info("CodeBERT config label2id: %s", model.config.label2id)
+            model.eval()
+            LOGGER.info("Loaded CodeBERT model")
+        except Exception:
+            LOGGER.exception("Failed loading CodeBERT model")
+            raise
 
-        LOGGER.info("Loading OWASP embedder and FAISS index")
-        embedder = SentenceTransformer(EMBEDDING_MODEL_NAME)
-        index = faiss.read_index(str(MODELS_DIR / "owasp_faiss.index"))
+        try:
+            LOGGER.info("Loading SentenceTransformer")
+            embedder = SentenceTransformer(EMBEDDING_MODEL_NAME)
+            LOGGER.info("Loaded SentenceTransformer")
+        except Exception:
+            LOGGER.exception("Failed loading SentenceTransformer")
+            raise
 
-        with open(MODELS_DIR / "owasp_metadata.pkl", "rb") as f:
-            metadata = pickle.load(f)
+        try:
+            LOGGER.info("Loading FAISS index")
+            index = faiss.read_index(str(MODELS_DIR / "owasp_faiss.index"))
+            LOGGER.info("Loaded FAISS index")
+        except Exception:
+            LOGGER.exception("Failed loading FAISS index")
+            raise
+
+        try:
+            LOGGER.info("Loading Metadata")
+            with open(MODELS_DIR / "owasp_metadata.pkl", "rb") as f:
+                metadata = pickle.load(f)
+            LOGGER.info("Loaded Metadata")
+        except Exception:
+            LOGGER.exception("Failed loading Metadata")
+            raise
 
         if len(metadata) != index.ntotal:
             raise RuntimeError(
@@ -156,7 +201,13 @@ def load_phase3_resources() -> None:
                 f"{EMBEDDING_MODEL_NAME}. Rebuild the OWASP FAISS index."
             )
 
-        groq_client = Groq(api_key=groq_api_key)
+        try:
+            LOGGER.info("Loading Groq client")
+            groq_client = Groq(api_key=groq_api_key)
+            LOGGER.info("Loaded Groq client")
+        except Exception:
+            LOGGER.exception("Failed loading Groq client")
+            raise
 
         _resources.update(
             {
