@@ -112,12 +112,14 @@ def predict(code: str) -> Dict:
         }
 
     # Step 7 — Apply threshold and build result
-    is_vulnerable = ensemble_prob >= THRESHOLD
+    deterministic_signal = not no_specific_features
+    is_vulnerable = ensemble_prob >= THRESHOLD or deterministic_signal
+    confidence = max(ensemble_prob, 0.95) if deterministic_signal else ensemble_prob
 
     result = {
         "is_vulnerable":  bool(is_vulnerable),
-        "confidence":     round(ensemble_prob, 4),
-        "risk_level":     get_risk_level(ensemble_prob, is_vulnerable),
+        "confidence":     round(confidence, 4),
+        "risk_level":     get_risk_level(confidence, is_vulnerable),
         "threshold_used": THRESHOLD,
         "model_version":  CONFIG["version"],
         "model_probs": {

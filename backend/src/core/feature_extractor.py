@@ -8,6 +8,59 @@ import re
 from typing import List
 
 
+SUBPROCESS_SINKS = {'call', 'run', 'Popen', 'check_output'}
+
+
+def _call_name(node: ast.Call) -> str:
+    if isinstance(node.func, ast.Name):
+        return node.func.id
+    if isinstance(node.func, ast.Attribute):
+        return node.func.attr
+    return ""
+
+
+def _has_shell_true(node: ast.Call) -> bool:
+    return any(
+        keyword.arg == 'shell'
+        and isinstance(keyword.value, ast.Constant)
+        and keyword.value.value is True
+        for keyword in node.keywords
+    )
+
+
+def _argv_has_dynamic_arg(node: ast.AST) -> bool:
+    if isinstance(node, ast.Name):
+        return True
+    if isinstance(node, (ast.BinOp, ast.JoinedStr, ast.Call)):
+        return True
+    if not isinstance(node, (ast.List, ast.Tuple)):
+        return False
+
+    for element in node.elts:
+        if isinstance(element, ast.Constant) and isinstance(element.value, str):
+            continue
+        return True
+
+    return False
+
+
+def _has_dynamic_subprocess_call(tree: ast.AST) -> bool:
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+
+        func_name = _call_name(node)
+        if func_name not in SUBPROCESS_SINKS:
+            continue
+
+        if _has_shell_true(node):
+            return True
+        if any(_argv_has_dynamic_arg(arg) for arg in node.args):
+            return True
+
+    return False
+
+
 FEATURE_NAMES = [
     'f1_sql_concat',
     'f2_hardcoded_secret',
@@ -73,7 +126,8 @@ def extract_features(code: str) -> List[float]:
     # ── F5: Command injection ─────────────────────
     f5 = int(bool(
         re.search(r'os\.system\s*\(.*\+', code) or
-        re.search(r'subprocess.*shell\s*=\s*True', code)
+        re.search(r'subprocess.*shell\s*=\s*True', code) or
+        _has_dynamic_subprocess_call(tree)
     ))
 
     # ── F6: AST node count ────────────────────────
@@ -98,7 +152,7 @@ def extract_features(code: str) -> List[float]:
     ))
 
     # ── F11: AST dangerous calls ──────────────────
-    dangerous_sinks = {'eval', 'exec', 'system', 'popen', 'execute'}
+    dangerous_sinks = {'eval', 'exec', 'system', 'popen', 'execute', *SUBPROCESS_SINKS}
     f11 = 0
     for node in ast.walk(tree):
         if isinstance(node, ast.Call):
