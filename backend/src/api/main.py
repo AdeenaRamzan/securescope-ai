@@ -15,7 +15,6 @@ import time
 from src.core.predictor import predict
 from src.core.predictor_phase2 import predict_bilstm
 from src.core.phase3_pipeline import (
-    load_phase3_resources,
     phase3_load_error,
     scan_deep_phase3,
 )
@@ -31,8 +30,6 @@ async def lifespan(app: FastAPI):
     predict(dummy_code)
     predict_bilstm(dummy_code)
     logger.info("Phase 1/2 model warmup complete")
-
-    load_phase3_resources()
     if phase3_load_error():
         logger.warning("Phase 3 unavailable: %s", phase3_load_error())
     yield

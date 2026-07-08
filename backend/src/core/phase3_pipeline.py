@@ -20,7 +20,6 @@ MODELS_DIR = Path(__file__).resolve().parents[2] / "models" / "saved"
 CODEBERT_DIR = MODELS_DIR / "codebert_binary"
 CODEBERT_THRESHOLD = 0.23
 CODEBERT_MAX_LEN = 512
-EMBEDDING_MODEL_NAME = "sentence-transformers/multi-qa-mpnet-base-dot-v1"
 GROQ_MODEL = "llama-3.1-8b-instant"
 
 _resources: Dict = {}
@@ -110,10 +109,8 @@ def load_phase3_resources() -> None:
 
     start = time.perf_counter()
     try:
-        import faiss
         import torch
         from groq import Groq
-        from sentence_transformers import SentenceTransformer
         from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
         groq_api_key = os.getenv("GROQ_API_KEY")
@@ -138,17 +135,9 @@ def load_phase3_resources() -> None:
 
         model.eval()
 
-        LOGGER.info("Loading OWASP embedder and FAISS index")
-        embedder = SentenceTransformer(EMBEDDING_MODEL_NAME)
-        index = faiss.read_index(str(MODELS_DIR / "owasp_faiss.index"))
-
+        LOGGER.info("Loading OWASP metadata")
         with open(MODELS_DIR / "owasp_metadata.pkl", "rb") as f:
             metadata = pickle.load(f)
-
-        if len(metadata) != index.ntotal:
-            raise RuntimeError(
-                f"FAISS metadata mismatch: {len(metadata)} docs for {index.ntotal} vectors."
-            )
 
         groq_client = Groq(api_key=groq_api_key)
 
@@ -157,8 +146,6 @@ def load_phase3_resources() -> None:
                 "torch": torch,
                 "tokenizer": tokenizer,
                 "codebert": model,
-                "embedder": embedder,
-                "faiss_index": index,
                 "metadata": metadata,
                 "groq": groq_client,
             }
@@ -419,33 +406,39 @@ def _identify_vulnerability_type(code: str) -> Dict:
 
 
 def _retrieve_owasp_context(vulnerability_type: str, top_k: int = 3) -> List[Dict]:
-    embedder = _resources["embedder"]
-    index = _resources["faiss_index"]
     metadata = _resources["metadata"]
 
     query = TYPE_QUERIES.get(vulnerability_type, TYPE_QUERIES["unknown"])
-    query_vector = embedder.encode(
-        [query],
-        convert_to_numpy=True,
-        normalize_embeddings=True,
-    ).astype("float32")
+    query_terms = {
+        term.lower()
+        for term in query.replace("/", " ").replace("-", " ").split()
+        if len(term) >= 4
+    }
 
-    scores, indices = index.search(query_vector, top_k)
+    scored = []
+    for item in metadata:
+        text = str(item.get("text", ""))
+        source = str(item.get("source", "unknown"))
+        haystack = f"{source}\n{text}".lower()
+        score = sum(1 for term in query_terms if term in haystack)
+        if vulnerability_type in source.lower():
+            score += 3
+        if score > 0:
+            scored.append((score, item))
 
-    results = []
-    for score, idx in zip(scores[0], indices[0]):
-        if idx < 0:
-            continue
-        item = metadata[int(idx)]
-        results.append(
-            {
-                "score": float(score),
-                "source": item.get("source", "unknown"),
-                "text": item.get("text", ""),
-            }
-        )
+    if not scored:
+        scored = [(1, item) for item in metadata[:top_k]]
 
-    return results
+    scored.sort(key=lambda pair: pair[0], reverse=True)
+
+    return [
+        {
+            "score": float(score),
+            "source": item.get("source", "unknown"),
+            "text": item.get("text", ""),
+        }
+        for score, item in scored[:top_k]
+    ]
 
 
 def _parse_groq_response(text: str, default_ref: str) -> Dict:
@@ -539,6 +532,9 @@ Most relevant OWASP document name.
 
 def scan_deep_phase3(code: str) -> Dict:
     if not phase3_available():
+        load_phase3_resources()
+
+    if not phase3_available():
         raise RuntimeError(_load_error or "Phase 3 models are unavailable.")
 
     start_total = time.perf_counter()
@@ -596,7 +592,7 @@ def scan_deep_phase3(code: str) -> Dict:
     start = time.perf_counter()
     context_docs = _retrieve_owasp_context(vulnerability_type, top_k=3)
     LOGGER.info(
-        "Phase 3 FAISS retrieval %.2f ms",
+        "Phase 3 OWASP retrieval %.2f ms",
         (time.perf_counter() - start) * 1000,
     )
 
