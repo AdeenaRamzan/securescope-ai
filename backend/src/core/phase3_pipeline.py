@@ -20,6 +20,7 @@ MODELS_DIR = Path(__file__).resolve().parents[2] / "models" / "saved"
 CODEBERT_DIR = MODELS_DIR / "codebert_binary"
 CODEBERT_THRESHOLD = 0.23
 CODEBERT_MAX_LEN = 512
+EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 GROQ_MODEL = "llama-3.1-8b-instant"
 
 _resources: Dict = {}
@@ -109,8 +110,10 @@ def load_phase3_resources() -> None:
 
     start = time.perf_counter()
     try:
+        import faiss
         import torch
         from groq import Groq
+        from sentence_transformers import SentenceTransformer
         from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
         groq_api_key = os.getenv("GROQ_API_KEY")
@@ -135,9 +138,23 @@ def load_phase3_resources() -> None:
 
         model.eval()
 
-        LOGGER.info("Loading OWASP metadata")
+        LOGGER.info("Loading OWASP embedder and FAISS index")
+        embedder = SentenceTransformer(EMBEDDING_MODEL_NAME)
+        index = faiss.read_index(str(MODELS_DIR / "owasp_faiss.index"))
+
         with open(MODELS_DIR / "owasp_metadata.pkl", "rb") as f:
             metadata = pickle.load(f)
+
+        if len(metadata) != index.ntotal:
+            raise RuntimeError(
+                f"FAISS metadata mismatch: {len(metadata)} docs for {index.ntotal} vectors."
+            )
+
+        if getattr(index, "d", None) != embedder.get_sentence_embedding_dimension():
+            raise RuntimeError(
+                "FAISS index dimension does not match "
+                f"{EMBEDDING_MODEL_NAME}. Rebuild the OWASP FAISS index."
+            )
 
         groq_client = Groq(api_key=groq_api_key)
 
@@ -146,6 +163,8 @@ def load_phase3_resources() -> None:
                 "torch": torch,
                 "tokenizer": tokenizer,
                 "codebert": model,
+                "embedder": embedder,
+                "faiss_index": index,
                 "metadata": metadata,
                 "groq": groq_client,
             }
@@ -406,39 +425,33 @@ def _identify_vulnerability_type(code: str) -> Dict:
 
 
 def _retrieve_owasp_context(vulnerability_type: str, top_k: int = 3) -> List[Dict]:
+    embedder = _resources["embedder"]
+    index = _resources["faiss_index"]
     metadata = _resources["metadata"]
 
     query = TYPE_QUERIES.get(vulnerability_type, TYPE_QUERIES["unknown"])
-    query_terms = {
-        term.lower()
-        for term in query.replace("/", " ").replace("-", " ").split()
-        if len(term) >= 4
-    }
+    query_vector = embedder.encode(
+        [query],
+        convert_to_numpy=True,
+        normalize_embeddings=True,
+    ).astype("float32")
 
-    scored = []
-    for item in metadata:
-        text = str(item.get("text", ""))
-        source = str(item.get("source", "unknown"))
-        haystack = f"{source}\n{text}".lower()
-        score = sum(1 for term in query_terms if term in haystack)
-        if vulnerability_type in source.lower():
-            score += 3
-        if score > 0:
-            scored.append((score, item))
+    scores, indices = index.search(query_vector, top_k)
 
-    if not scored:
-        scored = [(1, item) for item in metadata[:top_k]]
+    results = []
+    for score, idx in zip(scores[0], indices[0]):
+        if idx < 0:
+            continue
+        item = metadata[int(idx)]
+        results.append(
+            {
+                "score": float(score),
+                "source": item.get("source", "unknown"),
+                "text": item.get("text", ""),
+            }
+        )
 
-    scored.sort(key=lambda pair: pair[0], reverse=True)
-
-    return [
-        {
-            "score": float(score),
-            "source": item.get("source", "unknown"),
-            "text": item.get("text", ""),
-        }
-        for score, item in scored[:top_k]
-    ]
+    return results
 
 
 def _parse_groq_response(text: str, default_ref: str) -> Dict:
