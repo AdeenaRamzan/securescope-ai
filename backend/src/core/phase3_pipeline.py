@@ -833,19 +833,6 @@ def scan_deep_phase3(code: str) -> Dict:
         }
 
     vulnerability_type = type_result["vulnerability_type"]
-    if vulnerability_type == "unknown":
-        return {
-            "is_vulnerable": True,
-            "confidence": confidence,
-            "risk_level": _risk_level(decision_confidence, True),
-            "vulnerability_type": "unknown",
-            "danger": "",
-            "fix": "",
-            "owasp_ref": "",
-            "pipeline": "phase3_rag_v1",
-            "llm": GROQ_MODEL,
-            "scan_time_ms": round((time.perf_counter() - start_total) * 1000, 2),
-        }
 
     start = time.perf_counter()
     context_docs = _retrieve_owasp_context(vulnerability_type, top_k=3)
