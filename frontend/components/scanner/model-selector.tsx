@@ -16,7 +16,7 @@ const modes = [
   {
     id: "bilstm" as const,
     label: "BiLSTM",
-    description: "Sequential vulnerability patterns",
+    description: "Phase 2 sequence model; best for learned code patterns, not explicit rule checks",
   },
   {
     id: "cascade" as const,
