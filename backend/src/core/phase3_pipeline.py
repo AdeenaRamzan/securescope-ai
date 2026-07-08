@@ -48,12 +48,22 @@ TYPE_QUERIES = {
         "OS command injection prevention avoid shell execution subprocess "
         "user input"
     ),
+    "open_redirect": (
+        "open redirect unvalidated redirect forward prevention allowlist "
+        "user supplied URL"
+    ),
+    "multiple": (
+        "secure code review multiple vulnerabilities SQL injection command "
+        "injection open redirect input validation"
+    ),
     "unknown": "general secure coding input validation secure code review",
 }
 
 SQL_KEYWORDS = ("SELECT", "INSERT", "UPDATE", "DELETE", "WHERE", "ORDER BY")
 SQL_SINKS = {"execute", "executemany", "query", "raw"}
 PATH_SINKS = {"open"}
+REDIRECT_SINKS = {"redirect"}
+COMMAND_SINKS = {"system", "popen", "call", "run", "Popen", "check_output"}
 PATH_HINTS = ("path", "file", "filename", "dir", "directory")
 
 
@@ -124,9 +134,21 @@ def load_phase3_resources() -> None:
         from groq import Groq
         LOGGER.info("Imported Groq")
 
-        LOGGER.info("Importing SentenceTransformer")
-        from sentence_transformers import SentenceTransformer
-        LOGGER.info("Imported SentenceTransformer")
+        try:
+            LOGGER.info("Importing sentence_transformers module")
+            import sentence_transformers
+            LOGGER.info("Imported sentence_transformers module")
+        except Exception:
+            LOGGER.exception("Failed importing sentence_transformers module")
+            raise
+
+        try:
+            LOGGER.info("Importing SentenceTransformer class")
+            from sentence_transformers import SentenceTransformer
+            LOGGER.info("Imported SentenceTransformer class")
+        except Exception:
+            LOGGER.exception("Failed importing SentenceTransformer class")
+            raise
 
         LOGGER.info("Importing transformers AutoModelForSequenceClassification and AutoTokenizer")
         from transformers import AutoModelForSequenceClassification, AutoTokenizer
@@ -166,11 +188,11 @@ def load_phase3_resources() -> None:
             raise
 
         try:
-            LOGGER.info("Loading SentenceTransformer")
+            LOGGER.info("Creating SentenceTransformer")
             embedder = SentenceTransformer(EMBEDDING_MODEL_NAME)
-            LOGGER.info("Loaded SentenceTransformer")
+            LOGGER.info("Created SentenceTransformer")
         except Exception:
-            LOGGER.exception("Failed loading SentenceTransformer")
+            LOGGER.exception("Failed creating SentenceTransformer")
             raise
 
         try:
@@ -277,6 +299,10 @@ def _expr_has_concat(node: ast.AST) -> bool:
     return any(isinstance(child, ast.BinOp) and isinstance(child.op, ast.Add) for child in ast.walk(node))
 
 
+def _expr_has_formatted_value(node: ast.AST) -> bool:
+    return any(isinstance(child, ast.FormattedValue) for child in ast.walk(node))
+
+
 def _expr_has_name(node: ast.AST, names: set) -> bool:
     return any(isinstance(child, ast.Name) and child.id in names for child in ast.walk(node))
 
@@ -312,11 +338,15 @@ def _detect_sql_injection_flow(code: str) -> bool:
 
             has_sql = _expr_has_sql_literal(node.value) or _expr_has_name(node.value, sql_vars)
             has_concat = _expr_has_concat(node.value)
+            has_formatted_value = _expr_has_formatted_value(node.value)
             has_unsafe_sql = _expr_has_name(node.value, unsafe_sql_vars)
 
             if has_sql:
                 sql_vars.update(targets)
-            if (has_sql and has_concat) or (has_unsafe_sql and has_concat):
+            if (
+                (has_sql and (has_concat or has_formatted_value))
+                or (has_unsafe_sql and (has_concat or has_formatted_value))
+            ):
                 unsafe_sql_vars.update(targets)
 
         elif isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
@@ -444,32 +474,178 @@ def _detect_path_traversal_flow(code: str) -> bool:
     return False
 
 
+def _call_has_shell_true(node: ast.Call) -> bool:
+    return any(
+        keyword.arg == "shell"
+        and isinstance(keyword.value, ast.Constant)
+        and keyword.value.value is True
+        for keyword in node.keywords
+    )
+
+
+def _detect_cmd_injection_flow(code: str) -> bool:
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return False
+
+    command_vars = set()
+    unsafe_command_vars = set()
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Assign):
+            continue
+
+        targets = [target.id for target in node.targets if isinstance(target, ast.Name)]
+        if not targets:
+            continue
+
+        value = node.value
+        has_command_name = any("command" in target.lower() or target.lower() in {"cmd", "args"} for target in targets)
+        has_command_literal = any(
+            isinstance(child, ast.Constant)
+            and isinstance(child.value, str)
+            and child.value.split(" ", 1)[0] in {"ping", "curl", "wget", "cat", "ls", "sh", "bash"}
+            for child in ast.walk(value)
+        )
+        has_unsafe_command = _expr_has_name(value, unsafe_command_vars)
+        has_dynamic_value = _expr_has_concat(value) or _expr_has_formatted_value(value)
+
+        if has_command_name or has_command_literal:
+            command_vars.update(targets)
+        if (has_command_name or has_command_literal or has_unsafe_command) and has_dynamic_value:
+            unsafe_command_vars.update(targets)
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+
+        func_name = ""
+        if isinstance(node.func, ast.Name):
+            func_name = node.func.id
+        elif isinstance(node.func, ast.Attribute):
+            func_name = node.func.attr
+
+        if func_name not in COMMAND_SINKS:
+            continue
+
+        shell_true = _call_has_shell_true(node)
+        if func_name in {"system", "popen"}:
+            shell_true = True
+
+        if not shell_true:
+            continue
+
+        for arg in node.args:
+            if _expr_has_formatted_value(arg) or _expr_has_concat(arg):
+                return True
+            if isinstance(arg, ast.Name) and arg.id in unsafe_command_vars:
+                return True
+            if _expr_has_name(arg, unsafe_command_vars):
+                return True
+
+    return False
+
+
+def _expr_has_request_input(node: ast.AST) -> bool:
+    for child in ast.walk(node):
+        if isinstance(child, ast.Attribute) and child.attr in {
+            "args",
+            "form",
+            "files",
+            "json",
+            "data",
+            "values",
+        }:
+            return True
+        if isinstance(child, ast.Call):
+            func = child.func
+            if isinstance(func, ast.Attribute) and func.attr == "get":
+                if _expr_has_request_input(func.value):
+                    return True
+    return False
+
+
+def _detect_open_redirect_flow(code: str) -> bool:
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return False
+
+    request_vars = set()
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Assign):
+            continue
+
+        targets = [target.id for target in node.targets if isinstance(target, ast.Name)]
+        if targets and _expr_has_request_input(node.value):
+            request_vars.update(targets)
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+
+        func_name = ""
+        if isinstance(node.func, ast.Name):
+            func_name = node.func.id
+        elif isinstance(node.func, ast.Attribute):
+            func_name = node.func.attr
+
+        if func_name not in REDIRECT_SINKS:
+            continue
+
+        for arg in node.args:
+            if _expr_has_request_input(arg):
+                return True
+            if isinstance(arg, ast.Name) and arg.id in request_vars:
+                return True
+            if _expr_has_name(arg, request_vars):
+                return True
+
+    return False
+
+
 def _identify_vulnerability_type(code: str) -> Dict:
     features = extract_features(code)
     feature_map = dict(zip(FEATURE_NAMES, features))
     fired = [name for name, value in feature_map.items() if value > 0]
     sql_flow_detected = _detect_sql_injection_flow(code)
+    cmd_flow_detected = _detect_cmd_injection_flow(code)
     path_flow_detected = _detect_path_traversal_flow(code)
+    open_redirect_detected = _detect_open_redirect_flow(code)
     if sql_flow_detected:
         fired.append("phase3_sql_query_flow")
+    if cmd_flow_detected:
+        fired.append("phase3_cmd_injection_flow")
     if path_flow_detected:
         fired.append("phase3_path_traversal_flow")
+    if open_redirect_detected:
+        fired.append("phase3_open_redirect_flow")
 
-    if feature_map.get("f2_hardcoded_secret", 0) > 0:
-        vuln_type = "hardcoded_secret"
-    elif feature_map.get("f1_sql_concat", 0) > 0 or sql_flow_detected:
-        vuln_type = "sql_injection"
-    elif feature_map.get("f5_cmd_injection", 0) > 0:
-        vuln_type = "cmd_injection"
-    elif feature_map.get("f3_eval_exec", 0) > 0:
-        vuln_type = "insecure_eval"
-    elif feature_map.get("f4_path_traversal", 0) > 0 or path_flow_detected:
-        vuln_type = "path_traversal"
-    else:
-        vuln_type = "unknown"
+    detected_types = []
+    if feature_map.get("f1_sql_concat", 0) > 0 or sql_flow_detected:
+        detected_types.append("sql_injection")
+    if feature_map.get("f5_cmd_injection", 0) > 0 or cmd_flow_detected:
+        detected_types.append("cmd_injection")
+    if feature_map.get("f3_eval_exec", 0) > 0:
+        detected_types.append("insecure_eval")
+    if feature_map.get("f4_path_traversal", 0) > 0 or path_flow_detected:
+        detected_types.append("path_traversal")
+    if open_redirect_detected:
+        detected_types.append("open_redirect")
+    if feature_map.get("f2_hardcoded_secret", 0) > 0 and not detected_types:
+        detected_types.append("hardcoded_secret")
+
+    vuln_type = "unknown"
+    if len(detected_types) == 1:
+        vuln_type = detected_types[0]
+    elif len(detected_types) > 1:
+        vuln_type = "multiple"
 
     return {
         "vulnerability_type": vuln_type,
+        "detected_types": detected_types,
         "features_fired": fired,
         "has_security_signal": vuln_type != "unknown",
     }
@@ -536,6 +712,7 @@ def _parse_groq_response(text: str, default_ref: str) -> Dict:
 def _generate_explanation(
     code: str,
     vulnerability_type: str,
+    detected_types: List[str],
     context_docs: List[Dict],
 ) -> Dict:
     context = "\n\n".join(
@@ -548,6 +725,9 @@ You are SecureScope AI, a Python security assistant.
 
 VULNERABILITY TYPE:
 {vulnerability_type}
+
+DETECTED TYPES:
+{", ".join(detected_types) if detected_types else vulnerability_type}
 
 PYTHON CODE:
 {code}
@@ -562,6 +742,7 @@ One concise sentence explaining the security impact.
 
 FIX:
 Only the corrected Python code.
+Fix every detected vulnerability in the code, not just the first one.
 No explanation.
 No markdown.
 No triple backticks.
@@ -660,7 +841,12 @@ def scan_deep_phase3(code: str) -> Dict:
         (time.perf_counter() - start) * 1000,
     )
 
-    explanation = _generate_explanation(code, vulnerability_type, context_docs)
+    explanation = _generate_explanation(
+        code,
+        vulnerability_type,
+        type_result.get("detected_types", [vulnerability_type]),
+        context_docs,
+    )
 
     return {
         "is_vulnerable": True,

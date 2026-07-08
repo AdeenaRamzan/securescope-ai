@@ -4,9 +4,11 @@
 
 # ML models
 tensorflow==2.21.0
-torch
-transformers
-sentence-transformers
+torch==2.8.0
+transformers==4.57.1
+sentence-transformers==5.1.2
+tokenizers==0.22.1
+huggingface-hub==0.36.0
 faiss-cpu
 safetensors
 scikit-learn

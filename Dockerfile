@@ -2,6 +2,9 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+ENV USE_TORCH=1 \
+    USE_TF=0
+
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
