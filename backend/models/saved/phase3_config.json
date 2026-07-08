@@ -1,0 +1,54 @@
+{
+  "version": "phase3_rag_v1",
+  "pipeline_steps": [
+    "1. CodeBERT binary classifier \u2192 is_vulnerable",
+    "2. Phase 1 feature extractor \u2192 vuln_type",
+    "3. FAISS retrieval \u2192 top 3 OWASP chunks",
+    "4. Phi-3-mini \u2192 DANGER + FIX + REF"
+  ],
+  "components": {
+    "binary_classifier": {
+      "model": "codebert_binary/",
+      "type": "HuggingFace AutoModelForSequenceClassification",
+      "base": "microsoft/codebert-base",
+      "f1": 0.954,
+      "dataset": "PyCode Vul 14,248 functions"
+    },
+    "type_identifier": {
+      "method": "rule-based feature extractor",
+      "file": "src/core/feature_extractor.py",
+      "types": [
+        "sql_injection",
+        "hardcoded_secret",
+        "insecure_eval",
+        "path_traversal",
+        "cmd_injection"
+      ],
+      "rationale": "insufficient labeled type data for ML approach"
+    },
+    "rag": {
+      "embedder": "multi-qa-mpnet-base-dot-v1",
+      "index": "owasp_faiss.index",
+      "metadata": "owasp_metadata.pkl",
+      "sources": [
+        "sql_injection",
+        "query_parameterization",
+        "injection_prevention",
+        "command_injection",
+        "secrets",
+        "password_storage",
+        "path_traversal",
+        "input_validation",
+        "file_upload",
+        "deserialization"
+      ],
+      "total_chunks": 230
+    },
+    "llm": {
+      "model": "microsoft/Phi-3-mini-4k-instruct",
+      "dtype": "float16",
+      "max_tokens": 250,
+      "temperature": 0.1
+    }
+  }
+}

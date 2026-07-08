@@ -4,39 +4,39 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #0a0a0f;
+  --background: #0d1117;
   --foreground: #e2e2e8;
   --card: rgba(255, 255, 255, 0.03);
   --card-foreground: #e2e2e8;
-  --popover: #0a0a0f;
+  --popover: #0d1117;
   --popover-foreground: #e2e2e8;
-  --primary: #00ff88;
+  --primary: #06b6d4;
   --primary-foreground: #0a0a0f;
-  --secondary: #00d4ff;
-  --secondary-foreground: #0a0a0f;
+  --secondary: #ec4899;
+  --secondary-foreground: #ffffff;
   --muted: #16161e;
   --muted-foreground: #6b6b7b;
-  --accent: #00d4ff;
+  --accent: #06b6d4;
   --accent-foreground: #0a0a0f;
   --destructive: #ff4444;
   --destructive-foreground: #fecaca;
   --border: rgba(255, 255, 255, 0.08);
   --input: rgba(255, 255, 255, 0.06);
-  --ring: #00ff88;
-  --chart-1: #00ff88;
-  --chart-2: #00d4ff;
+  --ring: #06b6d4;
+  --chart-1: #06b6d4;
+  --chart-2: #ec4899;
   --chart-3: #ff4444;
   --chart-4: #ff9900;
   --chart-5: #ffcc00;
   --radius: 0.625rem;
   --sidebar: #0e0e14;
   --sidebar-foreground: #e2e2e8;
-  --sidebar-primary: #00ff88;
+  --sidebar-primary: #06b6d4;
   --sidebar-primary-foreground: #0a0a0f;
   --sidebar-accent: #16161e;
   --sidebar-accent-foreground: #e2e2e8;
   --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: #00ff88;
+  --sidebar-ring: #06b6d4;
 }
 
 @theme inline {
@@ -97,11 +97,11 @@
 
 /* Glow effects */
 .glow-green {
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), 0 0 60px rgba(0, 255, 136, 0.05);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.22), 0 0 60px rgba(6, 182, 212, 0.08);
 }
 
 .glow-green-sm {
-  box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
 }
 
 .glow-red {
@@ -117,16 +117,16 @@
 }
 
 .glow-cyan {
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.15), 0 0 60px rgba(0, 212, 255, 0.05);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.22), 0 0 60px rgba(6, 182, 212, 0.08);
 }
 
 /* Scan button gradient */
 .scan-gradient {
-  background: linear-gradient(135deg, #00ff88, #00d4ff);
+  background: linear-gradient(135deg, #06b6d4, #ec4899);
 }
 
 .scan-gradient:hover {
-  background: linear-gradient(135deg, #00ff99, #00e0ff);
+  background: linear-gradient(135deg, #22d3ee, #f472b6);
 }
 
 /* Code textarea custom scrollbar */

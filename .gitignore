@@ -13,9 +13,6 @@ backend/models/saved/*.pt
 backend/data/raw/
 backend/data/processed/
 
-# Environment variables
-.env
-*.env
 
 # Python cache
 __pycache__/
@@ -36,3 +33,62 @@ node_modules/
 # Build outputs
 dist/
 build/
+
+# Model files — too large for GitHub
+backend/models/saved/*.h5
+backend/models/saved/*.keras
+backend/models/saved/*.pkl
+backend/models/saved/*.pt
+backend/models/saved/*.pth
+backend/models/saved/*.index
+backend/models/saved/codebert_binary/
+backend/models/saved/codebert_type/
+backend/models/saved/vocabulary*.json
+
+# OWASP data files — downloaded at runtime
+backend/data/owasp/
+
+# Dataset files
+backend/data/raw/
+backend/data/processed/
+
+# Environment variables
+.env
+*.env
+.env.local
+.env.production
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# VS Code / Cursor
+.vscode/
+.cursor/
+
+# Node modules
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test cache
+.pytest_cache/
+.coverage

@@ -3,8 +3,9 @@
 import { useState, useCallback } from "react"
 import { ScannerHeader } from "./header"
 import { CodeInput } from "./code-input"
-import { ScanButton } from "./scan-button"
+import { ScanButtons } from "./scan-buttons"
 import { ScanResults, type ScanResult } from "./scan-results"
+import { AiSecurityAnalysis } from "./ai-security-analysis"
 import { ErrorDisplay } from "./error-display"
 import { ModelSelector, type ScanMode } from "./model-selector"
 
@@ -13,25 +14,33 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000"
 const endpoints: Record<ScanMode, string> = {
   ensemble: "/scan",
   bilstm: "/scan/bilstm",
-  cascade: "/scan/deep",
+  cascade: "/scan/cascade",
+  deep: "/scan/deep",
 }
 
 export function ScannerDashboard() {
   const [code, setCode] = useState("")
   const [mode, setMode] = useState<ScanMode>("ensemble")
   const [loading, setLoading] = useState(false)
+  const [loadingType, setLoadingType] = useState<"quick" | "deep">("quick")
+  const [lastScanType, setLastScanType] = useState<"quick" | "deep">("quick")
   const [result, setResult] = useState<ScanResult | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const handleScan = useCallback(async () => {
+  const handleScan = useCallback(async (scanType: "quick" | "deep") => {
     if (!code.trim()) return
 
     setLoading(true)
+    setLoadingType(scanType)
+    setLastScanType(scanType)
     setResult(null)
     setError(null)
 
     try {
-      const response = await fetch(`${API_BASE}${endpoints[mode]}`, {
+      const endpoint = scanType === "quick" ? endpoints.ensemble : endpoints.deep
+      setMode(scanType === "quick" ? "ensemble" : "deep")
+
+      const response = await fetch(`${API_BASE}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code, language: "python" }),
@@ -52,7 +61,7 @@ export function ScannerDashboard() {
     } finally {
       setLoading(false)
     }
-  }, [code, mode])
+  }, [code])
 
   const handleClear = useCallback(() => {
     setCode("")
@@ -66,6 +75,32 @@ export function ScannerDashboard() {
         <div className="flex flex-col gap-8">
           <ScannerHeader mode={mode} />
 
+          <section className="flex flex-wrap items-center justify-center gap-3">
+            {[
+              { label: "Phase 1: Ensemble ML", color: "#06b6d4", highlight: false },
+              { label: "Phase 2: BiLSTM", color: "#06b6d4", highlight: false },
+              { label: "Phase 3: CodeBERT + RAG", color: "#ec4899", highlight: true },
+            ].map((badge) => (
+              <span
+                key={badge.label}
+                className={`rounded-full border px-3 py-1.5 text-xs font-semibold ${
+                  badge.highlight ? "animate-pulse" : ""
+                }`}
+                style={{
+                  borderColor: badge.color,
+                  color: badge.color,
+                  background: `${badge.color}18`,
+                  boxShadow: badge.highlight
+                    ? `0 0 20px ${badge.color}70, 0 0 40px ${badge.color}40`
+                    : `0 0 14px ${badge.color}55, 0 0 28px ${badge.color}25`,
+                  textShadow: `0 0 10px ${badge.color}50`,
+                }}
+              >
+                {badge.label}
+              </span>
+            ))}
+          </section>
+
           <section className="glass rounded-lg p-4" aria-label="Model selection">
             <ModelSelector selectedMode={mode} onModeChange={setMode} />
           </section>
@@ -77,10 +112,12 @@ export function ScannerDashboard() {
               onClear={handleClear}
               disabled={loading}
             />
-            <ScanButton
-              onClick={handleScan}
+            <ScanButtons
+              onQuickScan={() => handleScan("quick")}
+              onDeepScan={() => handleScan("deep")}
               loading={loading}
               disabled={!code.trim()}
+              loadingType={loadingType}
             />
           </section>
 
@@ -96,6 +133,14 @@ export function ScannerDashboard() {
               className="glass rounded-lg p-6"
             >
               <ScanResults result={result} mode={mode} />
+              {lastScanType === "deep" &&
+                (result.danger || result.fix || result.owasp_ref) && (
+                  <AiSecurityAnalysis
+                    danger={result.danger ?? ""}
+                    fix={result.fix ?? ""}
+                    owaspRef={result.owasp_ref ?? ""}
+                  />
+                )}
             </section>
           )}
 

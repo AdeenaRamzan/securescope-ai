@@ -3,6 +3,9 @@
 #          Exposes /scan endpoint for vulnerability detection
 #          Loads models once at startup, serves predictions
 
+import logging
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, field_validator
@@ -11,13 +14,36 @@ import time
 
 from src.core.predictor import predict
 from src.core.predictor_phase2 import predict_bilstm
+from src.core.phase3_pipeline import (
+    load_phase3_resources,
+    phase3_load_error,
+    scan_deep_phase3,
+)
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    dummy_code = "def hello():\n    return 'world'"
+    predict(dummy_code)
+    predict_bilstm(dummy_code)
+    logger.info("Phase 1/2 model warmup complete")
+
+    load_phase3_resources()
+    if phase3_load_error():
+        logger.warning("Phase 3 unavailable: %s", phase3_load_error())
+    yield
 # ── App setup ─────────────────────────────────────
 app = FastAPI(
     title="SecureScope AI",
     description="AI-powered Python code vulnerability scanner. "
                 "Detects SQL injection, hardcoded secrets, "
                 "insecure eval, path traversal, command injection.",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # ── CORS — allows React frontend to call this API ─
@@ -77,11 +103,23 @@ class DeepScanResponse(BaseModel):
     is_vulnerable:  bool
     confidence:     float
     risk_level:     str
-    phase1_confidence: float
-    phase2_confidence: float
-    model_version:  str
-    features_fired: list
+    vulnerability_type: str
+    danger:         str
+    fix:            str
+    owasp_ref:      str
+    pipeline:       str
+    llm:            str
     scan_time_ms:   float
+
+
+def _risk_from_confidence(confidence: float, is_vulnerable: bool) -> str:
+    if not is_vulnerable:
+        return "SAFE"
+    if confidence >= 0.85:
+        return "HIGH"
+    if confidence >= 0.65:
+        return "MEDIUM"
+    return "LOW"
 
 
 # ── Health check endpoint ─────────────────────────
@@ -179,59 +217,78 @@ def scan_bilstm(request: ScanRequest):
             detail=f"BiLSTM prediction failed: {str(e)}"
         )
 
-# ── Combined cascade endpoint ─────────────────────
-@app.post("/scan/deep", response_model=DeepScanResponse)
-def scan_deep(request: ScanRequest):
+# ── Phase 1 + Phase 2 cascade endpoint ────────────
+@app.post("/scan/cascade", response_model=ScanResponse)
+def scan_cascade(request: ScanRequest):
     """
-    Cascade: Phase 1 ANN gate → Phase 2 BiLSTM confirmation
-    Best accuracy for on-demand scanning.
+    Phase 1 + Phase 2 cascade scan.
+    Combines ensemble features with the BiLSTM sequence model.
     """
     if request.language.lower() != "python":
-        raise HTTPException(status_code=400,
-                           detail="Only Python supported")
-    try:
-        start = time.time()
-
-        # Phase 1 — fast gate
-        p1 = predict(request.code)
-
-        # Phase 2 — BiLSTM confirmation
-        p2 = predict_bilstm(request.code)
-
-        # Combine — both must agree to flag HIGH
-        ensemble_confidence = (
-            p1["confidence"] * 0.4 +
-            p2["confidence"] * 0.6  # BiLSTM weighted higher
+        raise HTTPException(
+            status_code=400,
+            detail="Only Python supported"
         )
 
-        is_vulnerable = p2["is_vulnerable"]  # BiLSTM is final word
-
-        if not is_vulnerable:
-            risk = "SAFE"
-        elif ensemble_confidence >= 0.85:
-            risk = "HIGH"
-        elif ensemble_confidence >= 0.65:
-            risk = "MEDIUM"
-        else:
-            risk = "LOW"
-
+    try:
+        start = time.time()
+        phase1 = predict(request.code)
+        phase2 = predict_bilstm(request.code)
         elapsed = round((time.time() - start) * 1000, 2)
 
-        return {
-            "is_vulnerable":      is_vulnerable,
-            "confidence":         round(ensemble_confidence, 4),
-            "risk_level":         risk,
-            "phase1_confidence":  p1["confidence"],
-            "phase2_confidence":  p2["confidence"],
-            "model_version":      "cascade_p1_p2",
-            "features_fired":     p1.get("features_fired", []),
-            "scan_time_ms":       elapsed
+        confidence = max(phase1["confidence"], phase2["confidence"])
+        is_vulnerable = bool(phase1["is_vulnerable"] or phase2["is_vulnerable"])
+        model_probs = {
+            **phase1.get("model_probs", {}),
+            **phase2.get("model_probs", {}),
         }
 
+        return ScanResponse(
+            is_vulnerable=is_vulnerable,
+            confidence=confidence,
+            risk_level=_risk_from_confidence(confidence, is_vulnerable),
+            phase1_confidence=phase1["confidence"],
+            phase2_confidence=phase2["confidence"],
+            threshold_used=phase1.get("threshold_used", 0.55),
+            model_version="phase1_phase2_cascade",
+            model_probs=model_probs,
+            features_fired=phase1.get("features_fired", []),
+            scan_time_ms=elapsed
+        )
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Deep scan failed: {str(e)}"
+            detail=f"Cascade prediction failed: {str(e)}"
+        )
+
+
+# ── Phase 3 deep endpoint ─────────────────────────
+@app.post("/scan/deep", response_model=DeepScanResponse)
+def scan_deep(request: ScanRequest):
+    """
+    Phase 3 deep scan.
+    CodeBERT binary detection -> feature-based type identification
+    -> OWASP FAISS retrieval -> Groq explanation.
+    """
+    if request.language.lower() != "python":
+        raise HTTPException(
+            status_code=400,
+            detail="Only Python supported"
+        )
+
+    try:
+        start = time.time()
+        result = scan_deep_phase3(request.code)
+        logger.info(
+            "Phase 3 /scan/deep endpoint %.2f ms",
+            (time.time() - start) * 1000,
+        )
+        return DeepScanResponse(**result)
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=503,
+            detail=f"Phase 3 models are unavailable. {str(e)}"
         )
 # ── Root endpoint ─────────────────────────────────
 @app.get("/")
@@ -245,17 +302,3 @@ def root():
         "scan_bilstm": "POST /scan/bilstm",
         "scan_deep":   "POST /scan/deep"
     }
-
-    # ── Startup warmup ────────────────────────────────
-@app.on_event("startup")
-async def warmup():
-    """
-    Run a dummy prediction at startup so first
-    real request is not slow due to TF warmup
-    """
-    dummy_code = "def hello():\n    return 'world'"
-    predict(dummy_code)
-    predict_bilstm(dummy_code)
-    print("Model warmup complete — API ready")
-
-

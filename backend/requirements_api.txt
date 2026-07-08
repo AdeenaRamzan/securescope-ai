@@ -5,11 +5,16 @@
 # ML models
 tensorflow==2.21.0
 torch
+transformers
+sentence-transformers
+faiss-cpu
+safetensors
 scikit-learn
 numpy
 xgboost
 lightgbm
 joblib
+groq
 
 # API
 fastapi

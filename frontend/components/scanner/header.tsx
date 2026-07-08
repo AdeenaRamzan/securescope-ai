@@ -5,16 +5,20 @@ import type { ScanMode } from "./model-selector"
 
 const modeConfig: Record<ScanMode, { description: string; badges: string[] }> = {
   ensemble: {
-    description: "AI-powered vulnerability detection over handcrafted security features.",
-    badges: ["ANN + XGBoost + LightGBM", "22 Features", "Real-time"],
+    description: "Fast Python vulnerability screening with ensemble machine learning.",
+    badges: ["Phase 1: Ensemble ML", "Quick Scan", "Real-time"],
   },
   bilstm: {
     description: "Sequential Python token analysis for deeper vulnerability context.",
-    badges: ["BiLSTM Network", "Sequence Learning", "Phase 2"],
+    badges: ["Phase 2: BiLSTM", "Sequence Learning", "Token Analysis"],
   },
   cascade: {
-    description: "Two-phase vulnerability classification combining speed and depth.",
-    badges: ["Phase 1 + Phase 2", "Cascade P1+P2", "Deep Scan"],
+    description: "Phase 1 ensemble and Phase 2 BiLSTM combined cascade.",
+    badges: ["Phase 1 + Phase 2", "Cascade Inference", "Model Fusion"],
+  },
+  deep: {
+    description: "Full AI security analysis with CodeBERT, OWASP retrieval, and generated fixes.",
+    badges: ["Phase 3: CodeBERT + RAG", "OWASP Context", "AI Fix"],
   },
 }
 

@@ -17,9 +17,15 @@ export interface ScanResult {
   }
   features_fired?: string[]
   scan_time_ms: number
-  model_version: string
+  model_version?: string
   threshold_used?: number
   model_name?: string
+  vulnerability_type?: string
+  danger?: string
+  fix?: string
+  owasp_ref?: string
+  pipeline?: string
+  llm?: string
   sequence?: {
     max_len: number
     vocab_size: number
@@ -70,7 +76,8 @@ interface ScanResultsProps {
 const modeLabels: Record<ScanMode, string> = {
   ensemble: "Ensemble Features",
   bilstm: "BiLSTM Sequence",
-  cascade: "Cascade P1+P2",
+  cascade: "Phase 1 + Phase 2",
+  deep: "CodeBERT + RAG",
 }
 
 const modelBreakdown = [
@@ -96,6 +103,7 @@ export function ScanResults({ result, mode }: ScanResultsProps) {
   const phase1 = result.phase1_confidence
   const phase2 = result.phase2_confidence
   const featuresFired = result.features_fired ?? []
+  const modelLabel = result.model_version ?? result.model_name ?? result.pipeline ?? "Phase 3"
   const modelRows = modelBreakdown.filter(
     (model) => typeof result.model_probs?.[model.key] === "number"
   )
@@ -204,7 +212,7 @@ export function ScanResults({ result, mode }: ScanResultsProps) {
         {[
           { label: "Pipeline", value: modeLabels[mode] },
           { label: "Scan Time", value: `${result.scan_time_ms.toFixed(0)}ms` },
-          { label: "Model", value: result.model_version },
+          { label: "Model", value: modelLabel },
         ].map((item) => (
           <div
             key={item.label}
@@ -218,14 +226,14 @@ export function ScanResults({ result, mode }: ScanResultsProps) {
         ))}
       </div>
 
-      <div className="glass rounded-lg p-4">
-        <div className="mb-3 flex items-center gap-2">
-          <Activity className="h-4 w-4 text-secondary" />
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Security Insights
-          </p>
-        </div>
-        {featuresFired.length > 0 ? (
+      {featuresFired.length > 0 && (
+        <div className="glass rounded-lg p-4">
+          <div className="mb-3 flex items-center gap-2">
+            <Activity className="h-4 w-4 text-secondary" />
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Security Insights
+            </p>
+          </div>
           <div className="flex flex-wrap gap-2">
             {featuresFired.map((feature) => (
               <span
@@ -236,12 +244,8 @@ export function ScanResults({ result, mode }: ScanResultsProps) {
               </span>
             ))}
           </div>
-        ) : (
-          <p className="text-sm text-muted-foreground">
-            No handcrafted feature indicators were returned for this scan.
-          </p>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
