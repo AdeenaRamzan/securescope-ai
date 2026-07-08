@@ -26,6 +26,8 @@ export function ScannerDashboard() {
   const [lastScanType, setLastScanType] = useState<"quick" | "deep">("quick")
   const [result, setResult] = useState<ScanResult | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const quickButtonLabel =
+    mode === "bilstm" ? "Run BiLSTM" : mode === "cascade" ? "Run P1 + P2" : "Quick Scan"
 
   const handleScan = useCallback(async (scanType: "quick" | "deep") => {
     if (!code.trim()) return
@@ -37,8 +39,9 @@ export function ScannerDashboard() {
     setError(null)
 
     try {
-      const endpoint = scanType === "quick" ? endpoints.ensemble : endpoints.deep
-      setMode(scanType === "quick" ? "ensemble" : "deep")
+      const selectedMode = scanType === "deep" ? "deep" : mode === "deep" ? "ensemble" : mode
+      const endpoint = endpoints[selectedMode]
+      setMode(selectedMode)
 
       const response = await fetch(`${API_BASE}${endpoint}`, {
         method: "POST",
@@ -61,7 +64,7 @@ export function ScannerDashboard() {
     } finally {
       setLoading(false)
     }
-  }, [code])
+  }, [code, mode])
 
   const handleClear = useCallback(() => {
     setCode("")
@@ -118,6 +121,7 @@ export function ScannerDashboard() {
               loading={loading}
               disabled={!code.trim()}
               loadingType={loadingType}
+              quickLabel={quickButtonLabel}
             />
           </section>
 

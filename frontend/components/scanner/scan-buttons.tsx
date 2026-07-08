@@ -8,6 +8,7 @@ interface ScanButtonsProps {
   loading: boolean
   disabled: boolean
   loadingType?: "quick" | "deep"
+  quickLabel?: string
 }
 
 export function ScanButtons({
@@ -16,6 +17,7 @@ export function ScanButtons({
   loading,
   disabled,
   loadingType = "quick",
+  quickLabel = "Quick Scan",
 }: ScanButtonsProps) {
   return (
     <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
@@ -48,7 +50,7 @@ export function ScanButtons({
           ) : (
             <>
               <Zap className="h-4 w-4" />
-              Quick Scan
+              {quickLabel}
             </>
           )}
         </span>
