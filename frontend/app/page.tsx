@@ -1,5 +1,5 @@
-import { ScannerDashboard } from "@/components/scanner/scanner-dashboard"
+import { Dashboard } from "@/components/dashboard/dashboard"
 
 export default function Page() {
-  return <ScannerDashboard />
+  return <Dashboard />
 }

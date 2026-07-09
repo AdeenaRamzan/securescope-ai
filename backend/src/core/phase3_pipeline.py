@@ -61,7 +61,7 @@ TYPE_QUERIES = {
 
 SQL_KEYWORDS = ("SELECT", "INSERT", "UPDATE", "DELETE", "WHERE", "ORDER BY")
 SQL_SINKS = {"execute", "executemany", "query", "raw"}
-PATH_SINKS = {"open"}
+PATH_SINKS = {"open", "read_text", "read_bytes"}
 REDIRECT_SINKS = {"redirect"}
 COMMAND_SINKS = {"system", "popen", "call", "run", "Popen", "check_output"}
 PATH_HINTS = ("path", "file", "filename", "dir", "directory")
@@ -383,26 +383,51 @@ def _is_path_like_name(name: str) -> bool:
     return any(hint in lowered for hint in PATH_HINTS)
 
 
+def _function_param_names(tree: ast.AST) -> set[str]:
+    params = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        params.update(arg.arg for arg in node.args.args)
+        params.update(arg.arg for arg in node.args.posonlyargs)
+        params.update(arg.arg for arg in node.args.kwonlyargs)
+        if node.args.vararg:
+            params.add(node.args.vararg.arg)
+        if node.args.kwarg:
+            params.add(node.args.kwarg.arg)
+    return params
+
+
 def _expr_has_path_literal(node: ast.AST) -> bool:
     for child in ast.walk(node):
         if isinstance(child, ast.Constant) and isinstance(child.value, str):
             value = child.value
-            if "/" in value or "\\" in value or value.startswith("."):
+            if "/" in value or "\\" in value or value.startswith(".") or value in {"uploads", "upload", "files", "static"}:
                 return True
     return False
+
+
+def _expr_has_path_join_operator(node: ast.AST) -> bool:
+    return any(isinstance(child, ast.BinOp) and isinstance(child.op, ast.Div) for child in ast.walk(node))
+
+
+def _call_receiver_has_name(node: ast.Call, names: set[str]) -> bool:
+    if not isinstance(node.func, ast.Attribute):
+        return False
+    return isinstance(node.func.value, ast.Name) and node.func.value.id in names
 
 
 def _detect_path_traversal_flow(code: str) -> bool:
     """
     Catch path traversal flow where a user-controlled filename is joined or
-    concatenated into a path variable and later passed to open().
+    concatenated into a path variable and later passed to a file-read sink.
     """
     try:
         tree = ast.parse(code)
     except SyntaxError:
         return False
 
-    input_vars = set()
+    input_vars = _function_param_names(tree)
     path_vars = set()
     unsafe_path_vars = set()
 
@@ -434,12 +459,13 @@ def _detect_path_traversal_flow(code: str) -> bool:
         has_path_var = _expr_has_name(value, path_vars)
         has_unsafe_path_var = _expr_has_name(value, unsafe_path_vars)
         has_concat = _expr_has_concat(value)
+        has_path_join = _expr_has_path_join_operator(value)
 
         if has_path_name or has_path_literal or has_path_var:
             path_vars.update(targets)
 
         if (
-            (has_concat and (has_input_var or has_unsafe_path_var))
+            ((has_concat or has_path_join) and (has_input_var or has_unsafe_path_var))
             or (
                 isinstance(value, ast.Call)
                 and isinstance(value.func, ast.Attribute)
@@ -464,6 +490,9 @@ def _detect_path_traversal_flow(code: str) -> bool:
 
         if func_name not in PATH_SINKS:
             continue
+
+        if _call_receiver_has_name(node, unsafe_path_vars):
+            return True
 
         for arg in node.args:
             if isinstance(arg, ast.Name) and arg.id in unsafe_path_vars:
@@ -501,6 +530,7 @@ def _detect_cmd_injection_flow(code: str) -> bool:
     except SyntaxError:
         return False
 
+    input_vars = _function_param_names(tree)
     command_vars = set()
     unsafe_command_vars = set()
 
@@ -551,6 +581,10 @@ def _detect_cmd_injection_flow(code: str) -> bool:
             if not shell_true:
                 continue
             if _expr_has_formatted_value(arg) or _expr_has_concat(arg):
+                return True
+            if isinstance(arg, ast.Name) and arg.id in input_vars:
+                return True
+            if _expr_has_name(arg, input_vars):
                 return True
             if isinstance(arg, ast.Name) and arg.id in unsafe_command_vars:
                 return True

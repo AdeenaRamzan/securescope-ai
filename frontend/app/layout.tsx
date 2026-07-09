@@ -7,8 +7,8 @@ const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const _geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
 export const metadata: Metadata = {
-  title: 'SecureScope AI - Python Vulnerability Scanner',
-  description: 'AI-Powered Python Vulnerability Scanner using ANN, XGBoost & LightGBM ensemble models for real-time code security analysis.',
+  title: 'SecureScope AI — Python Vulnerability Scanner Dashboard',
+  description: 'AI-powered Python vulnerability scanner with 3-phase analysis: ensemble ML (ANN, XGBoost, LightGBM), BiLSTM sequence models, and CodeBERT + RAG explanations. Detect SQL injection, hardcoded secrets, command injection, and more.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -39,8 +39,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="bg-background">
-      <body className={`${_inter.variable} ${_geistMono.variable} font-sans antialiased`}>
+    <html lang="en" className="bg-background" suppressHydrationWarning>
+      <body
+        className={`${_inter.variable} ${_geistMono.variable} font-sans antialiased`}
+        suppressHydrationWarning
+      >
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

@@ -8,7 +8,7 @@ import re
 from typing import List
 
 
-SUBPROCESS_SINKS = {'call', 'run', 'Popen', 'check_output'}
+SUBPROCESS_SINKS = {'call', 'run', 'Popen', 'check_output', 'system', 'popen'}
 
 
 def _call_name(node: ast.Call) -> str:
@@ -57,6 +57,84 @@ def _has_dynamic_subprocess_call(tree: ast.AST) -> bool:
             return True
         if any(_argv_has_dynamic_arg(arg) for arg in node.args):
             return True
+
+    return False
+
+
+def _function_param_names(tree: ast.AST) -> set[str]:
+    params = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        params.update(arg.arg for arg in node.args.args)
+        params.update(arg.arg for arg in node.args.posonlyargs)
+        params.update(arg.arg for arg in node.args.kwonlyargs)
+        if node.args.vararg:
+            params.add(node.args.vararg.arg)
+        if node.args.kwarg:
+            params.add(node.args.kwarg.arg)
+    return params
+
+
+def _expr_has_name(node: ast.AST, names: set[str]) -> bool:
+    return any(isinstance(child, ast.Name) and child.id in names for child in ast.walk(node))
+
+
+def _expr_has_path_join_operator(node: ast.AST) -> bool:
+    return any(isinstance(child, ast.BinOp) and isinstance(child.op, ast.Div) for child in ast.walk(node))
+
+
+def _expr_has_path_literal(node: ast.AST) -> bool:
+    for child in ast.walk(node):
+        if isinstance(child, ast.Constant) and isinstance(child.value, str):
+            value = child.value
+            if "/" in value or "\\" in value or value.startswith(".") or value in {"uploads", "upload", "files", "static"}:
+                return True
+    return False
+
+
+def _has_dynamic_path_read(tree: ast.AST) -> bool:
+    input_vars = _function_param_names(tree)
+    path_vars = set()
+    unsafe_path_vars = set()
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Assign):
+            continue
+
+        targets = [target.id for target in node.targets if isinstance(target, ast.Name)]
+        if not targets:
+            continue
+
+        value = node.value
+        has_path_name = any(
+            any(hint in target.lower() for hint in ("path", "file", "filename", "dir", "directory"))
+            for target in targets
+        )
+        has_path_literal = _expr_has_path_literal(value)
+        has_path_var = _expr_has_name(value, path_vars)
+        has_unsafe_path_var = _expr_has_name(value, unsafe_path_vars)
+        has_dynamic_input = _expr_has_name(value, input_vars) or has_unsafe_path_var
+        has_dynamic_join = isinstance(value, ast.BinOp) or _expr_has_path_join_operator(value)
+
+        if has_path_name or has_path_literal or has_path_var:
+            path_vars.update(targets)
+        if has_dynamic_join and has_dynamic_input and (has_path_name or has_path_literal or has_path_var):
+            unsafe_path_vars.update(targets)
+
+    if not unsafe_path_vars:
+        return False
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+
+        func_name = _call_name(node)
+        if func_name == "open" and any(_expr_has_name(arg, unsafe_path_vars) for arg in node.args):
+            return True
+        if func_name in {"read_text", "read_bytes"} and isinstance(node.func, ast.Attribute):
+            if isinstance(node.func.value, ast.Name) and node.func.value.id in unsafe_path_vars:
+                return True
 
     return False
 
@@ -120,7 +198,8 @@ def extract_features(code: str) -> List[float]:
     # ── F4: Path traversal ────────────────────────
     f4 = int(bool(
         re.search(r'open\s*\([^)]*\+', code) or
-        re.search(r'=\s*[\'"][/\\][^\'"]*[\'"]\s*\+', code)
+        re.search(r'=\s*[\'"][/\\][^\'"]*[\'"]\s*\+', code) or
+        _has_dynamic_path_read(tree)
     ))
 
     # ── F5: Command injection ─────────────────────

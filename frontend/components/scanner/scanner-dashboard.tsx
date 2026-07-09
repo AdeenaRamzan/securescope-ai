@@ -134,7 +134,7 @@ export function ScannerDashboard() {
           {result && (
             <section
               aria-label="Scan results"
-              className="glass rounded-lg p-6"
+              className="result-shell rounded-lg p-6"
             >
               <ScanResults result={result} mode={mode} />
               {lastScanType === "deep" &&
